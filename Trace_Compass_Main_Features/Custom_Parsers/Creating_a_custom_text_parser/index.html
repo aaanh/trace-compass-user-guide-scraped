@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Creating a custom text parser - Trace Compass User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Trace Compass User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h3 id="creating-a-custom-text-parser"><a class="header" href="#creating-a-custom-text-parser">Creating a custom text parser</a></h3>
+<p>TheNew Custom Text Parserwizard can be used to create a custom parser for text logs. It can be launched several ways:</p>
+<ul>
+<li>SelectFile&gt;New&gt;Other...&gt;Tracing&gt;Custom Text Parser</li>
+<li>Open theManage Custom Parsersdialog, select theTextradio button and click theNew...button</li>
+<li>SelectFile&gt;New&gt;Other...&gt;Tracing&gt;Custom Text Parser</li>
+<li>Open theManage Custom Parsersdialog, select theTextradio button and click theNew...button</li>
+</ul>
+<p>Fill out the first wizard page with the following information:</p>
+<ul>
+<li>Category: Enter a category name for the trace type.</li>
+<li>Trace type: Enter a name for the trace type, which is also the name of the custom parser. This will also be the default event type name.</li>
+<li>Time Stamp format: Enter the date and time pattern that will be used to output the Time Stamp, or leave blank to use the default Time Format preference.</li>
+<li>Category: Enter a category name for the trace type.</li>
+<li>Trace type: Enter a name for the trace type, which is also the name of the custom parser. This will also be the default event type name.</li>
+<li>Time Stamp format: Enter the date and time pattern that will be used to output the Time Stamp, or leave blank to use the default Time Format preference.</li>
+</ul>
+<p>Note: information about date and time patterns can be found here:TmfTimestampFormat</p>
+<p>Click theAdd next line,Add child lineorRemove linebuttons to create a new line of input or delete it. For each line of input, enter the following information:</p>
+<ul>
+<li>Regular expression: Enter a regular expression that should match the input line in the log, using capturing groups to extract the data.</li>
+<li>Regular expression: Enter a regular expression that should match the input line in the log, using capturing groups to extract the data.</li>
+</ul>
+<p>Note: information about regular expression patterns can be found here:http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html</p>
+<ul>
+<li>Cardinality: Enter the minimum and maximum number of lines matching this line's regular expression that must be found in the log. At least the minimum number of lines must be found before the parser will consider the next line. Child lines will always be considered first.</li>
+<li>Cardinality: Enter the minimum and maximum number of lines matching this line's regular expression that must be found in the log. At least the minimum number of lines must be found before the parser will consider the next line. Child lines will always be considered first.</li>
+<li>Event type: Optionally enable this text field to enter an event type name that will override the default (trace type) when this line matches.</li>
+<li>Event type: Optionally enable this text field to enter an event type name that will override the default (trace type) when this line matches.</li>
+</ul>
+<p>Important note:The custom parsers identify a log entry when the first line's regular expression matches (Root Line n). Each subsequent text line in the log is attempted to be matched against the regular expression of the parser's input lines in the order that they are defined (Line n.*). Only the first matching input line will be used to process the captured data to be stored in the log entry. When a text line matches a Root Line's regular expression, a new log entry is started.</p>
+<p>Click theAdd grouporRemove groupbuttons to define the data extracted from the capturing groups in the line's regular expression. For each group, enter the following information:</p>
+<ul>
+<li>Name combo: Select a name for the extracted data:Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Name combo: Select a name for the extracted data:Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Action combo: Select the action to be performed on the extracted data:Set: Select this option to overwrite the data for the chosen name when there is a match for this group.Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this group.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+<li>Action combo: Select the action to be performed on the extracted data:Set: Select this option to overwrite the data for the chosen name when there is a match for this group.Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this group.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this group.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this group.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+</ul>
+<p>ThePreview inputtext box can be used to enter any log data that will be processed against the defined custom parser. When the wizard is invoked from a selected log file resource, this input will be automatically filled with the file contents.</p>
+<p>ThePreview: text field of each capturing group and of the Time Stamp will be filled from the parsed data of the first matching log entry.</p>
+<p>In thePreview inputtext box, the matching entries are highlighted with different colors:</p>
+<ul>
+<li>Yellow: indicates uncaptured text in a matching line.</li>
+<li>Green: indicates a captured group in the matching line's regular expression for which a custom parser group is defined. This data will be stored by the custom parser.</li>
+<li>Magenta: indicates a captured group in the matching line's regular expression for which there is no custom parser group defined. This data will be lost.</li>
+<li>White: indicates a non-matching line.</li>
+<li>Yellow: indicates uncaptured text in a matching line.</li>
+<li>Green: indicates a captured group in the matching line's regular expression for which a custom parser group is defined. This data will be stored by the custom parser.</li>
+<li>Magenta: indicates a captured group in the matching line's regular expression for which there is no custom parser group defined. This data will be lost.</li>
+<li>White: indicates a non-matching line.</li>
+</ul>
+<p>The first line of a matching entry is highlighted with darker colors.</p>
+<p>By default only the first matching entry will be highlighted. To highlight all matching entries in the preview input data, click theHighlight Allbutton. This might take a few seconds to process, depending on the input size.</p>
+<p>Click theNext &gt;button to go to the second page of the wizard.</p>
+<p>On this page, the list of default and custom data is shown, along with a preview of the custom parser log table output.</p>
+<p>The custom data output can be modified by the following options:</p>
+<ul>
+<li>Visibility: Select or unselect the checkbox to display the custom data or hide it.</li>
+<li>Visibility: Select or unselect the checkbox to display the custom data or hide it.</li>
+<li>Column order: ClickMove beforeorMove afterto change the display order of custom data.</li>
+<li>Column order: ClickMove beforeorMove afterto change the display order of custom data.</li>
+</ul>
+<p>The table at the bottom of the page shows a preview of the custom parser log table output according to the selected options, using the matching entries of the previous page'sPreview inputlog data.</p>
+<p>Click theFinishbutton to close the wizard and save the custom parser.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../Trace_Compass_Main_Features/Custom_Parsers/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../Trace_Compass_Main_Features/Custom_Parsers/Creating_a_custom_XML_parser/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../Trace_Compass_Main_Features/Custom_Parsers/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../Trace_Compass_Main_Features/Custom_Parsers/Creating_a_custom_XML_parser/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr.min.js"></script>
+        <script src="../../../mark.min.js"></script>
+        <script src="../../../searcher.js"></script>
+
+        <script src="../../../clipboard.min.js"></script>
+        <script src="../../../highlight.js"></script>
+        <script src="../../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

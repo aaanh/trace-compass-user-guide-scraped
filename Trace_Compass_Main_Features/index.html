@@ -1,0 +1,1211 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Trace Compass Main Features - Trace Compass User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Trace Compass User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="trace-compass-main-features"><a class="header" href="#trace-compass-main-features">Trace Compass Main Features</a></h1>
+<h2 id="tracing-perspective"><a class="header" href="#tracing-perspective">Tracing Perspective</a></h2>
+<p>TheTracingperspective is part of theTracing and Monitoring Framework (TMF)and groups the following views:</p>
+<ul>
+<li>Project Explorer View</li>
+<li>Events Editor</li>
+<li>Histogram View</li>
+<li>Statistics View</li>
+<li>Project Explorer View</li>
+<li>Events Editor</li>
+<li>Histogram View</li>
+<li>Statistics View</li>
+</ul>
+<p>The views are synchronized i.e. selecting an event, a timestamp, a time range, etc will update the other views accordingly.</p>
+<p>The perspective can be opened from the Eclipse Open Perspective dialog (Window &gt; Open Perspective... &gt; Other).</p>
+<p>In addition to these views, theTracing and Monitoring Framework (TMF)feature provides a set of generic tracing specific views, such as:</p>
+<ul>
+<li>Colors View</li>
+<li>Filters View</li>
+<li>Time Chart View</li>
+<li>State System Explorer View</li>
+<li>Flame Chart View</li>
+<li>Colors View</li>
+<li>Filters View</li>
+<li>Time Chart View</li>
+<li>State System Explorer View</li>
+<li>Flame Chart View</li>
+</ul>
+<p>The framework also supports user creation ofCustom Parsers.</p>
+<p>To open one of the aboveTracingviews, use the Eclipse Show View dialog (Window &gt; Show View &gt; Other...). Then select the relevant view from theTracingcategory.</p>
+<p>Additionally, theLTTng Controlfeature provides anLTTng Tracer Controlfunctionality. It comes with a dedicatedControl View.</p>
+<ul>
+<li>LTTng Tracer Control</li>
+<li>LTTng Tracer Control</li>
+</ul>
+<h2 id="project-explorer-view"><a class="header" href="#project-explorer-view">Project Explorer View</a></h2>
+<p>The Project Explorer view is the standard Eclipse Project Explorer.Tracingprojects are well integrated in the Eclipse's Common Navigator Framework. The Project Explorer showsTracingproject with a small "T" decorator in the upper right of the project folder icon.</p>
+<h3 id="creating-a-tracing-project"><a class="header" href="#creating-a-tracing-project">Creating a Tracing Project</a></h3>
+<p>A newTracingproject can be created using the New Tracing Project wizard. To create a newTracingselectFile &gt; New &gt; Project...from the main menu bar or alternatively form the context-sensitive menu (click with right mouse button in theProject Explorer.</p>
+<p>The first page of project wizard will open.</p>
+<p>In the list of project categories, expand categoryTracingand selectTracing Projectand the click onNext &gt;. A second page of the wizard will show. Now enter the a name in the fieldProject Name, select a location if required and the press onFinish.</p>
+<p>A new project will appear in theProject Explorerview.</p>
+<p>Tracing projects have two sub-folders:Traceswhich holds the individual traces, andExperimentswhich holds sets of traces that we want to correlate.</p>
+<h3 id="configuring-a-project-as-tracing-project"><a class="header" href="#configuring-a-project-as-tracing-project">Configuring a Project as Tracing Project</a></h3>
+<p>It is possible to configure an existing project, for example C/C++ or Java project, as a Tracing project. All Trace Compass related features will be available within the same project. To configure a project as Tracing project, right-click on the project in the Project Explorer and select menu itemConfigure &gt; Configure or convert to Tracing Project.</p>
+<p>Upon successful configuration, the project tree will be updated and theTrace Compasstop-level node will be added. Expanding theTrace Compassnode will show theTracesandExperimentsnodes from the Tracing project.</p>
+<h3 id="importing-traces-to-the-project"><a class="header" href="#importing-traces-to-the-project">Importing Traces to the Project</a></h3>
+<p>TheTracesfolder holds the set of traces available for a tracing project. It can optionally contain a tree of trace folders to organize traces into sub-folders. The following chapters will explain different ways to import traces to theTracesfolder of a tracing project.</p>
+<ul>
+<li>Opening a Trace</li>
+<li>Importing</li>
+<li>Drag and Drop</li>
+<li>Opening a Trace</li>
+<li>Importing</li>
+<li>Drag and Drop</li>
+</ul>
+<h4 id="opening-a-trace"><a class="header" href="#opening-a-trace">Opening a Trace</a></h4>
+<p>To open a trace, right-click on a target trace folder and selectOpen Trace....</p>
+<p>A new dialog will show for selecting a trace to open. Select a trace file and then click onOK. Note that for traces that are directories (such as Common Trace Format (CTF) traces) any file in the trace directory can be selected to open the trace. Now, the trace viewer will attempt to detect the trace types of the selected trace. The auto detection algorithm will validate the trace against all known trace types. If multiple trace types are valid, a trace type is chosen based on a confidence criteria. The validation process and the computation of the confidence level are trace type specific. After successful validation the trace will be linked into the selected target trace folder and then opened with the detected trace type.</p>
+<p>Depending of the trace types enabled in theTrace Types preference page, the list of available trace types can vary.</p>
+<h4 id="importing"><a class="header" href="#importing">Importing</a></h4>
+<p>To import a set of traces to a trace folder, right-click on the target folder and selectImport...from the context-sensitive menu.</p>
+<p>At this point, theImport Trace Wizardwill show for selecting traces to import. By default, it shows the correct destination directory where the traces will be imported to. Now, specify the location of the traces in theRoot directory. For that click on the buttonBrowse, browse the media to the location of the traces and click onOK. Then select the traces to import in the list of files and folders. If the selected files include archive files (tar, zip), they will be extracted automatically and imported as well.</p>
+<p>Traces can also be imported directly from an archive file such as a zip or a tar file by selecting theSelect archive fileoption then by clickingBrowse. Then select the traces to import in the list of files and folders as usual.</p>
+<p>Optionally, select theTrace Typefrom the drop-down menu. IfTrace Typeis set to<Automatic Detection>, the wizard will attempt to detect the trace types of the selected files. The automatic detection algorithm validates a trace against all the trace types enabled in theTrace Types preference page. If multiple trace types are valid, a trace type is chosen based on a confidence criteria. The validation process and the computation of the confidence level are trace type specific. Optionally,Import unrecognized tracescan be selected to import trace files that could not be automatically detected by<Automatic Detection>.</p>
+<p>Select or deselect the checkboxes forOverwrite existing trace without warning,Create links in workspaceandPreserve folder structure. When all options are configured, click onFinish.</p>
+<p>Note that traces of certain types (e.g. LTTng Kernel) are actually a composite of multiple channel traces grouped under a folder. Either the folder or its files can be selected to import the trace.</p>
+<p>The optionPreserve folder structurewill create, if necessary, the structure of folders relative to (and excluding) the selectedRoot directory(orArchive file) into the target trace folder.</p>
+<p>The optionCreate Experimentwill create an experiment with all imported traces. By default, the experiment name is theRoot directoryname, when importing from directory, or theArchive filename, when importing from archive. One can change the experiment name by typing a new name in the text box beside the option.</p>
+<p>The optionTime Range filteringwill filter your previously selected traces using the given time range. A trace will be imported into the project only if its time range is included or overlap the provided range.</p>
+<p>If a trace already exists with the same name in the target trace folder, the user can choose to rename the imported trace, overwrite the original trace or skip the trace. When rename is chosen, a number is appended to the trace name, for example smalltrace becomes smalltrace(2).</p>
+<p>If one selectsRename All,Overwrite AllorSkip Allthe choice will be applied for all traces with a name conflict.</p>
+<p>Upon successful importing, the traces will be stored in the target trace folder. If a trace type was associated to a trace, then the corresponding icon will be displayed. If no trace type is detected the default editor icon associated with this file type will be displayed. Linked traces will have a little arrow as decorator on the right bottom corner.</p>
+<p>Depending of the trace types enabled in theTrace Types preference page, the list of available trace types can vary.</p>
+<p>Alternatively, one can open theImport...menu from theFilemain menu, then selectTracing&gt;Trace Importand click onNext &gt;.</p>
+<p>At this point, theImport Trace Wizardwill show. To import traces to the tracing project, follow the instructions that were described above.</p>
+<h4 id="drag-and-drop"><a class="header" href="#drag-and-drop">Drag and Drop</a></h4>
+<p>Traces can be also be imported to a project by dragging from another tracing project and dropping to the project's target trace folder. The trace will be copied and the trace type will be set.</p>
+<p>Any resource can be dragged and dropped from a non-tracing project, and any file or folder can be dragged from an external tool, into a tracing project's trace folder. The resource will be copied or imported as a new trace and it will be attempted to detect the trace types of the imported resource. The automatic detection algorithm validates a trace against all known trace types. If multiple trace types are valid, a trace type is chosen based on a confidence criteria. The validation process and the computation of the confidence level are trace type specific. If no trace type is detected the user needs to set the trace type manually.</p>
+<p>To import the trace as a link, use the platform-specific key modifier while dragging the source trace. A link will be created in the target project to the trace's location on the file system.</p>
+<p>If a folder containing traces is dropped on a trace folder, the full directory structure will be copied or linked to the target trace folder. The trace type of the contained traces will not be auto-detected.</p>
+<p>It is also possible to drop a trace, resource, file or folder into an existing experiment. If the item does not already exist as a trace in the project's trace folder, it will first be copied or imported, then the trace will be added to the experiment.</p>
+<h3 id="trace-package-exporting-and-importing"><a class="header" href="#trace-package-exporting-and-importing">Trace Package Exporting and Importing</a></h3>
+<p>A trace package is an archive file that contains the trace itself and can also contain its bookmarks and its supplementary files. Including supplementary files in the package can improve performance of opening an imported trace but at the expense of package size.</p>
+<h4 id="exporting"><a class="header" href="#exporting">Exporting</a></h4>
+<p>TheExport Trace Package Wizardallows users to select a trace and export its files and bookmarks to an archive on a media.</p>
+<p>TheTracesfolder holds the set of traces available for a tracing project. To export traces contained in theTracesfolder, one can open theExport...menu from theFilemain menu. Then selectTrace Package Export</p>
+<p>At this point, theTrace Package Exportis opened. The project containing the traces has to be selected first then the traces to be exported.</p>
+<p>One can also open the wizard and skip the first page by expanding the project, selecting traces or trace folders under theTracesfolder, then right-clicking and selecting theExport Trace Package...menu item in the context-sensitive menu.</p>
+<p>Next, the user can choose the content to export and various format options for the resulting file.</p>
+<p>TheTraceitem is always selected and represents the files that constitute the trace. TheSupplementary filesitems represent files that are typically generated when a trace is opened by the viewer. Sharing these files can speed up opening a trace dramatically but also increases the size of the exported archive file. TheSizecolumn can help to decide whether or not to include these files. Lastly, by selectingBookmarks, the user can export all the bookmarks so that they can be shared along with the trace.</p>
+<p>TheTo archive filefield is used to specify the location where to save the resulting archive.</p>
+<p>TheOptionssection allows the user to choose between a tar archive or a zip archive. Compression can also be toggled on or off.</p>
+<p>When Finish button is clicked, the package is generated and saved to the media. The folder structure of the selected traces relative to theTracesfolder is preserved in the trace package.</p>
+<h4 id="importing-1"><a class="header" href="#importing-1">Importing</a></h4>
+<p>TheImport Trace Package Wizardallows users to select a previously exported trace package from their media and import the content of the package in the workspace.</p>
+<p>TheTracesfolder holds the set of traces for a tracing project. To import a trace package to theTracesfolder, one can open theImport...menu from theFilemain menu. Then selectTrace Package Import.</p>
+<p>One can also open the wizard by expanding the project name, right-clicking on a target folder under theTracesfolder then selectingImport Trace Package...menu item in the context-sensitive menu.</p>
+<p>At this point, theTrace Package Import Wizardis opened.</p>
+<p>TheFrom archive filefield is used to specify the location of the trace package to export. The user can choose the content to import in the tree.</p>
+<p>If the wizard was opened using the File menu, the destination project has to be selected in theInto projectfield.</p>
+<p>When Finish is clicked, the trace is imported in the target folder. The folder structure from the trace package is restored in the target folder.</p>
+<h3 id="refreshing-of-trace-and-trace-folder"><a class="header" href="#refreshing-of-trace-and-trace-folder">Refreshing of Trace and Trace Folder</a></h3>
+<p>Traces and trace folders in the workspace might be updated on the media. To refresh the content, right-click the trace or trace folder and select menu itemRefresh. Alternatively, select the trace or trace folder and press keyF5.</p>
+<h3 id="remote-fetching"><a class="header" href="#remote-fetching">Remote Fetching</a></h3>
+<p>It is possible to import traces automatically from one or more remote hosts according to a predefined remote profile by using theFetch Remote Traceswizard.</p>
+<p>To start the wizard, right-click on a target trace folder and selectFetch Remote Traces....</p>
+<p>The wizard opens on theRemote Profilepage.</p>
+<p>If the remote profile already exists, it can be selected in theProfile namecombo box. Otherwise, clickManage Profilesto open theRemote Profilespreferences page.</p>
+<h4 id="remote-profile-elements"><a class="header" href="#remote-profile-elements">Remote Profile elements</a></h4>
+<p>ClickAddto create a new remote profile. A default remote profile template appears.</p>
+<h5 id="profile"><a class="header" href="#profile">Profile</a></h5>
+<p>Edit theProfile namefield to give a unique name to the new profile.</p>
+<p>Under the Profile element, at least one Connection Node element must be defined.</p>
+<h5 id="connection-node"><a class="header" href="#connection-node">Connection Node</a></h5>
+<p>Node name: Unique name for the connection within the scope of the Remote Services provider.</p>
+<p>URI: URI for the connection. Its scheme maps to a particular Remote Services provider. If the connection name already exists for that provider, the URI must match its connection information. The schemesshcan be used for the Built-In SSH provider. The schemefilecan be used for the local file system.</p>
+<p>To view or edit existing connections, see theRemote Development&gt;Remote Connectionspreferences page. On this page the user can enter a password for the connection.</p>
+<p>Under the Connection Node element, at least one Trace Group element must be defined.</p>
+<h5 id="trace-group"><a class="header" href="#trace-group">Trace Group</a></h5>
+<p>Root path: The absolute root path from where traces will be fetched. For example,/home/useror/C/Users/user.</p>
+<p>Recursive: Check this box to search for traces recursively in the root path.</p>
+<p>Under the Trace Group element, at least one Trace element must be defined.</p>
+<h5 id="trace"><a class="header" href="#trace">Trace</a></h5>
+<p>File pattern: A regular expression pattern to match against the file name of traces found under the root path. If theRecursiveoption is used, the pattern must match against the relative path of the trace, using forward-slash as a path separator. Files that do not match this pattern are ignored. If multiple Trace elements have a matching pattern, the first matching element will be used, and therefore the most specific patterns should be listed first. Following are some pattern examples:</p>
+<ul>
+<li>.*matches any trace in any folder</li>
+<li>[^/]*.logmatches traces with .log extension in the root path folder</li>
+<li>.*.logmatches traces with .log extension in any folder</li>
+<li>folder-[^/]<em>/[^/]</em>.logmatches traces with .log extension in folders matching a pattern</li>
+<li>(.*/)?filenamematches traces with a specific name in any folder</li>
+<li>.*matches any trace in any folder</li>
+<li>[^/]*.logmatches traces with .log extension in the root path folder</li>
+<li>.*.logmatches traces with .log extension in any folder</li>
+<li>folder-[^/]<em>/[^/]</em>.logmatches traces with .log extension in folders matching a pattern</li>
+<li>(.*/)?filenamematches traces with a specific name in any folder</li>
+</ul>
+<p>Trace Type: The trace type to assign to the traces after fetching, or<Automatic Detection>to determine the trace type automatically. Note that traces whose trace type can not be assigned according to this setting are not deleted after fetching.</p>
+<h4 id="profile-editing-and-management"><a class="header" href="#profile-editing-and-management">Profile editing and management</a></h4>
+<p>Right-click a profile element to bring up its context menu. ANewchild element of the appropriate type can be created. SelectDeleteto delete a node, orCut,CopyandPasteto move or copy elements from one profile element to another. The keyboard shortcuts can also be used.</p>
+<p>Press theAddbutton to create a new element of the same type and following the selected element, or a new profile if the selection is empty.</p>
+<p>Press theRemovebutton to delete the selected profile elements.</p>
+<p>Press theImportbutton to import profiles from a previously exported XML file.</p>
+<p>Press theExportbutton to export the selected profiles to an XML file.</p>
+<p>Press theMove UporMove Downbuttons to reorder the selected profile element.</p>
+<p>The filter text box can be used to filter profiles based on the profile name or connection node.</p>
+<p>When the remote profile information is valid and complete, press theOKbutton to save the remote profiles preferences.</p>
+<h4 id="selecting-remote-traces"><a class="header" href="#selecting-remote-traces">Selecting remote traces</a></h4>
+<p>Back in theRemote Profileswizard page, select the desired profile and clickNext &gt;. ClickingFinishat this point will automatically select and download all matching traces.</p>
+<p>If required, the selected remote connections are created and connection is established. The user may be prompted for a password. This can be avoided by storing the password for the connection in theRemote Connectionspreference page.</p>
+<p>The root path of every Trace Group is scanned for matching files. The result is shown in theRemote Traceswizard page.</p>
+<p>Select the traces to fetch by checking or unchecking the desired connection node, trace group, folder or individual trace. ClickFinishto complete the operation.</p>
+<p>If any name conflict occurs, the user will be prompted to rename, overwrite or skip the trace, unless theOverwrite existing trace without warningoption was checked in theRemote Profileswizard page.</p>
+<p>The downloaded traces will be imported to the initially selected project folder. They will be stored under a folder structure with the pattern<connection name>/<path>/<trace name>where the path is the trace's remote path relative to its trace group's root path.</p>
+<h3 id="selecting-a-trace-type"><a class="header" href="#selecting-a-trace-type">Selecting a Trace Type</a></h3>
+<p>If no trace type was selected a trace type has to be associated to a trace before it can be opened. To select a trace type select the relevant trace and click the right mouse button. In the context-sensitive menu, selectSelect Trace Type...menu item. A sub-menu will show will all available trace type categories. From the relevant category select the required trace type. The examples, below show how to select theCommon Trace FormattypesLinux Kernel TraceandGeneric CTF trace.</p>
+<p>After selecting the trace type, the trace icon will be updated with the corresponding trace type icon.</p>
+<p>The user can edit theTrace Types preference pageto choose which trace types will be available under theSelect Trace Type...menu.</p>
+<h3 id="trace-types-preference-page"><a class="header" href="#trace-types-preference-page">Trace Types Preference Page</a></h3>
+<p>TheTrace Typespreference page lists all the available trace types and allows the user to enable/disable the trace types.</p>
+<p>Trace type is an extension point of theTracing and Monitoring Framework (TMF). Depending on which features are loaded and which custom parsers have been created, the list of trace types can vary.</p>
+<p>The user needs to press theApplybutton orOK' to save the changes.</p>
+<p>Only the enabled trace types will be used for trace importing, auto-detection, as well as shown under theSelect Trace Type...menu.</p>
+<p>To access theTrace Typespreference page, select theWindowmenu. Then SelectPreferencesand search forTrace TypeunderTracinggroup. The example below shows theTrace Typespreference page.</p>
+<h3 id="opening-a-trace-or-experiment"><a class="header" href="#opening-a-trace-or-experiment">Opening a Trace or Experiment</a></h3>
+<p>A trace or experiment can be opened by double-clicking the left mouse button on the trace or experiment in theProject Explorerview. Alternatively, select the trace or experiment in the in theProject Explorerview and click the right mouse button. Then selectOpenmenu item of the context-sensitive menu. If there is no trace type set for a file resource then the file will be opened in the default editor associated with this file type.</p>
+<p>If there is a default perspective associated with the opened trace or experiment and it is not the active perspective, the user will be prompted to switch to this perspective. The user can choose to remember this decision. The user preference can be later updated in thePerspectivespreference page. SelectWindow &gt; Preferencesin the main menu, then selectTracing &gt; Perspectivesin the tree, and choose one of the options underOpen the associated perspective when a trace is opened..</p>
+<p>When opening a trace or experiment, all currently opened views which are relevant for the corresponding trace type will be updated.</p>
+<p>TheProject Explorertree for the opened trace will be updated and will show all the available analysis for and views for the corresponding trace type as in the following image.</p>
+<p>If an analysis can't be executed (e.g. due to missing required events) then the analysis will be strike-through. Right-mouse clicking on the analysis tree element and selecting menu itemHelp, will provide more details why the analysis can't be executed.</p>
+<p>Double-clicking the left mouse button on the a analysis, will execute the analysis. Alternatively, select an analysis in the in theProject Explorerview and click the right mouse button. Then selectOpenmenu item of the context-sensitive menu. Opening a view tree element underneath the analysis will also trigger the execution of the corresponding analysis.</p>
+<p>Note, that some analysis are implemented for automatic execution, so that they are executed when opening the trace.</p>
+<p>If a trace resource is a file (and not a directory), then theOpen Withmenu item is available in the context-sensitive menu and can be used to open the trace source file with any applicable internal or external editor. In that case the trace will not be processed by the tracing application.</p>
+<h3 id="creating-an-experiment"><a class="header" href="#creating-an-experiment">Creating an Experiment</a></h3>
+<p>An experiment consists in an arbitrary number of aggregated traces for purpose of correlation. In the degenerate case, an experiment can consist of a single trace. The experiment provides a unified, time-ordered stream of the individual trace events.</p>
+<p>To create an experiment, select the folderExperimentsand click the right mouse button. Then selectNew....</p>
+<p>A new display will open for entering the experiment name. Type the name of the experiment in the text fieldExperiment Nameand the click onOK.</p>
+<h3 id="selecting-traces-for-an-experiment"><a class="header" href="#selecting-traces-for-an-experiment">Selecting Traces for an Experiment</a></h3>
+<p>After creating an experiment, traces need to be added to the experiment. To select traces for an experiment select the newly create experiment and click the right mouse button. SelectSelect Traces...from the context sensitive menu.</p>
+<p>A new dialog box will open with a list of available traces. The filter text box can be used to quickly find traces. Use buttonsSelect AllorDeselect Allto select or deselect all traces. Select the traces to add from the list and then click onFinishor you can go a step further by activating the time range filtering option. Enter the time range using the following format: 'yyyy-MM-dd HH:mm:ss.SSS SSS SSS' and click onFinish. By using this option, only traces, among your selected trace, that are in or overlap the range will be added to the experiment.</p>
+<p>Now the selected traces will be linked to the experiment and will be shown under theExperimentsfolder. Expanding of theViewsfolder will show all available analysis that are defined either for the experiment or for contained traces.  If there are multiple traces of the same trace type the "Views" folder will aggregate all available analysis that are the same to one entry in the tree. Each analysis output (view) can be opened from the experiment context.</p>
+<p>Alternatively, traces can be added to an experiment usingDrag and Drop.</p>
+<h3 id="creating-an-experiment-from-selection"><a class="header" href="#creating-an-experiment-from-selection">Creating an Experiment from Selection</a></h3>
+<p>An experiment can be quickly created and opened automatically by selecting one or more traces and/or trace folders in theProject Explorerview, and then selecting theOpen as Experiment...context menu. A sub-menu with the available experiment types is opened. Select the desired experiment type from the sub-menu. All selected traces and traces recursively found in selected trace folders will be added to the experiment.</p>
+<p>If a single trace or trace folder is selected, its name will be used for the experiment, otherwise a default name will be used, possibly appended with a number to avoid name clashes.</p>
+<p>If an experiment with the same name and traces already exists, it will be reopened (or selected if it is already opened). Otherwise, a new experiment will be created and opened.</p>
+<h3 id="removing-traces-from-an-experiment"><a class="header" href="#removing-traces-from-an-experiment">Removing Traces from an Experiment</a></h3>
+<p>To remove one or more traces from an experiment select the trace(s) to remove under the Experiment folder and click the right mouse button. SelectRemovefrom the context sensitive menu.</p>
+<p>After that the selected trace(s) are removed from the experiment. Note that the traces are still in theTracesfolder.</p>
+<h3 id="deleting-traces-from-an-experiment"><a class="header" href="#deleting-traces-from-an-experiment">Deleting Traces from an Experiment</a></h3>
+<p>To delete one or more traces from an experiment select the trace(s) to delete under the Experiment folder and click the right mouse button. SelectDeletefrom the context sensitive menu.</p>
+<p>After that, the selected trace(s) are removed from the experiment. Note that the traces are also deleted from theTracesfolder.</p>
+<h3 id="renaming-a-trace-or-experiment"><a class="header" href="#renaming-a-trace-or-experiment">Renaming a Trace or Experiment</a></h3>
+<p>Traces and Experiment can be renamed from theProject Explorerview. To rename a trace or experiment select the relevant trace and click the right mouse button. Then selectRename...from the context sensitive menu. The trace or experiment needs to be closed in order to do this operation.</p>
+<p>A new dialog box will show for entering a new name. Enter a new trace or experiment name respectively in the relevant text field and click onOK. If the new name already exists the dialog box will show an error and a different name has to be entered.</p>
+<p>After successful renaming the new name will show in theProject Explorer. In case of a trace all reference links to that trace will be updated too. Note that linked traces only changes the display name, the underlying trace resource will stay the original name.</p>
+<p>Note that all supplementary files will be also handled accordingly (see alsoDeleting Supplementary Files).</p>
+<h3 id="copying-a-trace-or-experiment"><a class="header" href="#copying-a-trace-or-experiment">Copying a Trace or Experiment</a></h3>
+<p>To copy a trace or experiment select the relevant trace or experiment in theProject Explorerview and click the right mouse button. Then selectCopy...from the context sensitive menu.</p>
+<p>A new dialog box will show for entering a new name. Enter a new trace or experiment name respectively in the relevant text field and click onOK. In case of a linked trace two options are available,Copy as a linkorCopy as a new trace. The first option, default one, the copied trace will be a link to the original trace. The second option, will make a copy of the original trace in your workspace. If the new name already exists the dialog box will show an error and a different name has to be entered.</p>
+<p>After successful copy operation the new trace or experiment respectively will show in theProject Explorer.</p>
+<p>Note that the directory for all supplementary files will be copied, too. (see alsoDeleting Supplementary Files).</p>
+<h3 id="deleting-a-trace-or-experiment"><a class="header" href="#deleting-a-trace-or-experiment">Deleting a Trace or Experiment</a></h3>
+<p>To delete a trace or experiment select the relevant trace or experiment in theProject Explorerview and click the right mouse button. Then selectDelete...from the context sensitive menu. The trace or experiment needs to be closed in order to do this operation.</p>
+<p>A confirmation dialog box will open. To perform the deletion pressOKotherwise selectCancel.</p>
+<p>After successful operation the selected trace or experiment will be removed from the project. In case of a linked trace only the link will be removed. The actual trace resource remain on the disk.</p>
+<p>Note that the directory for all supplementary files will be deleted, too. (see alsoDeleting Supplementary Files).</p>
+<h3 id="deleting-supplementary-files"><a class="header" href="#deleting-supplementary-files">Deleting Supplementary Files</a></h3>
+<p>Supplementary files are by definition trace specific files that accompany a trace. These file could be temporary files, persistent indexes or any other persistent data files created by the LTTng integration in Eclipse during parsing a trace. For the LTTng 2.0 trace viewer a persistent state history of the Linux Kernel is created and is stored under the namestateHistory.ht. The statistics for all traces are stored understatistics.ht. Other state systems may appear in the same folder as more custom views are added.</p>
+<p>All supplementary file are hidden from the user and are handled internally by the TMF. However, there is a possibility to delete the supplementary files so that they are recreated when opening a trace.</p>
+<p>To delete all supplementary files from one or many traces and experiments, select the relevant traces and experiments in theProject Explorerview and click the right mouse button. Then select theDelete Supplementary Files...menu item from the context-sensitive menu.</p>
+<p>A new dialog box will open with a list of supplementary files, grouped under the trace or experiment they belong to. Select the file(s) to delete from the list and pressOK. The traces and experiments that need to be closed in order to do this operation will automatically be closed.</p>
+<h3 id="displaying-the-traces-time-range"><a class="header" href="#displaying-the-traces-time-range">Displaying the trace's time range</a></h3>
+<p>The trace's time range can be displayed alongside the trace's name. The time is displayed in the Time Format from Tracing preferences.</p>
+<p>To enable this feature, head toPreferences &gt; Tracingand check the boxShow trace time range in Project Explorer.</p>
+<p>If a trace is empty or its type unknown, nothing will be shown. It the range has not been fully read from the trace or the supplementary files,[...]will be shown. If the trace is being read and only its start timestartis known,[start - ...]will be shown. Finally, when the end timeendis also known,[start - end]will be shown.</p>
+<h3 id="link-with-editor"><a class="header" href="#link-with-editor">Link with Editor</a></h3>
+<p>The tracing projects support the featureLink With Editorof the Project Explorer view. With this feature it is now possible to</p>
+<ul>
+<li>select a trace element in the Project Explorer view and the correspondingEvents Editorwill get focus if the relevant trace is open.</li>
+<li>select anEvents Editorand the corresponding trace element will be highlighted in the Project Explorer view.</li>
+<li>select a trace element in the Project Explorer view and the correspondingEvents Editorwill get focus if the relevant trace is open.</li>
+<li>select anEvents Editorand the corresponding trace element will be highlighted in the Project Explorer view.</li>
+</ul>
+<p>To enable or disable this feature toggle theLink With Editorbutton of the Project Explorer view as shown below.</p>
+<h3 id="exporting-time-selection-as-new-trace"><a class="header" href="#exporting-time-selection-as-new-trace">Exporting Time Selection as New Trace</a></h3>
+<p>If a time range (not a single timestamp) is selected in any of the time-based views, right clicking on the trace or experiment element in theProject Explorerwill showExport Time Selection as New Trace. This option allowstrimmingthe current trace to a subset of its events, while preserving all the states that may have been computed by various analyses using events present before the exported time range.</p>
+<p>TheExporting Time Selection as New Traceoption will create a new trace and import it into the current tracing project. A selection dialog will be presented to the user to define where the new trace should be written. This is where the new trace files will be written, as well as any appropriateinitial statefiles.</p>
+<p>The new trace will be initially named the same as the original. The user must then free to rename the new trace. The trace can also be removed from the project and re-imported later with no loss of information.</p>
+<p>Note: Since trace writing works differently for every trace type, the trimming feature has to be implemented for the target trace's type. If the option remains grayed out even if a time range is selected, it is because the given trace type does not implement the trim feature.</p>
+<h2 id="events-editor"><a class="header" href="#events-editor">Events Editor</a></h2>
+<p>The Events editor shows the basic trace data elements (events) in a tabular format. The editors can be dragged in the editor area so that several traces may be shown side by side. These traces are synchronized by timestamp.</p>
+<p>The header displays the current trace (or experiment) name.</p>
+<p>The columns of the table are defined by the fields (aspects) of the specific trace type. These are the defaults:</p>
+<ul>
+<li>Timestamp: the event timestamp</li>
+<li>Event Type: the event type</li>
+<li>Contents: the fields (or payload) of this event</li>
+<li>Timestamp: the event timestamp</li>
+<li>Event Type: the event type</li>
+<li>Contents: the fields (or payload) of this event</li>
+</ul>
+<p>The first row of the table is the header row a.k.a. the Search and Filter row.</p>
+<p>The highlighted event is thecurrent eventand is synchronized with the other views. If you select another event, the other views will be updated accordingly. The properties view will display a more detailed view of the selected event.</p>
+<p>An event range can be selected by holding theShiftkey while clicking another event or using any of the cursor keys (Up',Down,PageUp,PageDown,Home,End). The first and last events in the selection will be used to determine the current selected time range for synchronization with the other views.</p>
+<p>The Events editor can be closed, disposing a trace. When this is done, all the views displaying the information will be updated with the trace data of the next event editor tab. If all the editor tabs are closed, then the views will display their empty states.</p>
+<p>Column order and size is preserved when changed. If a column is lost due to it being resized to 0 pixels, right click on the context menu and selectShow All, it will be restored to a visible size.</p>
+<h3 id="searching-and-filtering"><a class="header" href="#searching-and-filtering">Searching and Filtering</a></h3>
+<p>Searching and filtering of events in the table can be performed by entering matching conditions in one or multiple columns in the header row (the first row below the column header).</p>
+<p>To apply a matching condition to a specific column, click on the column's header row cell, type in aregular expression. You can also enter a simple text string and it will be automatically be replaced with a 'contains' regular expression.</p>
+<p>Press theEnterkey to apply the condition as a search condition. It will be added to any existing search conditions.</p>
+<p>Press theCtrl+Enterkey to immediately add the condition (and any other existing search conditions) as a filter instead.</p>
+<p>When matching conditions are applied to two or more columns, all conditions must be met for the event to match (i.e. 'and' behavior).</p>
+<p>A preset filter created in theFiltersview can also be applied by right-clicking on the table and selectingApply preset filter...&gt;filter name</p>
+<h4 id="searching"><a class="header" href="#searching">Searching</a></h4>
+<p>When a searching condition is applied to the header row, the table will select the next matching event starting from the top currently displayed event. Wrapping will occur if there is no match until the end of the trace.</p>
+<p>All matching events will have a 'search match' icon in their left margin. Non-matching events will be dimmed. The characters in each column which match the regular expression will be highlighted.</p>
+<p>Pressing theEnterkey will search and select the next matching event. Pressing theShift+Enterkey will search and select the previous matching event. Wrapping will occur in both directions.</p>
+<p>PressEscto cancel an ongoing search.</p>
+<p>To add the currently applied search condition(s) as filter(s), click theAdd as Filterbutton in the header row margin, or press theCtrl+Enterkey.</p>
+<p>PressDeleteto clear the header row and reset all events to normal.</p>
+<h4 id="filtering"><a class="header" href="#filtering">Filtering</a></h4>
+<p>When a new filter is applied, the table will clear all events and fill itself with matching events as they are found from the beginning of the trace. The characters in each column which match the regular expression will be highlighted.</p>
+<p>A status row will be displayed before and after the matching events, dynamically showing how many matching events were found and how many events were processed so far. Once the filtering is completed, the status row icon in the left margin will change from a 'stop' to a 'filter' icon.</p>
+<p>PressEscto stop an ongoing filtering. In this case the status row icon will remain as a 'stop' icon to indicate that not all events were processed.</p>
+<p>The header bar will be displayed above the table and will show a label for each applied filter. Clicking on a label will highlight the matching strings in the events that correspond to this filter condition. Pressing theDeletekey will clear this highlighting.</p>
+<p>To remove a specific filter, click on theicon on its label in the header bar. The table will be updated with the events matching the remaining filters.</p>
+<p>The header bar can be collapsed and expanded by clicking on theicons in the top-left corner or on its background. In collapsed mode, a minimized version of the filter labels will be shown that can also be used to highlight or remove the corresponding filter.</p>
+<p>Right-click on the table and selectClear Filtersfrom the context menu to remove all filters. All trace events will be now shown in the table. Note that the currently selected event will remain selected even after the filters are removed.</p>
+<p>You can also search on the subset of filtered events by entering a search condition in the header row while a filter is applied. Searching and filtering conditions are independent of each other.</p>
+<h4 id="bookmarking"><a class="header" href="#bookmarking">Bookmarking</a></h4>
+<p>Any event of interest can be tagged with a bookmark.</p>
+<p>To add a bookmark, double-click the left margin next to an event, or right-click the margin and selectAdd bookmark.... Alternatively use theEdit&gt;Add bookmark...menu. Edit the bookmark description as desired and pressOK.</p>
+<p>The bookmark will be displayed in the left margin, and hovering the mouse over the bookmark icon will display the description in a tooltip.</p>
+<p>The bookmark will be added to theBookmarksview. In this view the bookmark description can be edited, and the bookmark can be deleted. Double-clicking the bookmark or selectingGo tofrom its context menu will open the trace or experiment and go directly to the event that was bookmarked.</p>
+<p>To remove a bookmark, double-click its icon, selectRemove Bookmarkfrom the left margin context menu, or selectDeletefrom the Bookmarks view.</p>
+<h3 id="copy-to-clipboard"><a class="header" href="#copy-to-clipboard">Copy to Clipboard</a></h3>
+<p>The text of selected events can be copied to the clipboard by right-clicking on the table and selectingCopy to Clipboardin the context menu. The clipboard contents will be prefixed by the column header names. For every event in the table selection, the column text will be copied to the clipboard. The column text will be tab-separated. Hidden columns will not be included in the clipboard contents.</p>
+<h3 id="event-source-lookup"><a class="header" href="#event-source-lookup">Event Source Lookup</a></h3>
+<p>Some trace types can optionally embed information in the trace to indicate the source of a trace event. This is accessed through the event context menu by right-clicking on an event in the table.</p>
+<h4 id="source-code"><a class="header" href="#source-code">Source Code</a></h4>
+<p>If a source file is available in the trace for the selected event, the itemOpen Source Codeis shown in the context menu. Selecting this menu item will attempt to find the source file in all opened projects in the workspace. If multiple candidates exist, a selection dialog will be shown to the user. The selected source file will be opened, at the correct line, in its default language editor. If no candidate is found, an error dialog is shown displaying the source code information.</p>
+<h4 id="emf-model"><a class="header" href="#emf-model">EMF Model</a></h4>
+<p>If an EMF model URI is available in the trace for the selected event, the itemOpen Model Elementis shown in the context menu. Selecting this menu item will attempt to open the model file in the project specified in the URI. The model file will be opened in its default model editor. If the model file is not found, an error dialog is shown displaying the URI information.</p>
+<h3 id="exporting-to-text"><a class="header" href="#exporting-to-text">Exporting To Text</a></h3>
+<p>It is possible to export the content of the trace to a text file based on the columns displayed in the events table. If a filter (seeFiltering) was defined prior exporting only events that match the filter will be exported to the file. To export the trace to text, press the right mouse button on the events table. A context-sensitive menu will show. Select theExport To Text...menu option. A file locater dialog will open. Fill in the file name and location and then press onOK. A window with a progress bar will open till the export is finished.</p>
+<p>Note: The columns in the text file are separated by tabs.</p>
+<h3 id="refreshing-of-trace"><a class="header" href="#refreshing-of-trace">Refreshing of Trace</a></h3>
+<p>It's possible to refresh the content of the trace and resume indexing in case the current open trace was updated on the media. To refresh the trace, right-click into the table and select menu itemRefresh. Alternatively, press keyF5.</p>
+<h3 id="collapsing-of-repetitive-events"><a class="header" href="#collapsing-of-repetitive-events">Collapsing of Repetitive Events</a></h3>
+<p>The implementation for collapsing of repetitive events is trace type specific and is only available for certain trace types. For example, a trace type could allow collapsing of consecutive events that have the same event content but not the same timestamp. If a trace type supports this feature then it is possible to select theCollapse Eventsmenu item after pressing the right mouse button in the table.</p>
+<p>When the collapsing of events is executing, the table will clear all events and fill itself with all relevant events. If the collapse condition is met, the first column of the table will show the number of times this event was repeated consecutively.</p>
+<p>A status row will be displayed before and after the events, dynamically showing how many non-collapsed events were found and how many events were processed so far. Once the collapsing is completed, the status row icon in the left margin will change from a 'stop' to a 'filter' icon.</p>
+<p>To remove the collapse filter, press the () icon on theCollapselabel in the header bar, or press the right mouse button in the table and select menu itemClear Filtersin the context sensitive menu (this will also remove any other filters).</p>
+<h3 id="customization"><a class="header" href="#customization">Customization</a></h3>
+<p>The table columns can be reordered by the user by dragging the column headers. This column order is saved when the editor is closed. The setting applies to all traces of the same trace type.</p>
+<p>The table columns can be hidden or restored by right-clicking on any column header and clicking on an item in the context menu to toggle its state. ClickingShow Allwill restore all table columns.</p>
+<p>The table font can be customized by the user by changing the preference inWindow&gt;Preferences&gt;General&gt;Appearance&gt;Colors and Fonts&gt;Tracing&gt;Trace event table font.</p>
+<p>The search and filter highlight color can be customized by the user by changing the preference inWindow&gt;Preferences&gt;General&gt;Appearance&gt;Colors and Fonts&gt;Tracing&gt;Trace event table highlight color.</p>
+<h2 id="histogram-view"><a class="header" href="#histogram-view">Histogram View</a></h2>
+<p>The Histogram View displays the trace events distribution with respect to time. When streaming a trace, this view is dynamically updated as the events are received. The time axis is aligned with other views that support automatic time axis alignment (seeAutomatic Time Axis Alignment).</p>
+<p>TheAlign Viewstoggle buttonin the view menu allows to disable and enable the automatic time axis alignment of time-based views. Disabling the alignment in the Histogram view will disable this feature across all the views because it's a workspace preference.</p>
+<p>TheHide Lost Eventstoggle buttonin the local toolbar allows to hide the bars of lost events. When the button is selected it can be toggled again to show the lost events.</p>
+<p>TheActivate Trace Coloringtoggle buttonin the local toolbar allows to use separate colors for each trace of an experiment. Note that this feature is not available if your experiment contains more than twenty two traces. When activated, a legend is displayed at the bottom on the histogram view.</p>
+<p>On the top left, there are three text controls:</p>
+<ul>
+<li>Selection Start: Displays the start time of the current selection</li>
+<li>Selection End: Displays the end time of the current selection</li>
+<li>Window Span: Displays the current zoom window size in seconds</li>
+<li>Selection Start: Displays the start time of the current selection</li>
+<li>Selection End: Displays the end time of the current selection</li>
+<li>Window Span: Displays the current zoom window size in seconds</li>
+</ul>
+<p>The controls can be used to modify their respective value. After validation, the other controls and views will be synchronized and updated accordingly. To modify both selection times simultaneously, press the link iconwhich disables theSelection Endcontrol input.</p>
+<p>The large (full) histogram, at the bottom, shows the event distribution over the whole trace or set of traces. It also has a smaller semi-transparent orange window, with a cross-hair, that shows the current zoom window.</p>
+<p>The smaller (zoom) histogram, on top right, corresponds to the current zoom window, a sub-range of the event set. The window size can be adjusted by dragging the sash left beside the zoom window.</p>
+<p>The x-axis of each histogram corresponds to the event timestamps. The axis is now the same as the other views for a better visualization of the range. The y-axis shows the maximum number of events in the corresponding histogram bars.</p>
+<p>The vertical blue line(s) show the current selection time (or range). If applicable, the region in the selection range will be shaded. In addition, when a selection is performed the status line (line placed at the very left bottom corner of Trace Compass) is now updated with the cursor position, the selection time or range and the delta for a range.</p>
+<p>The mouse can be used to control the histogram:</p>
+<ul>
+<li>Left-click: Set a selection time</li>
+<li>Left-drag: Set a selection range</li>
+<li>Shift-left-click or drag: Extend or shrink the selection range</li>
+<li>Left-click: Set a selection time</li>
+<li>Left-drag: Set a selection range</li>
+<li>Shift-left-click or drag: Extend or shrink the selection range</li>
+<li>Middle-click or Ctrl-left-click: Center the zoom window on mouse (full histogram only)</li>
+<li>Middle-drag or Ctrl-left-drag: Move the zoom window</li>
+<li>Middle-click or Ctrl-left-click: Center the zoom window on mouse (full histogram only)</li>
+<li>Middle-drag or Ctrl-left-drag: Move the zoom window</li>
+<li>Right-drag: Set the zoom window</li>
+<li>Shift-right-click or drag: Extend or shrink the zoom window (full histogram only)</li>
+<li>Right-drag: Set the zoom window</li>
+<li>Shift-right-click or drag: Extend or shrink the zoom window (full histogram only)</li>
+<li>Mouse wheel up: Zoom in</li>
+<li>Mouse wheel down: Zoom out</li>
+<li>Mouse wheel up: Zoom in</li>
+<li>Mouse wheel down: Zoom out</li>
+</ul>
+<p>Hovering the mouse over an histogram bar pops up an information window that displays the start/end time of the corresponding bar, as well as the number of events (and lost events) it represents. If the mouse is over the selection range, the selection span in seconds is displayed.</p>
+<p>In each histogram, the following keys are handled:</p>
+<ul>
+<li>Left Arrow: Moves the current event to the previous non-empty bar</li>
+<li>Right Arrow: Moves the current event to the next non-empty bar</li>
+<li>Home: Sets the current time to the first non-empty bar</li>
+<li>End: Sets the current time to the last non-empty histogram bar</li>
+<li>Plus (+): Zoom in</li>
+<li>Minus (-): Zoom out</li>
+<li>Left Arrow: Moves the current event to the previous non-empty bar</li>
+<li>Right Arrow: Moves the current event to the next non-empty bar</li>
+<li>Home: Sets the current time to the first non-empty bar</li>
+<li>End: Sets the current time to the last non-empty histogram bar</li>
+<li>Plus (+): Zoom in</li>
+<li>Minus (-): Zoom out</li>
+</ul>
+<h2 id="statistics-view"><a class="header" href="#statistics-view">Statistics View</a></h2>
+<p>The Statistics View displays the various event counters that are collected when analyzing a trace. After opening a trace, the elementStatisticsis added under theTmf Statistics Analysistree element in the Project Explorer. To open the view, double-click theStatisticstree element. Alternatively, selectStatisticsunderTracingwithin theShow Viewwindow (Window-&gt;Show View-&gt;Other...). The statistics is collected for the whole trace. This view is part of theTracing and Monitoring Framework (TMF)and is generic. It will work for any trace type extensions.</p>
+<p>The view is separated in two sides. The left side of the view presents the Statistics in a table. The table shows 3 columns:LevelEvents totalandEvents in selected time range. The data is organized per trace. After parsing a trace the view will display the number of events per event type in the second column and in the third, the currently selected time range's event type distribution is shown. The cells where the number of events are printed also contain a colored bar with a number that indicates the percentage of the event count in relation to the total number of events.</p>
+<p>The right side illustrates the proportion of types of events into two pie charts. The legend of each pie chart gives the representation of each color in the chart.</p>
+<ul>
+<li>TheGlobalpie chart displays the general proportion of the events in the trace.</li>
+<li>When there is a range selection, theEvents in selectionpie chart appears next to theGlobalpie chart and displays the proportion the event in the selected range of the trace.</li>
+<li>TheGlobalpie chart displays the general proportion of the events in the trace.</li>
+<li>When there is a range selection, theEvents in selectionpie chart appears next to theGlobalpie chart and displays the proportion the event in the selected range of the trace.</li>
+</ul>
+<p>By default, the statistics use a state system, therefore will load very quickly once the state system is written to the disk as a supplementary file.</p>
+<h2 id="colors-view"><a class="header" href="#colors-view">Colors View</a></h2>
+<p>The Colors view allows the user to define a prioritized list of color settings.</p>
+<p>A color setting associates a foreground and background color (used in any events table), and a tick color (used in the Time Chart view), with an event filter.</p>
+<p>In an events table, any event row that matches the event filter of a color setting will be displayed with the specified foreground and background colors. If the event matches multiple filters, the color setting with the highest priority will be used.</p>
+<p>The same principle applies to the event tick colors in the Time Chart view. If a tick represents many events, the tick color of the highest priority matching event will be used.</p>
+<p>Color settings can be inserted, deleted, reordered, imported and exported using the buttons in the Colors view toolbar. Changes to the color settings are applied immediately, and are persisted to disk.</p>
+<h2 id="filters-view"><a class="header" href="#filters-view">Filters View</a></h2>
+<p>The Filters view allows the user to define preset filters that can be applied to any events table.</p>
+<p>The filters can be more complex than what can be achieved with the filter header row in the events table. The filter is defined in a tree node structure, where the node types can be any ofTRACETYPE,AND,OR,CONTAINS,EQUALS,MATCHESorCOMPARE. Some nodes types have restrictions on their possible children in the tree.</p>
+<p>TheTRACETYPEnode filters against the trace type of the trace as defined in a plug-in extension or in a custom parser. When used, any child node will have itstypecombo box fixed and itsaspectcombo box restricted to the possible aspects of that trace type. Depending of the Trace Types enabled in theTrace Types preference page, the list of available trace types for the filtering can vary.</p>
+<p>TheANDnode applies the logicalandcondition on all of its children. All children conditions must be true for the filter to match. Anotoperator can be applied to invert the condition.</p>
+<p>TheORnode applies the logicalorcondition on all of its children. At least one children condition must be true for the filter to match. Anotoperator can be applied to invert the condition.</p>
+<p>TheCONTAINSnode matches when the specified eventaspectvalue contains the specifiedvaluestring. Anotoperator can be applied to invert the condition. The condition can be case sensitive or insensitive. Thetypecombo box restricts the possible aspects to those of the specified trace type.</p>
+<p>TheEQUALSnode matches when the specified eventaspectvalue equals exactly the specifiedvaluestring. Anotoperator can be applied to invert the condition. The condition can be case sensitive or insensitive. Thetypecombo box restricts the possible aspects to those of the specified trace type.</p>
+<p>TheMATCHESnode matches when the specified eventaspectvalue matches against the specifiedregular expression. Anotoperator can be applied to invert the condition. Thetypecombo box restricts the possible aspects to those of the specified trace type.</p>
+<p>TheCOMPAREnode matches when the specified eventaspectvalue compared with the specifiedvaluegives the specifiedresult. The result can be set tosmaller than,equalorgreater than. The type of comparison can be numerical, alphanumerical or based on time stamp. Anotoperator can be applied to invert the condition. Thetypecombo box restricts the possible aspects to those of the specified trace type.</p>
+<p>For numerical comparisons, strings prefixed by "0x", "0X" or "#" are treated as hexadecimal numbers and strings prefixed by "0" are treated as octal numbers.</p>
+<p>For time stamp comparisons, strings are treated as seconds with or without fraction of seconds. This corresponds to theTTTformat in theTime Formatpreferences. The value for a selected event can be found in thePropertiesview under theTimestampproperty. The common 'Timestamp' aspect can always be used for time stamp comparisons regardless of its time format.</p>
+<p>Filters can be added, deleted, imported and exported using the buttons in the Filters view toolbar. The nodes in the view can be Cut (Ctrl-X), Copied (Ctrl-C) and Pasted (Ctrl-V) by using the buttons in the toolbar or by using the key bindings. This makes it easier to quickly build new filters from existing ones. Changes to the preset filters are only applied and persisted to disk when theSave filtersbutton is pressed.</p>
+<p>To apply a saved preset filter in an events table, right-click on the table and selectApply preset filter...&gt;filter name.</p>
+<h2 id="time-chart-view"><a class="header" href="#time-chart-view">Time Chart View</a></h2>
+<p>The Time Chart view allows the user to visualize every open trace in a common time chart. Each trace is display in its own row and ticks are display for every punctual event. As the user zooms using the mouse wheel or by right-clicking and dragging in the time scale, more detailed event data is computed from the traces. The time axis is aligned with other views that support automatic time axis alignment (seeAutomatic Time Axis Alignment).</p>
+<p>Time synchronization is enabled between the time chart view and other trace viewers such as the events table.</p>
+<p>Color settings defined in the Colors view can be used to change the tick color of events displayed in the Time Chart view.</p>
+<p>When a search is applied in the events table, the ticks corresponding to matching events in the Time Chart view are decorated with a marker below the tick.</p>
+<p>When a bookmark is applied in the events table, the ticks corresponding to the bookmarked event in the Time Chart view is decorated with a bookmark above the tick.</p>
+<p>When a filter is applied in the events table, the non-matching ticks are removed from the Time Chart view.</p>
+<p>The Time Chart only supports traces that are opened in an editor. The use of an editor is specified in the plug-in extension for that trace type, or is enabled by default for custom traces.</p>
+<p>TheAlign Viewstoggle buttonin the view menu allows to disable and enable the automatic time axis alignment of time-based views. Disabling the alignment in the this view will disable this feature across all the views because it's a workspace preference.</p>
+<h2 id="state-system-explorer-view"><a class="header" href="#state-system-explorer-view">State System Explorer View</a></h2>
+<p>The State System Explorer view allows the user to inspect the state interval values of every attribute of a state system at a particular time.</p>
+<p>The view shows a tree of currently selected traces and their registered state system IDs. For each state system the tree structure of attributes is displayed. The attribute name, quark, value, start and end time, and full attribute path are shown for each attribute.</p>
+<p>To modify the time of attributes shown in the view, select a different current time in other views that support time synchronization (e.g. event table, histogram view). When a time range is selected, this view uses the begin time.</p>
+<h2 id="external-analyses"><a class="header" href="#external-analyses">External Analyses</a></h2>
+<p>Trace Compass supports the execution ofexternal analysesconforming to theLAMI 1.0.x specification. This includes recent versions of theLTTng-Analyses project.</p>
+<p>An external analysis is aprogram executed by Trace Compass. When the program is done analyzing, Trace Compass generates areportcontaining its results. A report contains one or more tables which can also be viewed as bar and scattercharts.</p>
+<p>Note: The program to execute is found by searching the directories listed in the standard$PATHenvironment variable when no path separator (/on Unix and OS X,\on Windows) is found in its command.</p>
+<p>Trace Compass ships with a default list ofdescriptorsof external analyses (not the analyses themselves), including the descriptors of theLTTng analyses. If the LTTng analyses project is installed, its analyses are available when opening or importing an LTTng kernel trace.</p>
+<h3 id="running-an-external-analysis"><a class="header" href="#running-an-external-analysis">Running an External Analysis</a></h3>
+<p>To run an external analysis:</p>
+<ul>
+<li>Import a trace to the project.</li>
+<li>Make sure the trace is opened by double-clicking its name in theProject Explorer View.</li>
+<li>Under the trace in theProject Explorer View, expandExternal Analysesto view the list of available external analyses.The external analyses which are either missing or not compatible with the trace are stroke and cannot be executed.</li>
+</ul>
+<p>The external analyses which are either missing or not compatible with the trace are stroke and cannot be executed.</p>
+<ul>
+<li>Optional: If you want the external analysis to analyze a specific time range of the current trace, make a time range selection.You can use views like theHistogram Viewand theControl Flow View(if it's available for this trace) to make a time range selection.External analyses are executed on the current time range selection if there is one, or on the whole trace otherwise.</li>
+</ul>
+<p>You can use views like theHistogram Viewand theControl Flow View(if it's available for this trace) to make a time range selection.</p>
+<p>External analyses are executed on the current time range selection if there is one, or on the whole trace otherwise.</p>
+<ul>
+<li>
+<p>Right-click the external analysis to run and clickRun External Analysis.</p>
+</li>
+<li>
+<p>In the openedExternal Analysis Parameterswindow, optionally enter extra parameters to pass to the program.</p>
+</li>
+<li>
+<p>ClickOKto start the analysis.</p>
+</li>
+<li>
+<p>Import a trace to the project.</p>
+</li>
+<li>
+<p>Make sure the trace is opened by double-clicking its name in theProject Explorer View.</p>
+</li>
+<li>
+<p>Under the trace in theProject Explorer View, expandExternal Analysesto view the list of available external analyses.The external analyses which are either missing or not compatible with the trace are stroke and cannot be executed.</p>
+</li>
+</ul>
+<p>The external analyses which are either missing or not compatible with the trace are stroke and cannot be executed.</p>
+<p>The external analyses which are either missing or not compatible with the trace are stroke and cannot be executed.</p>
+<ul>
+<li>Optional: If you want the external analysis to analyze a specific time range of the current trace, make a time range selection.You can use views like theHistogram Viewand theControl Flow View(if it's available for this trace) to make a time range selection.External analyses are executed on the current time range selection if there is one, or on the whole trace otherwise.</li>
+</ul>
+<p>You can use views like theHistogram Viewand theControl Flow View(if it's available for this trace) to make a time range selection.</p>
+<p>External analyses are executed on the current time range selection if there is one, or on the whole trace otherwise.</p>
+<p>You can use views like theHistogram Viewand theControl Flow View(if it's available for this trace) to make a time range selection.</p>
+<p>External analyses are executed on the current time range selection if there is one, or on the whole trace otherwise.</p>
+<ul>
+<li>
+<p>Right-click the external analysis to run and clickRun External Analysis.</p>
+</li>
+<li>
+<p>In the openedExternal Analysis Parameterswindow, optionally enter extra parameters to pass to the program.</p>
+</li>
+<li>
+<p>ClickOKto start the analysis.</p>
+</li>
+</ul>
+<p>Note that many external analyses can be started concurrently.</p>
+<p>When the external analysis is done analyzing, its results are saved as areportin Trace Compass. The tables contained in this report are also automatically opened into a new report view when the analysis is finished.</p>
+<h3 id="opening-a-report"><a class="header" href="#opening-a-report">Opening a Report</a></h3>
+<p>Areportis created after a successfulexecution of an external analysis.</p>
+<p>To open a report:</p>
+<ul>
+<li>UnderReportsunder a trace in theProject Explorer View, double-click the report to open.Each result table generated by the external analysis is shown in its own tab in the opened report view.</li>
+</ul>
+<p>Each result table generated by the external analysis is shown in its own tab in the opened report view.</p>
+<ul>
+<li>UnderReportsunder a trace in theProject Explorer View, double-click the report to open.Each result table generated by the external analysis is shown in its own tab in the opened report view.</li>
+</ul>
+<p>Each result table generated by the external analysis is shown in its own tab in the opened report view.</p>
+<p>Each result table generated by the external analysis is shown in its own tab in the opened report view.</p>
+<h3 id="creating-a-chart-from-a-result-table"><a class="header" href="#creating-a-chart-from-a-result-table">Creating a Chart from a Result Table</a></h3>
+<p>To create a bar or a scatter chart from the data of a given result table:</p>
+<ul>
+<li>
+<p>Open the reportcontaining the result table to use for creating the chart.</p>
+</li>
+<li>
+<p>In the opened report view, click the tab of the result table to use for creating the chart.</p>
+</li>
+<li>
+<p>Click theView Menubutton, then click eitherNew custom bar chartorNew custom scatter chart.</p>
+</li>
+<li>
+<p>In the openedBar chart series creationorScatter chart series creationwindow, underSeries creator, select a column to use for the X axis of the chart, and one or more columns to use for the Y axis of the chart, then clickAddto create a series.Repeat this step to create more series.</p>
+</li>
+</ul>
+<p>Repeat this step to create more series.</p>
+<ul>
+<li>ClickOKto create the chart.The chart is created and shown at the right of its source result table.</li>
+</ul>
+<p>The chart is created and shown at the right of its source result table.</p>
+<ul>
+<li>
+<p>Open the reportcontaining the result table to use for creating the chart.</p>
+</li>
+<li>
+<p>In the opened report view, click the tab of the result table to use for creating the chart.</p>
+</li>
+<li>
+<p>Click theView Menubutton, then click eitherNew custom bar chartorNew custom scatter chart.</p>
+</li>
+<li>
+<p>In the openedBar chart series creationorScatter chart series creationwindow, underSeries creator, select a column to use for the X axis of the chart, and one or more columns to use for the Y axis of the chart, then clickAddto create a series.Repeat this step to create more series.</p>
+</li>
+</ul>
+<p>Repeat this step to create more series.</p>
+<p>Repeat this step to create more series.</p>
+<ul>
+<li>ClickOKto create the chart.The chart is created and shown at the right of its source result table.</li>
+</ul>
+<p>The chart is created and shown at the right of its source result table.</p>
+<p>The chart is created and shown at the right of its source result table.</p>
+<h3 id="showing-or-hiding-a-result-table"><a class="header" href="#showing-or-hiding-a-result-table">Showing or Hiding a Result Table</a></h3>
+<p>To show or hide a result table once acharthas been created:</p>
+<ul>
+<li>In the report view, click theToggle the Table view of the resultsbutton.If the result table was visible, it is now hidden:</li>
+</ul>
+<p>If the result table was visible, it is now hidden:</p>
+<ul>
+<li>In the report view, click theToggle the Table view of the resultsbutton.If the result table was visible, it is now hidden:</li>
+</ul>
+<p>If the result table was visible, it is now hidden:</p>
+<p>If the result table was visible, it is now hidden:</p>
+<h3 id="adding-and-removing-a-user-defined-external-analysis"><a class="header" href="#adding-and-removing-a-user-defined-external-analysis">Adding and Removing a User-Defined External Analysis</a></h3>
+<p>You can add a user-defined external analysis to the current list of external analyses. Note that the command to invoke must conform to the machine interface ofLTTng analyses0.4.</p>
+<p>Note: If you want to create your own external analysis, consider following theLAMI 1.0 specification, which is supported by later versions of Trace Compass.</p>
+<p>To add a user-defined external analysis:</p>
+<ul>
+<li>
+<p>Under any trace in theProject Explorer View, right-clickExternal Analysesand clickAdd External Analysis.</p>
+</li>
+<li>
+<p>In the openedAdd External Analysiswindow, enter the name of the new external analysis and the associated command to run.The name is the title of the external analysis as shown underExternal Analysesin theProject Explorer View.The command is the complete command line to execute. You can put arguments containing spaces or other special characters in double quotes.Note: If the command is not a file system path, then it must be found in the directories listed in the$PATHenvironment variable.</p>
+</li>
+</ul>
+<p>The name is the title of the external analysis as shown underExternal Analysesin theProject Explorer View.</p>
+<p>The command is the complete command line to execute. You can put arguments containing spaces or other special characters in double quotes.</p>
+<p>Note: If the command is not a file system path, then it must be found in the directories listed in the$PATHenvironment variable.</p>
+<ul>
+<li>ClickOKto add the user-defined external analysis.A user-defined external analysis with a green icon is created underExternal Analysesin theProject Explorer View.</li>
+</ul>
+<p>A user-defined external analysis with a green icon is created underExternal Analysesin theProject Explorer View.</p>
+<ul>
+<li>
+<p>Under any trace in theProject Explorer View, right-clickExternal Analysesand clickAdd External Analysis.</p>
+</li>
+<li>
+<p>In the openedAdd External Analysiswindow, enter the name of the new external analysis and the associated command to run.The name is the title of the external analysis as shown underExternal Analysesin theProject Explorer View.The command is the complete command line to execute. You can put arguments containing spaces or other special characters in double quotes.Note: If the command is not a file system path, then it must be found in the directories listed in the$PATHenvironment variable.</p>
+</li>
+</ul>
+<p>The name is the title of the external analysis as shown underExternal Analysesin theProject Explorer View.</p>
+<p>The command is the complete command line to execute. You can put arguments containing spaces or other special characters in double quotes.</p>
+<p>Note: If the command is not a file system path, then it must be found in the directories listed in the$PATHenvironment variable.</p>
+<p>The name is the title of the external analysis as shown underExternal Analysesin theProject Explorer View.</p>
+<p>The command is the complete command line to execute. You can put arguments containing spaces or other special characters in double quotes.</p>
+<p>Note: If the command is not a file system path, then it must be found in the directories listed in the$PATHenvironment variable.</p>
+<ul>
+<li>ClickOKto add the user-defined external analysis.A user-defined external analysis with a green icon is created underExternal Analysesin theProject Explorer View.</li>
+</ul>
+<p>A user-defined external analysis with a green icon is created underExternal Analysesin theProject Explorer View.</p>
+<p>A user-defined external analysis with a green icon is created underExternal Analysesin theProject Explorer View.</p>
+<p>Note: The new external analysis entry is saved in the workspace.</p>
+<p>To remove a user-defined external analysis:</p>
+<ul>
+<li>UnderExternal Analysesin theProject Explorer View, right-click the external analysis to remove and clickRemove External Analysis.Note: Only user-defined (green icon) external analyses can be removed.</li>
+</ul>
+<p>Note: Only user-defined (green icon) external analyses can be removed.</p>
+<ul>
+<li>UnderExternal Analysesin theProject Explorer View, right-click the external analysis to remove and clickRemove External Analysis.Note: Only user-defined (green icon) external analyses can be removed.</li>
+</ul>
+<p>Note: Only user-defined (green icon) external analyses can be removed.</p>
+<p>Note: Only user-defined (green icon) external analyses can be removed.</p>
+<h2 id="custom-parsers"><a class="header" href="#custom-parsers">Custom Parsers</a></h2>
+<p>Custom parser wizards allow the user to define their own parsers for text or XML traces. The user defines how the input should be parsed into internal trace events and identifies the event fields that should be created and displayed. Traces created using a custom parser can be correlated with other built-in traces or traces added by plug-in extension.</p>
+<h3 id="creating-a-custom-text-parser"><a class="header" href="#creating-a-custom-text-parser">Creating a custom text parser</a></h3>
+<p>TheNew Custom Text Parserwizard can be used to create a custom parser for text logs. It can be launched several ways:</p>
+<ul>
+<li>SelectFile&gt;New&gt;Other...&gt;Tracing&gt;Custom Text Parser</li>
+<li>Open theManage Custom Parsersdialog, select theTextradio button and click theNew...button</li>
+<li>SelectFile&gt;New&gt;Other...&gt;Tracing&gt;Custom Text Parser</li>
+<li>Open theManage Custom Parsersdialog, select theTextradio button and click theNew...button</li>
+</ul>
+<p>Fill out the first wizard page with the following information:</p>
+<ul>
+<li>Category: Enter a category name for the trace type.</li>
+<li>Trace type: Enter a name for the trace type, which is also the name of the custom parser. This will also be the default event type name.</li>
+<li>Time Stamp format: Enter the date and time pattern that will be used to output the Time Stamp, or leave blank to use the default Time Format preference.</li>
+<li>Category: Enter a category name for the trace type.</li>
+<li>Trace type: Enter a name for the trace type, which is also the name of the custom parser. This will also be the default event type name.</li>
+<li>Time Stamp format: Enter the date and time pattern that will be used to output the Time Stamp, or leave blank to use the default Time Format preference.</li>
+</ul>
+<p>Note: information about date and time patterns can be found here:TmfTimestampFormat</p>
+<p>Click theAdd next line,Add child lineorRemove linebuttons to create a new line of input or delete it. For each line of input, enter the following information:</p>
+<ul>
+<li>Regular expression: Enter a regular expression that should match the input line in the log, using capturing groups to extract the data.</li>
+<li>Regular expression: Enter a regular expression that should match the input line in the log, using capturing groups to extract the data.</li>
+</ul>
+<p>Note: information about regular expression patterns can be found here:http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html</p>
+<ul>
+<li>Cardinality: Enter the minimum and maximum number of lines matching this line's regular expression that must be found in the log. At least the minimum number of lines must be found before the parser will consider the next line. Child lines will always be considered first.</li>
+<li>Cardinality: Enter the minimum and maximum number of lines matching this line's regular expression that must be found in the log. At least the minimum number of lines must be found before the parser will consider the next line. Child lines will always be considered first.</li>
+<li>Event type: Optionally enable this text field to enter an event type name that will override the default (trace type) when this line matches.</li>
+<li>Event type: Optionally enable this text field to enter an event type name that will override the default (trace type) when this line matches.</li>
+</ul>
+<p>Important note:The custom parsers identify a log entry when the first line's regular expression matches (Root Line n). Each subsequent text line in the log is attempted to be matched against the regular expression of the parser's input lines in the order that they are defined (Line n.*). Only the first matching input line will be used to process the captured data to be stored in the log entry. When a text line matches a Root Line's regular expression, a new log entry is started.</p>
+<p>Click theAdd grouporRemove groupbuttons to define the data extracted from the capturing groups in the line's regular expression. For each group, enter the following information:</p>
+<ul>
+<li>Name combo: Select a name for the extracted data:Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Name combo: Select a name for the extracted data:Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or line-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually a group which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box.</li>
+<li>Action combo: Select the action to be performed on the extracted data:Set: Select this option to overwrite the data for the chosen name when there is a match for this group.Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this group.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+<li>Action combo: Select the action to be performed on the extracted data:Set: Select this option to overwrite the data for the chosen name when there is a match for this group.Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this group.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this group.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this group.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this group.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this group, using a | separator between matches.</li>
+</ul>
+<p>ThePreview inputtext box can be used to enter any log data that will be processed against the defined custom parser. When the wizard is invoked from a selected log file resource, this input will be automatically filled with the file contents.</p>
+<p>ThePreview: text field of each capturing group and of the Time Stamp will be filled from the parsed data of the first matching log entry.</p>
+<p>In thePreview inputtext box, the matching entries are highlighted with different colors:</p>
+<ul>
+<li>Yellow: indicates uncaptured text in a matching line.</li>
+<li>Green: indicates a captured group in the matching line's regular expression for which a custom parser group is defined. This data will be stored by the custom parser.</li>
+<li>Magenta: indicates a captured group in the matching line's regular expression for which there is no custom parser group defined. This data will be lost.</li>
+<li>White: indicates a non-matching line.</li>
+<li>Yellow: indicates uncaptured text in a matching line.</li>
+<li>Green: indicates a captured group in the matching line's regular expression for which a custom parser group is defined. This data will be stored by the custom parser.</li>
+<li>Magenta: indicates a captured group in the matching line's regular expression for which there is no custom parser group defined. This data will be lost.</li>
+<li>White: indicates a non-matching line.</li>
+</ul>
+<p>The first line of a matching entry is highlighted with darker colors.</p>
+<p>By default only the first matching entry will be highlighted. To highlight all matching entries in the preview input data, click theHighlight Allbutton. This might take a few seconds to process, depending on the input size.</p>
+<p>Click theNext &gt;button to go to the second page of the wizard.</p>
+<p>On this page, the list of default and custom data is shown, along with a preview of the custom parser log table output.</p>
+<p>The custom data output can be modified by the following options:</p>
+<ul>
+<li>Visibility: Select or unselect the checkbox to display the custom data or hide it.</li>
+<li>Visibility: Select or unselect the checkbox to display the custom data or hide it.</li>
+<li>Column order: ClickMove beforeorMove afterto change the display order of custom data.</li>
+<li>Column order: ClickMove beforeorMove afterto change the display order of custom data.</li>
+</ul>
+<p>The table at the bottom of the page shows a preview of the custom parser log table output according to the selected options, using the matching entries of the previous page'sPreview inputlog data.</p>
+<p>Click theFinishbutton to close the wizard and save the custom parser.</p>
+<h3 id="creating-a-custom-xml-parser"><a class="header" href="#creating-a-custom-xml-parser">Creating a custom XML parser</a></h3>
+<p>TheNew Custom XML Parserwizard can be used to create a custom parser for XML logs. It can be launched several ways:</p>
+<ul>
+<li>SelectFile&gt;New&gt;Other...&gt;Tracing&gt;Custom XML Parser</li>
+<li>Open theManage Custom Parsersdialog, select theXMLradio button and click theNew...button</li>
+<li>SelectFile&gt;New&gt;Other...&gt;Tracing&gt;Custom XML Parser</li>
+<li>Open theManage Custom Parsersdialog, select theXMLradio button and click theNew...button</li>
+</ul>
+<p>Fill out the first wizard page with the following information:</p>
+<ul>
+<li>Category: Enter a category name for the trace type.</li>
+<li>Trace type: Enter a name for the trace type, which is also the name of the custom parser. This will also be the default event type name.</li>
+<li>Time Stamp format: Enter the date and time pattern that will be used to output the Time Stamp, or leave blank to use the default Time Format preference.</li>
+<li>Category: Enter a category name for the trace type.</li>
+<li>Trace type: Enter a name for the trace type, which is also the name of the custom parser. This will also be the default event type name.</li>
+<li>Time Stamp format: Enter the date and time pattern that will be used to output the Time Stamp, or leave blank to use the default Time Format preference.</li>
+</ul>
+<p>Note: information about date and time patterns can be found here:TmfTimestampFormat</p>
+<p>Click theAdd document elementbutton to create a new document element and enter a name for the root-level document element of the XML file.</p>
+<p>Click theAdd childbutton to create a new element of input to the document element or any other element. For each element, enter the following information:</p>
+<ul>
+<li>Element name: Enter a name for the element that must match an element of the XML file.</li>
+<li>Log entry: Select this checkbox to identify an element which represents a log entry. Each element with this name in the XML file will be parsed to a new log entry. At least one log entry element must be identified in the XML document. Log entry elements cannot be nested.</li>
+<li>Name combo: Select a name for the extracted data:Ignore: Select this option to ignore the extracted element's data at this level. It is still possible to extract data from this element's child elements.Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Ignore: Select this option to ignore the extracted element's data at this level. It is still possible to extract data from this element's child elements.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Action combo: Select the action to be performed on the extracted data:Set: Select this option to overwrite the data for the chosen name when there is a match for this element.Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this element.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Event type: Optionally enable this text field to enter an event type name that will override the default (trace type) when this element is present.</li>
+<li>Element name: Enter a name for the element that must match an element of the XML file.</li>
+<li>Log entry: Select this checkbox to identify an element which represents a log entry. Each element with this name in the XML file will be parsed to a new log entry. At least one log entry element must be identified in the XML document. Log entry elements cannot be nested.</li>
+<li>Name combo: Select a name for the extracted data:Ignore: Select this option to ignore the extracted element's data at this level. It is still possible to extract data from this element's child elements.Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Ignore: Select this option to ignore the extracted element's data at this level. It is still possible to extract data from this element's child elements.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Ignore: Select this option to ignore the extracted element's data at this level. It is still possible to extract data from this element's child elements.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Ignore: Select this option to ignore the extracted element's data at this level. It is still possible to extract data from this element's child elements.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Action combo: Select the action to be performed on the extracted data:Set: Select this option to overwrite the data for the chosen name when there is a match for this element.Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this element.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this element.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this element.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Event type: Optionally enable this text field to enter an event type name that will override the default (trace type) when this element is present.</li>
+</ul>
+<p>Note: An element's extracted data 'value' is a parsed string representation of all its attributes, children elements and their own values. To extract more specific information from an element, ignore its data value and extract the data from one or many of its attributes and children elements.</p>
+<p>Click theAdd attributebutton to create a new attribute input from the document element or any other element. For each attribute, enter the following information:</p>
+<ul>
+<li>Attribute name: Enter a name for the attribute that must match an attribute of this element in the XML file.</li>
+<li>Name combo: Select a name for the extracted data:Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Action combo: Select the action to be performed on the extracted data:Set: Select this option to overwrite the data for the chosen name when there is a match for this element.Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this element.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Attribute name: Enter a name for the attribute that must match an attribute of this element in the XML file.</li>
+<li>Name combo: Select a name for the extracted data:Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Timestamp: Select this option to identify the timestamp data. The input's data and time pattern must be entered in the format: text box.</li>
+<li>Event type: Select this option to identify the event type name. This will override the default or element-specific event type name.</li>
+<li>Message: Select this option to identify the main log entry's message. This is usually an input which could have text of greater length.</li>
+<li>Other: Select this option to identify any non-standard data. The name must be entered in the name: text box. It does not have to match the element name.</li>
+<li>Action combo: Select the action to be performed on the extracted data:Set: Select this option to overwrite the data for the chosen name when there is a match for this element.Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this element.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this element.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+<li>Set: Select this option to overwrite the data for the chosen name when there is a match for this element.</li>
+<li>Append: Select this option to append to the data with the chosen name, if any, when there is a match for this element.</li>
+<li>Append with |: Select this option to append to the data with the chosen name, if any, when there is a match for this element, using a | separator between matches.</li>
+</ul>
+<p>Note: A log entry can inherited input data from its parent elements if the data is extracted at a higher level.</p>
+<p>Click theFeeling luckybutton to automatically and recursively create child elements and attributes for the current element, according to the XML element data found in thePreview inputtext box, if any.</p>
+<p>Click theRemove elementorRemove attributebuttons to remove the extraction of this input data. Take note that all children elements and attributes are also removed.</p>
+<p>ThePreview inputtext box can be used to enter any XML log data that will be processed against the defined custom parser. When the wizard is invoked from a selected log file resource, this input will be automatically filled with the file contents.</p>
+<p>ThePreview: text field of each capturing element and attribute and of the Time Stamp will be filled from the parsed data of the first matching log entry. Also, when creating a new child element or attribute, its element or attribute name will be suggested if possible from the preview input data.</p>
+<p>Click theNext &gt;button to go to the second page of the wizard.</p>
+<p>On this page, the list of default and custom data is shown, along with a preview of the custom parser log table output.</p>
+<p>The custom data output can be modified by the following options:</p>
+<ul>
+<li>Visibility: Select or unselect the checkbox to display the custom data or hide it.</li>
+<li>Column order: ClickMove beforeorMove beforeto change the display order of custom data.</li>
+<li>Visibility: Select or unselect the checkbox to display the custom data or hide it.</li>
+<li>Column order: ClickMove beforeorMove beforeto change the display order of custom data.</li>
+</ul>
+<p>The table at the bottom of the page shows a preview of the custom parser log table output according to the selected options, using the matching entries of the previous page'sPreview inputlog data.</p>
+<p>Click theFinishbutton to close the wizard and save the custom parser.</p>
+<h3 id="managing-custom-parsers"><a class="header" href="#managing-custom-parsers">Managing custom parsers</a></h3>
+<p>TheManage Custom Parsersdialog is used to manage the list of custom parsers used by the tool. To open the dialog:</p>
+<ul>
+<li>Open theProject Explorerview.</li>
+<li>SelectManage Custom Parsers...from theTracesfolder context menu, or from a trace'sSelect Trace Type...context sub-menu.</li>
+<li>Open theProject Explorerview.</li>
+<li>SelectManage Custom Parsers...from theTracesfolder context menu, or from a trace'sSelect Trace Type...context sub-menu.</li>
+</ul>
+<p>The ordered list of currently defined custom parsers for the selected type is displayed on the left side of the dialog.</p>
+<p>To change the type of custom parser to manage, select theTextorXMLradio button.</p>
+<p>The following actions can be performed from this dialog:</p>
+<ul>
+<li>New...</li>
+<li>New...</li>
+</ul>
+<p>Click theNew...button to launch theNew Custom Parserwizard.</p>
+<ul>
+<li>Edit...</li>
+<li>Edit...</li>
+</ul>
+<p>Select a custom parser from the list and click theEdit...button to launch theEdit Custom Parserwizard.</p>
+<ul>
+<li>Delete</li>
+<li>Delete</li>
+</ul>
+<p>Select a custom parser from the list and click theDeletebutton to remove the custom parser.</p>
+<ul>
+<li>Import...</li>
+<li>Import...</li>
+</ul>
+<p>Click theImport...button and select a file from the opened file dialog to import all its custom parsers. If any parser conflicts with an existing built-in or custom trace type, the user will be prompted to skip or rename the imported parser.</p>
+<ul>
+<li>Export...</li>
+<li>Export...</li>
+</ul>
+<p>Select a custom parser from the list, click theExport...button and enter or select a file in the opened file dialog to export the custom parser. Note that if an existing file containing custom parsers is selected, the custom parser will be appended to the file.</p>
+<h3 id="opening-a-trace-using-a-custom-parser"><a class="header" href="#opening-a-trace-using-a-custom-parser">Opening a trace using a custom parser</a></h3>
+<p>Once a custom parser has been created, anyimported tracefile can be opened and parsed using it.</p>
+<p>To do so:</p>
+<ul>
+<li>Select a trace in theProject Explorerview</li>
+<li>Right-click the trace and selectSelect Trace Type...&gt;category name&gt;parser name</li>
+<li>Double-click the trace or right-click it and selectOpen</li>
+<li>Select a trace in theProject Explorerview</li>
+<li>Right-click the trace and selectSelect Trace Type...&gt;category name&gt;parser name</li>
+<li>Double-click the trace or right-click it and selectOpen</li>
+</ul>
+<p>The trace will be opened in an editor showing the events table, and an entry will be added for it in the Time Chart view.</p>
+<h2 id="pin-and-clone"><a class="header" href="#pin-and-clone">Pin and Clone</a></h2>
+<p>Some views, such as time graph and XY chart views, can be opened multiple times in order to show content from different traces and/or window ranges simultaneously. This can be done by using theNew <view name> viewsub-menu in the view'sView Menuat the far right of the tool bar.</p>
+<p>By default, a view shows content from the active trace, which is the last trace whose events editor tab has been selected.</p>
+<p>When a view is pinned, it no longer follows the active trace and is locked to the trace to which it is pinned. The view's tab will show the pinned trace's name within brackets, e.g. View Name <trace name>.</p>
+<p>A view can be pinned to the current active trace by clicking thePin Viewbuttonon the tool bar, or pinned to any specific opened trace by using thePin Viewbutton's drop-down menu. This drop-down menu can also be used to switch the pinned trace of a pinned view. Once a view is pinned, it can be unpinned by clicking theUnpin Viewbuttonon the tool bar.</p>
+<h3 id="cloning-a-view-to-show-two-different-traces"><a class="header" href="#cloning-a-view-to-show-two-different-traces">Cloning a view to show two different traces</a></h3>
+<ul>
+<li>Open two different traces</li>
+<li>Open or select the view to be cloned</li>
+<li>Pin the view to the first trace: from its tool bar, click thePin Viewbuttonor selectPin to <first trace>from its button drop-down menu</li>
+<li>In theView Menu, selectNew <view name> view,pinned to <second trace></li>
+<li>Open two different traces</li>
+<li>Open or select the view to be cloned</li>
+<li>Pin the view to the first trace: from its tool bar, click thePin Viewbuttonor selectPin to <first trace>from its button drop-down menu</li>
+<li>In theView Menu, selectNew <view name> view,pinned to <second trace></li>
+</ul>
+<h3 id="cloning-a-view-to-show-different-window-ranges-of-same-trace"><a class="header" href="#cloning-a-view-to-show-different-window-ranges-of-same-trace">Cloning a view to show different window ranges of same trace</a></h3>
+<ul>
+<li>Open a trace</li>
+<li>Open or select the view to be cloned</li>
+<li>Pin the view to the trace: from its tool bar, click thePin Viewbuttonor selectPin to <trace>from its button drop-down menu</li>
+<li>In theView Menu, selectNew <view name> view,pinned to <trace> | new instance</li>
+<li>Open a trace</li>
+<li>Open or select the view to be cloned</li>
+<li>Pin the view to the trace: from its tool bar, click thePin Viewbuttonor selectPin to <trace>from its button drop-down menu</li>
+<li>In theView Menu, selectNew <view name> view,pinned to <trace> | new instance</li>
+</ul>
+<h2 id="time-synchronization-of-views"><a class="header" href="#time-synchronization-of-views">Time Synchronization of Views</a></h2>
+<p>All time-based views that show the same trace are synchronized in time to show the same window range and time selection. This also applies to the selected event(s) in theEvents Editor.</p>
+<p>By default, changing the window range or time selection for one trace does not affect the window range or time selection of other opened traces.</p>
+<p>To allow a specific trace to be synchronized with (and react to) the window range or time selection from other traces, check theFollow time updates from other tracestoggle option in that trace'sEvent Editorcontext menu. This does not affect whether this trace's time updates will be propagated to other traces.</p>
+<p>Time synchronization will only occur if the updated window range or time selection from the other trace overlaps with the full time range of the following trace. It will occur even if the following trace is not the active trace.</p>
+<p>Note that two opened instances of the same trace are never time synchronized with each other, regardless of the toggle option.</p>
+<h2 id="automatic-time-axis-alignment"><a class="header" href="#automatic-time-axis-alignment">Automatic Time Axis Alignment</a></h2>
+<p>Trace Compass supports automatic alignment of the time axis for time-based views. The user now can resize the time window of one view and all other open views will align to the new window size and position. The automatic alignment is optional and can be disabled and enabled using theAlign Viewsbutton of the view menu. Disabling or enabling it in one view it will disable and enable it for all view since it's a workspace wide setting.</p>
+<h2 id="searching-in-time-graph-views"><a class="header" href="#searching-in-time-graph-views">Searching in Time Graph Views</a></h2>
+<p>Search for an entry in aTime Graph view, e.g.Control Flow VieworResources View, using theFinddialog. To use the dialog:</p>
+<ul>
+<li>
+<p>Select the time graph view you want to search in</p>
+</li>
+<li>
+<p>PressCtrl + F. The following screen will be shown:</p>
+</li>
+<li>
+<p>Select the time graph view you want to search in</p>
+</li>
+<li>
+<p>PressCtrl + F. The following screen will be shown:</p>
+</li>
+<li>
+<p>Enter the string to find in theFindtext drop down and select theOptionsandDirectionyou need.</p>
+</li>
+<li>
+<p>Press theFindbutton orEnterorAlt + n. The next match in the selected time graph view will be selected.</p>
+</li>
+<li>
+<p>Enter the string to find in theFindtext drop down and select theOptionsandDirectionyou need.</p>
+</li>
+<li>
+<p>Press theFindbutton orEnterorAlt + n. The next match in the selected time graph view will be selected.</p>
+</li>
+</ul>
+<p>Various options are available in theOptionsgroup:</p>
+<ul>
+<li>Case sensitivemakes the search case sensitive.</li>
+<li>Wrap searchrestarts the search from the first index, depending of the direction, when no entry were found.</li>
+<li>Whole wordallows to search for whole words, delimited by spaces or special character, that are identical to the search text.</li>
+<li>Regular expressionspecifies that the search text is a regular expression or not.</li>
+<li>Case sensitivemakes the search case sensitive.</li>
+<li>Wrap searchrestarts the search from the first index, depending of the direction, when no entry were found.</li>
+<li>Whole wordallows to search for whole words, delimited by spaces or special character, that are identical to the search text.</li>
+<li>Regular expressionspecifies that the search text is a regular expression or not.</li>
+</ul>
+<p>TheDirectiongroup allows to select the search direction:ForwardorBackward.</p>
+<h3 id="filtering-time-events-in-time-graph-views"><a class="header" href="#filtering-time-events-in-time-graph-views">Filtering Time Events in Time Graph Views</a></h3>
+<p>Filtering time events in aTime Graph view, e.g.Control Flow VieworResources View, using theTime Event Filterdialog box. To do so:</p>
+<ul>
+<li>Select theTime Graph viewyou want to filter in</li>
+<li>Press/. TheTime Event Filterdialog box will show on the bottom right corner of the view.</li>
+<li>Enter the string to use as filter in the opened dialog box. The view updates its content as the user enter the string. The filter is applied and unsuccessful time events are dimmed.</li>
+<li>Select theTime Graph viewyou want to filter in</li>
+<li>Press/. TheTime Event Filterdialog box will show on the bottom right corner of the view.</li>
+<li>Enter the string to use as filter in the opened dialog box. The view updates its content as the user enter the string. The filter is applied and unsuccessful time events are dimmed.</li>
+</ul>
+<p>Note thatRegular expressionis supported.</p>
+<p>It is possible to save multiple filters. They will be all activated at the same time in the view. To save a filter:</p>
+<ul>
+<li>SelectTime Event Filterdialog box</li>
+<li>Enter the filter string to save. The view is updated and new unsuccessful time events are dimmed.</li>
+<li>With the focus on the dialog box, pressENTER. Thesaved filterwill appear at the left of the dialog box and the text in the dialog box is cleared. The view is updated and previous unsuccessful dimmed time events are removed from the view and entries that have no time events to show are removed too.</li>
+<li>SelectTime Event Filterdialog box</li>
+<li>Enter the filter string to save. The view is updated and new unsuccessful time events are dimmed.</li>
+<li>With the focus on the dialog box, pressENTER. Thesaved filterwill appear at the left of the dialog box and the text in the dialog box is cleared. The view is updated and previous unsuccessful dimmed time events are removed from the view and entries that have no time events to show are removed too.</li>
+</ul>
+<p>Note that user can still use the dialog box to filter the remaining visible time events in the view.</p>
+<p>Note that the view has a limit of 4 saved filters.</p>
+<p>Note that alllinksare dimmed when a filter is applied and completely removed when there is activesaved filters.</p>
+<p>To remove asaved filter, click on the remove button next to the filter.</p>
+<p>The time event filtering uses its owndomain-specific language (DSL). Various logical operators are suppported:</p>
+<ul>
+<li>&amp;&amp;performs a logical AND operation between two filter expressions. Example:ioctl &amp;&amp; 5755</li>
+<li>||performs a logical OR operation between two filter expressions. Example:ioctl || splice</li>
+<li>!performs a logical NOT operation between two filter expressions. Example:!ioctl</li>
+<li>&amp;&amp;performs a logical AND operation between two filter expressions. Example:ioctl &amp;&amp; 5755</li>
+<li>||performs a logical OR operation between two filter expressions. Example:ioctl || splice</li>
+<li>!performs a logical NOT operation between two filter expressions. Example:!ioctl</li>
+</ul>
+<p>Filter expressionshave the following patternfieldoperatorargumentin general. Several relational operators are available:</p>
+<ul>
+<li>==test whether the value of the specified field is equal to the given argument. Example:TID == 5755</li>
+<li>!=test whether the value of the specified field is not equal to the given argument. Example:TID != 5755</li>
+<li>matchestest whether the value of the specified field matches to the given argument. Example:TID matches 5.*5$</li>
+<li>containstest whether the value of the specified field contains to the given argument. Example:TID contains 7</li>
+<li>
+<blockquote>
+<p>test whether the value of the specified field is greater than the given argument. Example:"SOFT IRQ" &gt; 4</p>
+</blockquote>
+</li>
+<li>&lt;test whether the value of the specified field is less than the given argument. Example:"SOFT IRQ" &lt; 4</li>
+<li>==test whether the value of the specified field is equal to the given argument. Example:TID == 5755</li>
+<li>!=test whether the value of the specified field is not equal to the given argument. Example:TID != 5755</li>
+<li>matchestest whether the value of the specified field matches to the given argument. Example:TID matches 5.*5$</li>
+<li>containstest whether the value of the specified field contains to the given argument. Example:TID contains 7</li>
+<li>
+<blockquote>
+<p>test whether the value of the specified field is greater than the given argument. Example:"SOFT IRQ" &gt; 4</p>
+</blockquote>
+</li>
+<li>&lt;test whether the value of the specified field is less than the given argument. Example:"SOFT IRQ" &lt; 4</li>
+</ul>
+<p>Filter expressionscan have the following patternfieldoperator. The available relational operators for this pattern is:</p>
+<ul>
+<li>presenttest whether the specified field exist. Example:TID present</li>
+<li>presenttest whether the specified field exist. Example:TID present</li>
+</ul>
+<p>The DSL allows the possibility to realize complex filters, combining severalFilter expressionsand using parenthesis. Example:TID != 5755 &amp;&amp; (System_call contains select)</p>
+<p>Note thatfieldparameter with whitespace should be specified using quotes mark. Example:"SOFT IRQ" present</p>
+<h3 id="filtering-of-empty-rows-time-graph-views"><a class="header" href="#filtering-of-empty-rows-time-graph-views">Filtering of Empty Rows Time Graph Views</a></h3>
+<p>Time Graph Views support filtering of empty rows using a dynamic filter. Empty rows are rows with no time events nor row markers in the current visible time range. To hide empty rows, check theHide Empty Rowstoolbar button or view menu entry. Unchecking it will show empty rows again. When changing the current visible time range, the list of visible rows will be dynamically updated.</p>
+<h2 id="configurable-marker-sets"><a class="header" href="#configurable-marker-sets">Configurable Marker Sets</a></h2>
+<p>Time graph views can allow the user to display periodic markers over time graphs by selecting a marker set. The marker sets are user-configurable by editing themarkers.xmlfile.</p>
+<p>From the view menu, selectMarker Set&gt;Edit....  Themarkers.xmlfile will be opened in an editor. After editing the file, save the modifications, and then selectMarker Set&gt;marker set nameto activate the marker set. SelectMarker set&gt;Noneto deactivate the marker set.</p>
+<h3 id="marker-set-configuration-xml-format"><a class="header" href="#marker-set-configuration-xml-format">Marker Set Configuration XML Format</a></h3>
+<p>The format of themarkers.xmlfile is defined as follows:</p>
+<p>The<marker>element defines a fixed-period marker at the root of the marker set. Optionally, a<marker>can have child<submarker>elements, which split each marker into a number of equal sub-markers, and/or child<segments>elements, which split each marker into segments of defined weights defined by the list of child<segment>elements. Each of these elements can recursively have their own<submarker>and<segments>child elements.</p>
+<p>The element attributes are defined as follows:</p>
+<p>An example marker set configuration can be found below:</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Installation/Installation_Verification/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../Trace_Compass_Main_Features/Tracing_Perspective/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Installation/Installation_Verification/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../Trace_Compass_Main_Features/Tracing_Perspective/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Control Flow View - Trace Compass User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Trace Compass User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="control-flow-view"><a class="header" href="#control-flow-view">Control Flow View</a></h2>
+<p>TheControl Flowview is a LTTng-specific view that shows per-process events graphically. The Linux Kernel Analysis is executed the first time a LTTng Kernel is opened. After opening the trace, the elementControl Flowis added under theLinux Kernel Analysistree element in the Project Explorer. To open the view,  double-click theControl Flowtree element.</p>
+<p>Alternatively, selectControl FlowunderLTTngwithin theShow Viewwindow (Window-&gt;Show View-&gt;Other...):</p>
+<p>You should get something like this:</p>
+<p>The view is divided into the following important sections:process tree and information,control flowand thetoolbar. The time axis is aligned with other views that support automatic time axis alignment (seeAutomatic Time Axis Alignment).</p>
+<p>The following sections provide detailed information for each part of the Control Flow View.</p>
+<h3 id="process-tree-and-information"><a class="header" href="#process-tree-and-information">Process tree and information</a></h3>
+<p>Processes are organized as a tree within this view. This way, child and parent processes are easy to identify.</p>
+<p>The layout is based on the states computed from the trace events.</p>
+<p>A given process may be shown at different places within the tree since the nodes areunique (TID, birth time) couples. This means that if process B of parent A dies, you'll still see it in the tree. If process A forks process B again, it will be shown as a different node since it won't have the same birth time (and probably not the same TID). This has the advantage that the tree, once loaded, never changes: horizontal scrolling within thecontrol flowremains possible.</p>
+<p>The TID column shows the process node'sthread IDand the PTID column shows itsparent thread ID(nothing is shown if the process has no parent).</p>
+<p>It is possible to sort the columns of the tree by clicking on the column header. Subsequent clicking will change the sort order. The hierarchy, i.e. the parent-child relationship is kept. When opening a trace for the first time, the processes are sorted bybirth time. The sort order and column will be preserved when switching between open traces. Note that when opening an experiment the processes will be sorted within each trace.</p>
+<h3 id="control-flow"><a class="header" href="#control-flow">Control flow</a></h3>
+<p>This part of the Control Flow View is probably the most interesting one. Using the mouse, you can navigate through the trace (go left, right) and zoom on a specific region to inspect its details.</p>
+<p>The colored bars you see representstatesfor the associated process node. When a process state changes in time, so does the color. For stateSYSCALLthe name of the system call is displayed in the state bar. States colors legend is available through atoolbar button:</p>
+<p>The style can be updated in the legend.</p>
+<p>This dark yellow is what you'll see most of the time since scheduling puts processes on hold while others run.</p>
+<p>The vertical blue line with T1 above it is thecurrent selection indicator. When a time range is selected, the region between the begin and end time of the selection will be shaded and two lines with T1 and T2 above will be displayed. The time stamps corresponding to T1, T2 and their delta are shown in the status line when the mouse is hovering over the control flow.</p>
+<p>Arrows can be displayed that follow the execution of each CPU across processes. The arrows indicate when the scheduler switches from one process to another for a given CPU. The CPU being followed is indicated on the state tooltip. When the scheduler switches to and from the idle process, the arrow skips to the next process which executes on the CPU after the idle process. Note that an appropriate zoom level is required for all arrows to be displayed.</p>
+<p>The display of arrows is optional and can be toggled using theHide Arrowstoolbar button. It is also possible to follow a CPU's execution across state changes and the scheduler's process switching using theFollow CPU Forward/Backwardtoolbar buttons.</p>
+<h4 id="using-the-mouse"><a class="header" href="#using-the-mouse">Using the mouse</a></h4>
+<p>The following mouse actions are available:</p>
+<ul>
+<li>left-click: select a time or time range begin time</li>
+<li>Shift-left-click or drag: Extend or shrink the selection range</li>
+<li>left-click: select a time or time range begin time</li>
+<li>Shift-left-click or drag: Extend or shrink the selection range</li>
+<li>left-drag horizontally: select a time range or change the time range begin or end time</li>
+<li>middle-drag or Ctrl-left-drag: pan horizontally and/or vertically</li>
+<li>right-drag horizontally:zoom region</li>
+<li>click on a colored bar: the associated process node is selected and the current time indicator is moved where the click happened</li>
+<li>mouse wheel up/down: scroll up or down</li>
+<li>Shift-mouse wheel up/down: scroll left or right</li>
+<li>Ctrl-mouse wheel up/down: zoom in or out horizontally</li>
+<li>Shift-Ctrl-mouse wheel up/down: zoom in or out vertically</li>
+<li>drag the time ruler horizontally: zoom in or out with fixed start time</li>
+<li>double-click the time ruler: reset zoom to full range</li>
+<li>left-drag horizontally: select a time range or change the time range begin or end time</li>
+<li>middle-drag or Ctrl-left-drag: pan horizontally and/or vertically</li>
+<li>right-drag horizontally:zoom region</li>
+<li>click on a colored bar: the associated process node is selected and the current time indicator is moved where the click happened</li>
+<li>mouse wheel up/down: scroll up or down</li>
+<li>Shift-mouse wheel up/down: scroll left or right</li>
+<li>Ctrl-mouse wheel up/down: zoom in or out horizontally</li>
+<li>Shift-Ctrl-mouse wheel up/down: zoom in or out vertically</li>
+<li>drag the time ruler horizontally: zoom in or out with fixed start time</li>
+<li>double-click the time ruler: reset zoom to full range</li>
+</ul>
+<p>When the current time indicator is changed (when clicking in the states flow), all the other views aresynchronized. For example, theEvents Editorwill show the event matching the current time indicator. The reverse behaviour is also implemented: selecting an event within the Events View will update the Control Flow View current time indicator.</p>
+<h4 id="using-the-keyboard"><a class="header" href="#using-the-keyboard">Using the keyboard</a></h4>
+<p>The following keyboard shortcuts are available:</p>
+<ul>
+<li>arrow-right key: selects the next state for the selected process</li>
+<li>arrow-left key: selects the previous state for the selected process</li>
+<li>Shift + arrow-right key: updates the selection end time of the current selection range by selecting the next state of the current process</li>
+<li>Shift + arrow-left key: updates the selection end time of the current selection range by selecting the previous state of the current process</li>
+<li>.: selects the next active marker</li>
+<li>,: selects the previous active marker</li>
+<li>Shift + .: updates the selection end time of the current selection range by selecting the next active marker boundary</li>
+<li>Shift + ,: updates the selection end time of the current selection range by selecting the previous active marker boundary</li>
+<li>arrow-down: selects the next process</li>
+<li>arrow-up: selects the previous process</li>
+<li>Page Down: selects the process down one page</li>
+<li>Page Up: selects the process up one page</li>
+<li>Home: selects the first process</li>
+<li>End: selects the last process</li>
+<li>Enter: toggles the expansion state of the current process in the tree</li>
+<li>+: Zoom-in centered to the selected time range (or window range if time selection is not visible)</li>
+<li>-: Zoom-out centered to the selected time range (or window range if time selection is not visible)</li>
+<li>Ctrl + +: Zoom-in vertically</li>
+<li>Ctrl + -: Zoom-out vertically</li>
+<li>Ctrl + 0: Reset the vertical zoom</li>
+<li>Ctrl + F: Search in the view. (seeSearching in Time Graph Views)</li>
+<li>G: Toggles both vertical and horizontal gridlines</li>
+<li>Z: Zoom to current selected time range (if range is greater than 0)</li>
+<li>arrow-right key: selects the next state for the selected process</li>
+<li>arrow-left key: selects the previous state for the selected process</li>
+<li>Shift + arrow-right key: updates the selection end time of the current selection range by selecting the next state of the current process</li>
+<li>Shift + arrow-left key: updates the selection end time of the current selection range by selecting the previous state of the current process</li>
+<li>.: selects the next active marker</li>
+<li>,: selects the previous active marker</li>
+<li>Shift + .: updates the selection end time of the current selection range by selecting the next active marker boundary</li>
+<li>Shift + ,: updates the selection end time of the current selection range by selecting the previous active marker boundary</li>
+<li>arrow-down: selects the next process</li>
+<li>arrow-up: selects the previous process</li>
+<li>Page Down: selects the process down one page</li>
+<li>Page Up: selects the process up one page</li>
+<li>Home: selects the first process</li>
+<li>End: selects the last process</li>
+<li>Enter: toggles the expansion state of the current process in the tree</li>
+<li>+: Zoom-in centered to the selected time range (or window range if time selection is not visible)</li>
+<li>-: Zoom-out centered to the selected time range (or window range if time selection is not visible)</li>
+<li>Ctrl + +: Zoom-in vertically</li>
+<li>Ctrl + -: Zoom-out vertically</li>
+<li>Ctrl + 0: Reset the vertical zoom</li>
+<li>Ctrl + F: Search in the view. (seeSearching in Time Graph Views)</li>
+<li>G: Toggles both vertical and horizontal gridlines</li>
+<li>Z: Zoom to current selected time range (if range is greater than 0)</li>
+</ul>
+<p>WASD Navigation</p>
+<p>Use WASD Navigation in conjunction with the mouse, where one hand changes the mouse
+position and the other hand uses the keyboard shortcuts to zoom or scroll.</p>
+<ul>
+<li>W: Zoom-in horizontally centered to the mouse position</li>
+<li>S: Zoom-out horizontally centered to the mouse position</li>
+<li>A: Scroll left by a quarter of the current window range</li>
+<li>D: Scroll right by a quarter of the current window range</li>
+<li>W: Zoom-in horizontally centered to the mouse position</li>
+<li>S: Zoom-out horizontally centered to the mouse position</li>
+<li>A: Scroll left by a quarter of the current window range</li>
+<li>D: Scroll right by a quarter of the current window range</li>
+</ul>
+<p>When the mouse cursor is over entries (left pane):</p>
+<ul>
+<li>-: Collapse selected entry</li>
+<li>+: Expand selected entry</li>
+<li>*: Expand selected entry to the level with at least one collapsed entry</li>
+<li>-: Collapse selected entry</li>
+<li>+: Expand selected entry</li>
+<li>*: Expand selected entry to the level with at least one collapsed entry</li>
+</ul>
+<p>Please note that the behavior of some shortcuts can slightly differ based on the operating system.</p>
+<p>When the selection indicators are changed, all the other views aresynchronized. For example, theEvents Editorwill show the event matching the current time indicator. The reverse behaviour is also implemented: selecting an event within the Events View will update the Control Flow View current time indicator.</p>
+<h4 id="incomplete-regions"><a class="header" href="#incomplete-regions">Incomplete regions</a></h4>
+<p>You'll noticesmall dotsover the colored bars at some places:</p>
+<p>Those dots mean the underlying region isincomplete: there's not enough pixels to view all the events. In other words, you have to zoom in.</p>
+<p>When zooming in, small dots start to disappear:</p>
+<p>When no dots are left, you are viewingall the events and stateswithin that region.</p>
+<h4 id="zoom-region"><a class="header" href="#zoom-region">Zoom region</a></h4>
+<p>To zoom in on a specific region,right-click and dragin order to draw a time range:</p>
+<p>The states flow horizontal space will only show the selected region.</p>
+<h4 id="tooltips"><a class="header" href="#tooltips">Tooltips</a></h4>
+<p>Hover the cursor over a colored bar and atooltipwill pop up:</p>
+<p>The tooltip indicates:</p>
+<ul>
+<li>the process name</li>
+<li>the pointed state name</li>
+<li>the CPU (if applicable)</li>
+<li>the system call name (if applicable)</li>
+<li>the pointed state date and start/stop times</li>
+<li>the pointed state duration (seconds)</li>
+<li>the process name</li>
+<li>the pointed state name</li>
+<li>the CPU (if applicable)</li>
+<li>the system call name (if applicable)</li>
+<li>the pointed state date and start/stop times</li>
+<li>the pointed state duration (seconds)</li>
+</ul>
+<p>A browser based tooltip is available that allows users to use hyperlink navigation or to copy text. To enable the feature select</p>
+<p>Window-&gt;Preferences-&gt;Tracingthen checkingUse browser based tooltips. It is known to be unstable on older platforms, if this instability is encountered, please submit your bug here:https://bugs.eclipse.org/bugs/show_bug.cgi?id=547563</p>
+<h4 id="dynamics-filters"><a class="header" href="#dynamics-filters">Dynamics Filters</a></h4>
+<p>Dynamic filters are filters that are processed and applied each time the control flow view visible time range changes.</p>
+<p>The dynamics filters can be rapidly toggled in their view sub menu.</p>
+<p>The dynamics filters  can be fine tuned in the configuration dialog.</p>
+<p>Note: Dynamic filters can induce performance degradation.</p>
+<h5 id="show-active-threads-only"><a class="header" href="#show-active-threads-only">Show Active Threads Only</a></h5>
+<p>The Show Active Threads Only filter allow a user to increase the signal to noise ratio by filtering out allinactivethreads.</p>
+<p>A thread is considered inactive when it is in the following state:</p>
+<ul>
+<li>non-existing</li>
+<li>unknown</li>
+<li>wait and blocked</li>
+<li>wait and unknown</li>
+<li>non-existing</li>
+<li>unknown</li>
+<li>wait and blocked</li>
+<li>wait and unknown</li>
+</ul>
+<p>A user can fine tune this filter by providing ranges of CPUs allowing the filter to only show active thread running on the specified CPUs.</p>
+<h3 id="toolbar"><a class="header" href="#toolbar">Toolbar</a></h3>
+<p>The Control Flow Viewtoolbar, located at the top right of the view, has shortcut buttons to perform common actions:</p>
+<p>View Menu</p>
+<h3 id="marker-axis"><a class="header" href="#marker-axis">Marker Axis</a></h3>
+<p>The marker axis is visible only when at least one marker category with markers for the current trace is shown.</p>
+<p>The marker axis displays one row per marker category. Each marker's time range and/or label (if applicable) are drawn on the marker axis.</p>
+<p>Clicking on any marker's time range or label will set the current time selection to the marker's time or time range. Shift-clicking will extend the current time selection to include the marker's time or time range.</p>
+<p>Clicking on the "X" icon to the left of the marker category name will hide this marker category from the time graph. It can be shown again using the correspondingShow Markersmenu item in the view menu.</p>
+<p>The marker axis can be collapsed and expanded by clicking on the icon at the top left of the marker axis. The marker axis can be completely removed by hiding all available marker categories.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../LTTng_Kernel_Analysis/LTTng_Kernel_Perspective/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../LTTng_Kernel_Analysis/Control_Flow_View/Process_tree_and_information/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../LTTng_Kernel_Analysis/LTTng_Kernel_Perspective/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../LTTng_Kernel_Analysis/Control_Flow_View/Process_tree_and_information/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

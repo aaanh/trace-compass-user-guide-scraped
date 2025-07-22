@@ -1,0 +1,676 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>LTTng Tracer Control - Trace Compass User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Trace Compass User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="lttng-tracer-control"><a class="header" href="#lttng-tracer-control">LTTng Tracer Control</a></h1>
+<p>The LTTng Tracer Control in Eclipse for the LTTng Tracer toolchain version v2.0 (or later) is done using SSH and requires an SSH server to be running on the remote host. For the SSH connection the SSH implementation of Remote Services is used. The functions to control the LTTng tracer (e.g. start and stop), either locally or remotely, are available from a dedicated Control View.</p>
+<p>In the following sections the LTTng 2.0 tracer control integration in Eclipse is described. Please refer to the LTTng 2.0 tracer control command line manual for more details and descriptions about all commands and their command line parametersReferences.</p>
+<h2 id="control-view"><a class="header" href="#control-view">Control View</a></h2>
+<p>To open the Control View, select'Window-&gt;Show View-&gt;Other...-&gt;LTTng-&gt;Control View.</p>
+<h3 id="creating-a-new-connection-to-a-remote-host"><a class="header" href="#creating-a-new-connection-to-a-remote-host">Creating a New Connection to a Remote Host</a></h3>
+<p>To connect to a remote host, select theNew Connectionbutton in the Control View.</p>
+<p>A new dialog is opened for selecting a remote connection. You can also edit or define a remote connection from here.</p>
+<p>To define a new remote host using the default SSH service, selectBuit-in SSHand then selectCreate.... This will start the standardNew Connectionwizard provided by the Remote Services plugin. Similar, to edit the definition of a remote connection, selectEdit...and use theEdit Connectionwizard provided by the SSH service. In case you have installed an additional adapter for the Remote Services, you can choose to define a remote connection based on this adapter.</p>
+<p>To use an existing connection definition, select the relevant entry in the tree and then selectOk.</p>
+<p>A new display will show for providing the user name and password. This display only opens if no password had been saved before. Enter user name and password in thePassword Requireddialog box and selectOk.</p>
+<p>After pressingOkthe SSH connection will be established and after successful login the Control View implementation retrieves the LTTng Tracer Control information. This information will be displayed in the Control View in form of a tree structure.</p>
+<p>The top level tree node is the representation of the remote connection (host). The connection name of the connection will be displayed. Depending on the connection state different icons are displayed. If the node isCONNECTEDthe icon is shown, otherwise (statesCONNECTING,DISCONNNECTINGorDISCONNECTEDthe icon is.</p>
+<p>Under the host level two folder groups are located. The first one is theProvidergroup. The second one is theSessionsgroup.</p>
+<p>Under theProvidergroup all trace providers are displayed. Trace providers areKerneland any user space application that supports UST tracing. Under each provider a corresponding list of events are displayed.</p>
+<p>Under theSessionsgroup all current sessions will be shown. The level under the sessions show the configured domains. Currently the LTTng Tracer Toolchain supports domainKernel,UST global,JUL,Log4jandPython. Under the domainsKernelandUST Globalthe configured channels will be displayed. The last level is under the channels where the configured events are displayed.</p>
+<p>Each session can beACTIVEorINACTIVE. Active means that tracing has been started, inactive means that the tracing has been stopped. Depending on the state of a session a different icon is displayed. The icon for an active session is. The icon for an inactive session is.</p>
+<p>Each channel can beENABLEDorDISABLED. An enabled channel means that all configured events of that channel will be traced and a disabled channel won't trace any of its configured events. Different icons are displayed depending on the state of the channel. The icon for an enabled channel isand the icon for a disabled channel is.</p>
+<p>Events within a channel can be in stateENABLEDorDISABLED. Enabled events are stored in the trace when passed during program execution. Disabled events on the other hand won't be traced. Depending on the state of the event the icons for the event is different. An enabled event has the iconand a disabled event the icon.</p>
+<h3 id="disconnecting-from-a-remote-host"><a class="header" href="#disconnecting-from-a-remote-host">Disconnecting from a Remote Host</a></h3>
+<p>To disconnect from a remote host, select the host in the Control View and press theDisconnectbutton. Alternatively, press the right mouse button. A context-sensitive menu will show. Select theDisconnectbutton.</p>
+<h3 id="connecting-to-a-remote-host"><a class="header" href="#connecting-to-a-remote-host">Connecting to a Remote Host</a></h3>
+<p>To connect to a remote host, select the host in the Control View and press theConnectbutton. Alternatively, press the right mouse button. A context-sensitive menu will show. Select theConnectbutton. This will start the connection process as discribed inCreating a New Connection to a Remote Host.</p>
+<h3 id="deleting-to-a-remote-host-connection"><a class="header" href="#deleting-to-a-remote-host-connection">Deleting to a Remote Host Connection</a></h3>
+<p>To delete a remote host connection, select the host in the Control View and press theDeletebutton. Alternatively, press the right mouse button. A context-sensitive menu will show. Select theDeletebutton. For that command to be active the connection state has to beDISCONNECTEDand the trace has to be closed.</p>
+<h3 id="creating-a-tracing-session"><a class="header" href="#creating-a-tracing-session">Creating a Tracing Session</a></h3>
+<p>To create a tracing session, select the tree nodeSessionsand press the right mouse button. Then select theCreate Session...button of the context-sensitive menu.</p>
+<p>A dialog box will open for entering information about the session to be created.</p>
+<p>Fill in theSession Nameand optionally theSession Pathand pressOk. Upon successful operation a new session will be created and added under the tree nodeSessions.</p>
+<h3 id="creating-a-tracing-session-with-advanced-options"><a class="header" href="#creating-a-tracing-session-with-advanced-options">Creating a Tracing Session With Advanced Options</a></h3>
+<p>LTTng Tools version v2.1.0 introduces the possibility to configure the trace output location at session creation time. The trace can be stored in the (tracer) local file system or can be transferred over the network.</p>
+<p>To create a tracing session and configure the trace output, open the trace session dialog as described in chapterCreating a Tracing Session. A dialog box will open for entering information about the session to be created.</p>
+<p>The buttonAdvanced &gt;&gt;&gt;will only show if the remote host has LTTng Tools v2.1.0 installed. To configure the trace output select theAdvanced &gt;&gt;&gt;button. The Dialog box will be shown new fields to configure the trace output location.</p>
+<p>By default, the buttonUse same protocol and address for data and controlis selected which allows to configure the sameProtocolandAddressfor both data URL and control URL.</p>
+<p>If buttonUse same protocol and address for data and controlis selected theProtocolcan benetfor the default network protocol which is TCP (IPv4),net6for the default network protocol which is TCP (IPv6) andfilefor the local file system. Fornetandnet6the port can be configured. Enter a value inPortfor data and control URL or keep them empty for the default port to be used. Usingfileas protocol no port can be configured and the text fields are disabled.</p>
+<p>If buttonUse same protocol and address for data and controlis not selected theProtocolcan benetfor the default network protocol which is TCP (IPv4),net6for the default network protocol which is TCP (IPv6),tcpfor the network protocol TCP (IPv4) andtcp6for the network protocol TCP (IPv6). Note that fornetandnet6always the default port is used and hence the port text fields are disabled. To configure non-default ports usetcportcp6.</p>
+<p>The text fieldTrace Pathallows for specifying the path relative to the location defined by therelaydor relative to the location specified by theAddresswhen using protocolfile. For more information about therelaydseeLTTng relayd User Manualin chapterReferences.</p>
+<p>To create a session with advanced options, fill in the relevant parameters and pressOk. Upon successful operation a new session will be created and added under the tree nodeSessions.</p>
+<h3 id="creating-a-snapshot-tracing-session"><a class="header" href="#creating-a-snapshot-tracing-session">Creating a Snapshot Tracing Session</a></h3>
+<p>LTTng Tools version v2.3.0 introduces the possibility to create snapshot tracing sessions. After starting tracing the trace events are not stored on disk or over the network. They are only transfered to disk or over the network when the user records a snapshot. To create such a snapshot session, open the trace session dialog as described in chapterCreating a Tracing Session.</p>
+<p>Fill in all necessary information, select the radio button forSnapshot Modeand pressOk. By default, the location for the snapshot output will be on the host where the host is located.</p>
+<p>Refer to chapterRecording a Snapshotfor how to create a snapshot.</p>
+<h3 id="enabling-channels---general"><a class="header" href="#enabling-channels---general">Enabling Channels - General</a></h3>
+<p>Enabling channels can be done using a session tree node when the domain hasn't be created in the session or, alternatively on a domain tree node of a session in case the domain is already available.</p>
+<h3 id="enabling-channels-on-session-level"><a class="header" href="#enabling-channels-on-session-level">Enabling Channels On Session Level</a></h3>
+<p>To enable a channel, select the tree node of the relevant session and press the right mouse button. Then select theEnable Channel...button of the context-sensitive menu.</p>
+<p>A dialog box will open for entering information about the channel to be created.</p>
+<p>By default the domainKernelis selected. To create a UST channel, selectUSTunder the domain section. The label <Default> in any text box indicates that the default value of the tracer will be configured. To initialize the dialog box press buttonDefault.</p>
+<p>Note: You cannot create a channel under theJUL,LOG4JandPythondomain. Instead those domains uses a default channel under theUST globaldomain namedlttng_jul_channel,lttng_log4j_channelorlttng_python_channel. Those are the channels that LTTng uses to trace Java or Python application and you cannot addUSTevents to those channels.</p>
+<p>If required update the following channel information and then pressOk.</p>
+<ul>
+<li>Channel Name: The name of the channel.</li>
+<li>Sub Buffer size: The size of the sub-buffers of the channel (in bytes).</li>
+<li>Number of Sub Buffers: The number of sub-buffers of the channel.</li>
+<li>Switch Timer Interval: The switch timer interval.</li>
+<li>Read Timer Interval: The read timer interval.</li>
+<li>Discard Mode:Overwriteevents in buffer orDiscardnew events when buffer is full.</li>
+<li>Channel Name: The name of the channel.</li>
+<li>Sub Buffer size: The size of the sub-buffers of the channel (in bytes).</li>
+<li>Number of Sub Buffers: The number of sub-buffers of the channel.</li>
+<li>Switch Timer Interval: The switch timer interval.</li>
+<li>Read Timer Interval: The read timer interval.</li>
+<li>Discard Mode:Overwriteevents in buffer orDiscardnew events when buffer is full.</li>
+</ul>
+<p>Upon successful operation, the requested domain will be created under the session tree node as well as the requested channel will be added under the domain. The channel will beENABLED.</p>
+<h3 id="configuring-trace-file-rotation"><a class="header" href="#configuring-trace-file-rotation">Configuring Trace File Rotation</a></h3>
+<p>Since LTTng Tools v2.2.0 it is possible to set the maximum size of trace files and the maximum number of them. These options are located in the same dialog box that is used for enabling channels.</p>
+<ul>
+<li>Maximum size of trace files: The maximum size of trace files</li>
+<li>Maximum number of trace files: The maximum number of trace files</li>
+<li>Maximum size of trace files: The maximum size of trace files</li>
+<li>Maximum number of trace files: The maximum number of trace files</li>
+</ul>
+<h3 id="configuring-per-uid-and-per-pid-buffers-ust-only"><a class="header" href="#configuring-per-uid-and-per-pid-buffers-ust-only">Configuring per UID and per PID Buffers (UST only)</a></h3>
+<p>Since LTTng Tools v2.2.0 it is possible to configure the type of buffers forUSTapplication. It is now possible to choose between perUIDbuffers (per user ID) and perPIDbuffers (per process ID) using the dialog box for enabling channels.</p>
+<ul>
+<li>Per PID buffers: To activate the per PID buffers option for UST channels</li>
+<li>Per UID buffers: To activate the per UID buffers option for UST channels</li>
+<li>Per PID buffers: To activate the per PID buffers option for UST channels</li>
+<li>Per UID buffers: To activate the per UID buffers option for UST channels</li>
+</ul>
+<p>If no buffer type is selected then the default value of the tracer will be configured.</p>
+<p>Note thatGlobal shared buffersis only for kernel channel and is pre-selected whenKernelis selected in the dalog box.</p>
+<h3 id="configuring-periodical-flush-for-metadata-channel"><a class="header" href="#configuring-periodical-flush-for-metadata-channel">Configuring Periodical Flush for metadata Channel</a></h3>
+<p>Since LTTng Tools v2.2.0 it is possible to configure periodical flush for the metadata channel. To set this, use the checkboxConfigure metadata channelthen fill the switch timer interval.</p>
+<h3 id="enabling-channels-on-domain-level"><a class="header" href="#enabling-channels-on-domain-level">Enabling Channels On Domain Level</a></h3>
+<p>Once a domain is available, channels can be enabled directly using the domain. To enable a channel under an existing domain, select the tree node of the relevant domain and press the right mouse button. Then select theEnable Channel...button of the context-sensitive menu.</p>
+<p>The dialog box for enabling channel will open for entering information about the channel to be created. Note that the domain is pre-selected and cannot be changed. Fill the relevant information and pressOk.</p>
+<h3 id="enabling-and-disabling-channels"><a class="header" href="#enabling-and-disabling-channels">Enabling and Disabling Channels</a></h3>
+<p>To disable one or more enabled channels, select the tree nodes of the relevant channels and press the right mouse button. Then select theDisable Channelmenu item of the context-sensitive menu.</p>
+<p>Upon successful operation, the selected channels will beDISABLEDand the icons for the channels will be updated.</p>
+<p>To enable one or more disabled channels, select the tree nodes of the relevant channels and press the right mouse button. Then select theEnable Channelmenu item of the context-sensitive menu.</p>
+<p>Upon successful operation, the selected channels will beENABLEDand the icons for the channels will be updated.</p>
+<h3 id="enabling-events---general"><a class="header" href="#enabling-events---general">Enabling Events - General</a></h3>
+<p>Enabling events can be done using different levels in the tree node. It can be done on the session, domain level and channel level. For the case of session or domain, i.e. when no specific channels is assigned then enabling of events is done on the default channel with the namechannel0which created, if not already exists, by the LTTng tracer control on the server side.</p>
+<h3 id="enabling-kernel-events-on-session-level"><a class="header" href="#enabling-kernel-events-on-session-level">Enabling Kernel Events On Session Level</a></h3>
+<p>To enable events, select the tree node of the relevant session and press the right mouse button. Then select theEnable Event (default channel)...button of the context-sensitive menu.</p>
+<p>A dialog box will open for entering information about events to be enabled.</p>
+<p>By default the domainKernelis selected and the kernel specific data sections are created. From this dialog box kernelTracepointevents,System calls (Syscall), aDynamic Probeor aDynamic Function entry/returnprobe can be enabled. Note that events of one of these types at a time can be enabled.</p>
+<p>To enable allTracepointsand allSystem calls (Syscall), select the buttonSelectof sectionAll Tracepoint Events and Syscallsand pressOk.</p>
+<p>Upon successful operation, the domainKernelwill be created in the tree (if neccessary), the default channel with name "channel0" will be added under the domain (if necessary) as well as all a wildcard event<em>of typeTRACEPOINTunder the channel and a wildcard event</em>of typeSYSCALL. The channel and events will beENABLED.</p>
+<p>To enableTracepointevents, first select the correspondingSelectbutton, then select either all tracepoins (selectAll) or select selectively one or more tracepoints in the displayed tree of tracepoints. You can also enter directly the name of the events you want to enable (comma separated list and wildcards are supported). Finally pressOk.</p>
+<p>Upon successful operation, the domainKernelwill be created in the tree (if neccessary), the default channel with name "channel0" will be added under the domain (if necessary) as well as all requested events of typeTRACEPOINTunder the channel. The channel and events will beENABLED.</p>
+<p>To enableSyscallevents, first select the correspondingSelectbutton, then select either all syscalls (selectAll) or select selectively one or more syscalls in the displayed tree of syscalls. You can also enter directly the name of the events you want to enable (comma separated list and wildcards are supported). Finally pressOk.</p>
+<p>Upon successful operation, the domainKernelwill be created in the tree (if neccessary), the default channel with name "channel0" will be added under the domain (if necessary) as well as all requested events of typeSYSCALLunder the channel. The channel and events will beENABLED.</p>
+<p>To enable aDynamic Probeevent, select the correspondingSelectbutton, fill theEvent NameandProbefields and pressOk. Note that the probe can be an address, symbol or a symbol+offset where the address and offset can be octal (0NNN...), decimal (NNN...) or hexadecimal (0xNNN...).</p>
+<p>Upon successful operation, the dynamic probe event with the given name and event typePROBEwill be added under the default channel (channel0). If necessary the domainKerneland the channelchannel0will be created.</p>
+<p>To enable aDynamic Function entry/return Probeevent, select the correspondingSelectbutton, fill theEvent NameandFunctionfields and pressOk. Note that the funtion probe can be an address, symbol or a symbol+offset where the address and offset can be octal (0NNN...), decimal (NNN...) or hexadecimal (0xNNN...).</p>
+<p>Upon successful operation, the dynamic function probe event with the given name and event typePROBEwill be added under the default channel (channel0). If necessary the domainKerneland the channelchannel0will be created.</p>
+<h3 id="enabling-ust-events-on-session-level"><a class="header" href="#enabling-ust-events-on-session-level">Enabling UST Events On Session Level</a></h3>
+<p>For enabling UST events, first open the enable events dialog as described in sectionEnabling Kernel Events On Session Leveland select domainUST.</p>
+<p>To enableTracepointevents, first select the correspondingSelectbutton, then select either all tracepoins (selectAll) or select selectively one or more tracepoints in the displayed tree of tracepoints and finally pressOk.</p>
+<p>Upon successful operation, the domainUST globalwill be created in the tree (if neccessary), the default channel with name "channel0" will be added under the domain (if necessary) as well as all requested events under the channel. The channel and events will beENABLED. Note that for the case thatAlltracepoints were selected the wildcard*is used which will be shown in the Control View as below.</p>
+<p>For UST it is possible to enableTracepointevents using a wildcard. To enableTracepointevents with a wildcard, select first the correspondingSelectbutton, fill theWildcardfield and pressOk.</p>
+<p>Upon successful operation, the event with the given wildcard and event typeTRACEPOINTwill be added under the default channel (channel0). If necessary the domainUST globaland the channelchannel0will be created.</p>
+<p>When enablingTracepointwith wildcard, it is possible to specify event(s) (comma separated list) that we want toexcludefrom that wildcard selection. ToexcludeTracepointevents, check the correspondingSelectcheck box, fill theEvent Namesfield and pressOk.</p>
+<p>For UST it is possible to enableTracepointevents using log levels. To enableTracepointevents using log levels, select first the correspondingSelectbutton, select a log level from the drop down menu, fill in the relevant information (see below) and pressOk.</p>
+<ul>
+<li>Event Name: Name to display</li>
+<li>loglevel: To specify if a range of log levels (0 to selected log level) shall be configured</li>
+<li>loglevel-only: To specify that only the specified log level shall be configured</li>
+<li>Event Name: Name to display</li>
+<li>loglevel: To specify if a range of log levels (0 to selected log level) shall be configured</li>
+<li>loglevel-only: To specify that only the specified log level shall be configured</li>
+</ul>
+<p>Upon successful operation, the event with the given event name and event typeTRACEPOINTwill be added under the default channel (channel0). If necessary the domainUST globaland the channelchannel0will be created.</p>
+<h3 id="enabling-jul-events-on-session-level"><a class="header" href="#enabling-jul-events-on-session-level">Enabling JUL Events On Session Level</a></h3>
+<p>For enabling JUL loggers, first open the enable events dialog as described in sectionEnabling Kernel Events On Session Leveland select domainJUL.</p>
+<p>To enableLoggers, first select the correspondingSelectbutton, then select either all loggers (selectAll) or select selectively one or more loggers in the displayed tree of loggers and finally pressOk.</p>
+<p>Upon successful operation, the domainJULwill be created in the tree (if neccessary). With JUL loggers there is no channel, you see the enabled loggers directly under theJULdomain. Note that for the case thatAllloggers were selected the wildcard*is used which will be shown in the Control View as below.</p>
+<p>For JUL it is possible to enableLoggerevents using log levels. To enableLoggerevents using log levels, check the correspondingSelectbutton, select a log level from the drop down menu, fill in the relevant information (see below) and pressOk.</p>
+<ul>
+<li>loglevel: To specify if a range of log levels (0 to selected log level) shall be configured</li>
+<li>loglevel-only: To specify that only the specified log level shall be configured</li>
+<li>loglevel: To specify if a range of log levels (0 to selected log level) shall be configured</li>
+<li>loglevel-only: To specify that only the specified log level shall be configured</li>
+</ul>
+<h3 id="enabling-log4j-events-on-session-level"><a class="header" href="#enabling-log4j-events-on-session-level">Enabling LOG4J Events On Session Level</a></h3>
+<p>For enabling LOG4J loggers, first open the enable events dialog as described in sectionEnabling JUL Events On Session Leveland select domainLOG4J.</p>
+<p>To enableLoggers, first select the correspondingSelectbutton, then select either all loggers (selectAll) or select selectively one or more loggers in the displayed tree of loggers and finally pressOk.</p>
+<p>Upon successful operation, the domainLOG4Jwill be created in the tree (if neccessary). With LOG4J loggers there is no channel, you see the enabled loggers directly under theLOG4Jdomain. Note that for the case thatAllloggers were selected the wildcard*is used which will be shown in the Control View as below.</p>
+<p>For LOG4J it is possible to enableLoggerevents using log levels. To enableLoggerevents using log levels, check the correspondingSelectbutton, select a log level from the drop down menu, fill in the relevant information (see below) and pressOk.</p>
+<ul>
+<li>loglevel: To specify if a range of log levels (0 to selected log level) shall be configured</li>
+<li>loglevel-only: To specify that only the specified log level shall be configured</li>
+<li>loglevel: To specify if a range of log levels (0 to selected log level) shall be configured</li>
+<li>loglevel-only: To specify that only the specified log level shall be configured</li>
+</ul>
+<h3 id="enabling-python-events-on-session-level"><a class="header" href="#enabling-python-events-on-session-level">Enabling Python Events On Session Level</a></h3>
+<p>For enabling Python loggers, first open the enable events dialog as described in sectionEnabling JUL Events On Session Leveland select domainPython.</p>
+<p>To enableLoggers, first select the correspondingSelectbutton, then select either all loggers (selectAll) or select selectively one or more loggers in the displayed tree of loggers. You can also enter the name of your logger in the text field. Finally pressOk.</p>
+<p>Upon successful operation, the domainPythonwill be created in the tree (if neccessary). With Python loggers there is no channel, you see the enabled loggers directly under thePythondomain. Note that for the case thatAllloggers were selected the wildcard*is used which will be shown in the Control View as below.</p>
+<p>For Python it is possible to enableLoggerevents using log levels. To enableLoggerevents using log levels, check the correspondingSelectbutton, select a log level from the drop down menu, fill in the relevant information (see below) and pressOk.</p>
+<ul>
+<li>loglevel: To specify if a range of log levels (0 to selected log level) shall be configured</li>
+<li>loglevel-only: To specify that only the specified log level shall be configured</li>
+<li>loglevel: To specify if a range of log levels (0 to selected log level) shall be configured</li>
+<li>loglevel-only: To specify that only the specified log level shall be configured</li>
+</ul>
+<h3 id="enabling-events-on-domain-level"><a class="header" href="#enabling-events-on-domain-level">Enabling Events On Domain Level</a></h3>
+<p>Kernel events can also be enabled on the domain level. For that select the relevant domain tree node, click the right mouse button and the selectEnable Event (default channel).... A new dialog box will open for providing information about the events to be enabled. Depending on the domain,Kernel,UST global,JUL,LOG4JorPython, the domain specific fields are shown and the domain selector is preselected and read-only.</p>
+<p>Instructions for enalbing events for a particular domain can be found here:</p>
+<ul>
+<li>Kerneldomain:Enabling Kernel Events On Session Level</li>
+<li>UST globaldomain:Enabling UST Events On Session Level</li>
+<li>JULdomain:Enabling JUL Events On Session Level</li>
+<li>LOG4Jdomain:Enabling LOG4J Events On Session Level</li>
+<li>Pythondomain:Enabling Python Events On Session Level</li>
+<li>Kerneldomain:Enabling Kernel Events On Session Level</li>
+<li>UST globaldomain:Enabling UST Events On Session Level</li>
+<li>JULdomain:Enabling JUL Events On Session Level</li>
+<li>LOG4Jdomain:Enabling LOG4J Events On Session Level</li>
+<li>Pythondomain:Enabling Python Events On Session Level</li>
+</ul>
+<p>The events will be added to the default channelchannel0. This channel will be created by on the server side if necessary.</p>
+<h3 id="enabling-events-on-channel-level"><a class="header" href="#enabling-events-on-channel-level">Enabling Events On Channel Level</a></h3>
+<p>Kernel events can also be enabled on the channel level. If necessary, create a channel as described in sectionsEnabling Channels On Session LevelorEnabling Channels On Domain Level.</p>
+<p>Then select the relevant channel tree node, click the right mouse button and the selectEnable Event.... A new dialog box will open for providing information about the events to be enabled. Depending on the domain,KernelorUST global, the domain specific fields are shown and the domain selector is preselected and read-only. Since there is no channel under theJUL,LOG4JorPythondomain you cannot enable those loggers directly from a channel.</p>
+<p>To enable events for domainKernelfollow the instructions in sectionEnabling Kernel Events On Session Level, for domainUST globalEnabling UST Events On Session Level.</p>
+<p>When enabling events on the channel level, the events will be add to the selected channel.</p>
+<h3 id="enabling-and-disabling-events"><a class="header" href="#enabling-and-disabling-events">Enabling and Disabling Events</a></h3>
+<p>To disable one or more enabled events, select the tree nodes of the relevant events and click the right mouse button. Then selectDisable Eventmenu item in the context-sensitive menu.</p>
+<p>Upon successful operation, the selected events will beDISABLEDand the icons for these events will be updated.</p>
+<p>To enable one or more disabled events, select the tree nodes of the relevant events and press the right mouse button. Then select theEnable Eventmenu item of the context-sensitive menu.</p>
+<p>Upon successful operation, the selected events will beENABLEDand the icons for these events will be updated.</p>
+<p>Note: There is currently a limitation for kernel event of typeSYSCALL. This kernel event can not be disabled. An error will appear when trying to disable this type of event. A work-around for that is to have the syscall event in a separate channel and disable the channel instead of the event.</p>
+<h3 id="enabling-tracepoint-events-from-provider"><a class="header" href="#enabling-tracepoint-events-from-provider">Enabling Tracepoint Events From Provider</a></h3>
+<p>It is possible to enable events of typeTracepointdirectly from the providers and assign the enabled event to a session and channel. Before doing that a session has to be created as described in sectionCreating a Tracing Session. Also, if other than default channelchannel0is required, create a channel as described in sectionsEnabling Channels On Session LevelorEnabling Channels On Domain Level.</p>
+<p>To assign tracepoint events to a session and channel, select the events to be enabled under the provider (e.g. providerKernel), click right mouse button and then selectEnable Event...menu item from the context sensitive menu.</p>
+<p>A new display will open for defining the session and channel.</p>
+<p>Select a session from theSession Listdrop-down menu, a channel from theChannel Listdrop-down menu and the pressOk. Upon successful operation, the selected events will be added to the selected session and channel of the domain that the selected provider belongs to. In case that there was no channel available, the domain and the default channelchannel0will be created for corresponding session. The newly added events will beENABLED.</p>
+<h3 id="configuring-filter-expression-when-enabling-events"><a class="header" href="#configuring-filter-expression-when-enabling-events">Configuring Filter Expression When Enabling Events</a></h3>
+<p>It is possible to provide a filter expression when enabling events for UST or Kernel. This feature has been available for UST since LTTng v2.1.0 and for Kernel since v2.7.0. To configure a filter expression, open the enable event dialog as described in previous chaptersEnabling UST Events On Session Level,Enabling Kernel Events On Session Level,Enabling Events On Domain LevelorEnabling Events On Channel Level. Then configure the relevant events and enter the filter expression in theFilter Expressiontext field.</p>
+<p>Alternatively, open the dialog box for assigning events to a session and channel described inEnabling Tracepoint Events From Providerand enter the filter expression in theFilter Expressiontext field.</p>
+<p>For the syntax of the filter expression refer to theLTTng Tracer Control Command Line Tool User Manualof chapterReferences.</p>
+<h3 id="adding-contexts-to-channels-and-events-of-a-domain"><a class="header" href="#adding-contexts-to-channels-and-events-of-a-domain">Adding Contexts to Channels and Events of a Domain</a></h3>
+<p>It is possible to add contexts to channels and events. Adding contexts on channels and events from the domain level, will enable the specified contexts to all channels of the domain and all their events. To add contexts on the domain level, select a domain, click right mouse button on a domain tree node (e.g. providerKernel) and select the menu itemAdd Context...from the context-sensitive menu.</p>
+<p>A new display will open for selecting one or more contexts to add.</p>
+<p>The tree shows all available context that can be added. Select one or more context and the pressOk. Upon successful operation, the selected context will be added to all channels and their events of the selected domain.</p>
+<p>Note: The LTTng UST tracer only supports  contextsprocname,pthread_id,vpidvtid. Adding any other contexts in the UST domina will fail.</p>
+<h3 id="adding-contexts-to-all-events-of-a-channel"><a class="header" href="#adding-contexts-to-all-events-of-a-channel">Adding Contexts to All Events of a Channel</a></h3>
+<p>Adding contexts on channels and events from the channel level, will enable the specified contexts to all events of the selected channel. To add contexts on the channel level, select a channel, click right mouse button on a channel tree node and select the menu itemAdd Context...from the context-sensitive menu.</p>
+<p>A new display will open for selecting one or more contexts to add. Select one or more contexts as described in chapterAdding Contexts to Channels and Events of a Domain. Upon successful operation, the selected context will be added to all channels and their events of the selected domain.Notethat the LTTng 2.0 tracer control on the remote host doesn't provide a way to retrieve added contexts. Hence it's not possible to display the context information in the GUI.</p>
+<h3 id="adding-contexts-to-an-event-of-a-specific-channel"><a class="header" href="#adding-contexts-to-an-event-of-a-specific-channel">Adding Contexts to an Event of a Specific Channel</a></h3>
+<p>Adding contexts to an event of a channel is only available in LTTng Tools versions v2.0.0-2.1.x. The menu option won't be visible for LTTng Tools version v2.2.0 or later. To add contexts on an event select an event of a channel, click right mouse button on the corresponding event tree node and select the menu itemAdd Context...from the context-sensitive menu.</p>
+<p>A new display will open for selecting one or more contexts to add. Select one or more contexts as described in chapterAdding Contexts to Channels and Events of a Domain. Upon successful operation, the selected context will be added to the selected event.</p>
+<h3 id="start-tracing"><a class="header" href="#start-tracing">Start Tracing</a></h3>
+<p>To start tracing, select one or more sessions to start in the Control View and press theStartbutton. Alternatively, press the right mouse button on the session tree nodes. A context-sensitive menu will show. Then select theStartmenu item.</p>
+<p>Upon successful operation, the tracing session will beACTIVEand the icon of the session will be updated.</p>
+<h3 id="recording-a-snapshot"><a class="header" href="#recording-a-snapshot">Recording a Snapshot</a></h3>
+<p>LTTng Tools version v2.3.0 introduces the possibility to create snapshot tracing sessions. After creating a snapshot session (seeCreating a Snapshot Tracing Session) and starting tracing (seeStart Tracing) it possible to record snapshots. To record a snapshot select one or more sessions and press theRecord Snapshotbutton. Alternatively, press the right mouse button on the session tree nodes. A context-sensitive menu will show. Then select theRecored Snapshotmenu item.</p>
+<p>This action can be executed many times. It is possible to import the recorded snpshots to a tracing project. The trace session might beACTIVEorINACTIVEfor that. Refer to sectionImporting Session Traces to a Tracing Projecton how to import a trace to a tracing project.</p>
+<h3 id="stop-tracing"><a class="header" href="#stop-tracing">Stop Tracing</a></h3>
+<p>To stop tracing, select one or more sessions to stop in the Control View and press theStopbutton. Alternatively, click the right mouse button on the session tree node. A context-sensitive menu will show. Then select theStopmenu item.</p>
+<p>Upon successful operation, the tracing session will beINACTIVEand the icon of the session will be updated.</p>
+<h3 id="destroying-a-tracing-session"><a class="header" href="#destroying-a-tracing-session">Destroying a Tracing Session</a></h3>
+<p>To destroy a tracing session, select one or more sessions to destroy in the Control View and press theDestroybutton. Alternatively, click the right mouse button on the session tree node. A context-sensitive menu will show. Then select theDestroy...menu item. Note that the session has to beINACTIVEfor this operation.</p>
+<p>A confirmation dialog box will open. Click onOkto destroy the session otherwise click onCancel.</p>
+<p>Upon successful operation, the tracing session will be destroyed and removed from the tree.</p>
+<h3 id="refreshing-the-node-information"><a class="header" href="#refreshing-the-node-information">Refreshing the Node Information</a></h3>
+<p>To refresh the remote host information, select any node in the tree of the Control View and press theRefreshbutton. Alternatively, click the right mouse button on any tree node. A context-sensitive menu will show. Then select theRefreshmenu item.</p>
+<p>Upon successful operation, the tree in the Control View will be refreshed with the remote host configuration.</p>
+<h3 id="importing-session-traces-to-a-tracing-project"><a class="header" href="#importing-session-traces-to-a-tracing-project">Importing Session Traces to a Tracing Project</a></h3>
+<p>To import traces from a tracing session, select the relevant session and click on theImportButton. Alternatively, click the right mouse button on the session tree node and select the menu itemImport...from the context-sensitive menu.</p>
+<p>A new display will open for selecting the traces to import.</p>
+<p>By default all traces are selected. A default project with the nameRemoteis selected which will be created if necessary. Update the list of traces to be imported, if necessary, by selecting and deselecting the relevant traces in the tree viewer. Use buttonsSelect AllorDeselect Allto select or deselect all traces. Also if needed, change the tracing project from theAvailable Projectscombo box. The optionCreate Experimentwill create an experiment with all imported traces. By default, the experiment name is the session name. One can change the experiment name by typing a new name in the text box beside the option.</p>
+<p>Then press buttonFinish. Upon successful import operation the selected traces will be stored in theTracesdirectory of the specified tracing project. A directory with the connection name will be created under theTracesdirectory. Underneath that, the session directory structure as well as the trace names will be preserved in the destination tracing project. ForKerneltraces the trace typeLinux Kernel Traceand forUSTtraces the trace typeLTTng UST Tracewill be set. From theProject Explorerview, the trace can be analyzed further.</p>
+<p>Note: If a trace already exists with the same name in the destination directory, the user can choose to rename the imported trace, overwrite the original trace or skip the trace. When rename is chosen, a number is appended to the trace name, for example kernel becomes kernel(2).</p>
+<p>If one selectsRename All,Overwrite AllorSkip Allthe choice will be applied for all traces with a name conflict.</p>
+<h3 id="importing-network-traces-to-a-tracing-project"><a class="header" href="#importing-network-traces-to-a-tracing-project">Importing Network Traces to a Tracing Project</a></h3>
+<p>Since LTTng Tools v2.1.0 it is possible to store traces over the network. To import network traces, execute theImportaction as described in chapterImporting Session Traces to a Tracing Project. For network traces theImport Trace Wizardwill be displayed. Follow the instructions in chapterImportingto import the network traces of the current session.</p>
+<h3 id="saving-tracing-sessions"><a class="header" href="#saving-tracing-sessions">Saving Tracing Sessions</a></h3>
+<p>Since LTTng Tools v2.5.0 it is possible to save tracing sessions. The LTTng Tools command-line tool will save the sessions to XML files located by default in a subdirectory of the user's home directory. The Trace CompassControlview integration for this feature will also store this session profile file into the user's Trace Compass workspace. This will allow user's to re-use session profiles across remote nodes. To save one or more sessions, select the tree nodes of the relevant sessions and press the right mouse button. Then select theSave...entry of the context-sensitive menu.</p>
+<p>A new display will open for saving the sessions.</p>
+<p>By default theforcebutton is selected that will overwrite any conflicting session profile files on the remote node. Click onOkto save the session(s) otherwise click onCancel. Upon successful operation, the session profile files will be saved on the remote node and then will be downloaded to the user's Trace Compass workspace. In the case that a session XML file already exists in the workspace the user will be prompted to skip or overwrite the existing profile file.</p>
+<h3 id="loading-tracing-sessions"><a class="header" href="#loading-tracing-sessions">Loading Tracing Sessions</a></h3>
+<p>Since LTTng Tools v2.5.0 it is possible to load tracing sessions. The Trace CompassControlview integrations for this feature will allow to load session profiles that are located in the user's Trace Compass workspace, or alternatively, that are located on the remote node. In the first case the session profiles will be uploaded to the remote node before the load command is executed.</p>
+<p>To load one or more sessions, select the tree nodeSessionsand press the right mouse button. Then select theLoad...entry of the context-sensitive menu.</p>
+<p>A new display will open for loading session profiles.</p>
+<p>By default theLocalbutton andforcebuttons are selected and session profile files of the user's workspace will be listed. Select one or more profiles, update theforcebutton if needed and then clickOk. This will upload the session profile files to the remote node. If a session profile file with the same name already exist on the remote node, it will be overwritten. If theforcebutton is selected any existing session with a conflicting name will be destroyed and a new one will be created.</p>
+<p>Alternatively, one can select theRemotebutton to list all available session profile files on the remote node. To load one of the remote session profiles, select one or more profiles, update theforcebutton if needed and then clickOk.</p>
+<p>Upon successful operation, the tracing sessions of the selected session profiles are created and added under the tree nodeSessionstheControlview.</p>
+<h3 id="managing-tracing-session-profiles"><a class="header" href="#managing-tracing-session-profiles">Managing Tracing Session Profiles</a></h3>
+<p>TheLTTng Remote Profilespreference page is used to manage the list of LTTng session profiles that are stored in the user's Trace Compass workspace. To open the preference page, select theManage...button of theLoad Sessionsdialog described in chapterLoading Tracing Sessions. Alternatively, selectWindow -&gt; Preferencesfrom the top level menu and go toTracing -&gt; LTTng Remote Profiles.</p>
+<p>The following actions can be performed from this dialog:</p>
+<ul>
+<li>Delete</li>
+<li>Delete</li>
+</ul>
+<p>Select one or more LTTng session profiles from the list and click theDeletebutton to remove the profile from the Trace Compass workspace. The user will be prompted to confirm the deletion.</p>
+<ul>
+<li>Import...</li>
+<li>Import...</li>
+</ul>
+<p>Click theImport...button and select a file from the opened file dialog to import a session profile file. If the file name conflicts with an existing profile file, the user will be prompted to skip or overwrite the existing profile file.</p>
+<ul>
+<li>Export...</li>
+<li>Export...</li>
+</ul>
+<p>Select one or more session profile files from the list, click theExport...button and enter or select a directory in the opened directory dialog to export the profile files. If the file name conflicts with an existing profile file in the destination directory, the user will be prompted to skip or overwrite the existing profile file.</p>
+<h2 id="properties-view"><a class="header" href="#properties-view">Properties View</a></h2>
+<p>The Control View provides property information of selected tree component. Depending on the selected tree component different properties are displayed in the property view. For example, when selecting the node level the property view will be filled as followed:</p>
+<p>List of properties:</p>
+<ul>
+<li>HostPropertiesConnection Name: The alias name to be displayed in the Control View.Host Name: The IP address or DNS name of the remote system.State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).</li>
+<li>Connection Name: The alias name to be displayed in the Control View.</li>
+<li>Host Name: The IP address or DNS name of the remote system.</li>
+<li>State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).</li>
+<li>Kernel ProviderPropertiesProvider Name: The name of the provider.</li>
+<li>Provider Name: The name of the provider.</li>
+<li>UST ProviderPropertiesProvider Name: The name of the provider.Process ID: The process ID of the provider.</li>
+<li>Provider Name: The name of the provider.</li>
+<li>Process ID: The process ID of the provider.</li>
+<li>EventProperties (Provider)Event Name: The name of the event.Event Type: The event type (TRACEPOINTonly).Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)Log Level: The log level of the event.</li>
+<li>Event Name: The name of the event.</li>
+<li>Event Type: The event type (TRACEPOINTonly).</li>
+<li>Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)</li>
+<li>Log Level: The log level of the event.</li>
+<li>LoggerProperties (Provider)Logger Name: The name of the logger.Logger Type: The event type (TRACEPOINTonly).</li>
+<li>Logger Name: The name of the logger.</li>
+<li>Logger Type: The event type (TRACEPOINTonly).</li>
+<li>SessionPropertiesSession Name: The name of the Session.Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).State: The state of the session (ACTIVEorINACTIVE)Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).</li>
+<li>Session Name: The name of the Session.</li>
+<li>Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).</li>
+<li>State: The state of the session (ACTIVEorINACTIVE)</li>
+<li>Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).</li>
+<li>Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).</li>
+<li>Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).</li>
+<li>DomainPropertiesDomain Name: The name of the domain.Buffer Type: The buffer type of the domain.</li>
+<li>Domain Name: The name of the domain.</li>
+<li>Buffer Type: The buffer type of the domain.</li>
+<li>ChannelPropertiesChannel Name: The name of the channel.Number of Sub Buffers: The number of sub-buffers of the channel.Output type: The output type for the trace (e.g.splice()ormmap())Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)Read Timer Interval: The read timer interval.State: The channel state (ENABLEDorDISABLED)Sub Buffer size: The size of the sub-buffers of the channel (in bytes).Switch Timer Interval: The switch timer interval.Number of Discarded Events: The number of discarded events of the channel.Number of Lost Packets: The number of lost packets of the channel.</li>
+<li>Channel Name: The name of the channel.</li>
+<li>Number of Sub Buffers: The number of sub-buffers of the channel.</li>
+<li>Output type: The output type for the trace (e.g.splice()ormmap())</li>
+<li>Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)</li>
+<li>Read Timer Interval: The read timer interval.</li>
+<li>State: The channel state (ENABLEDorDISABLED)</li>
+<li>Sub Buffer size: The size of the sub-buffers of the channel (in bytes).</li>
+<li>Switch Timer Interval: The switch timer interval.</li>
+<li>Number of Discarded Events: The number of discarded events of the channel.</li>
+<li>Number of Lost Packets: The number of lost packets of the channel.</li>
+<li>EventProperties (Channel)Event Name: The name of the event.Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)State: The Event state (ENABLEDorDISABLED)Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)</li>
+<li>Event Name: The name of the event.</li>
+<li>Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).</li>
+<li>Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)</li>
+<li>State: The Event state (ENABLEDorDISABLED)</li>
+<li>Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)</li>
+<li>LoggerProperties (Domain)Logger Name: The name of the logger.Logger Type: The logger type (TRACEPOINT).Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)State: The logger state (ENABLEDorDISABLED)</li>
+<li>Logger Name: The name of the logger.</li>
+<li>Logger Type: The logger type (TRACEPOINT).</li>
+<li>Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)</li>
+<li>State: The logger state (ENABLEDorDISABLED)</li>
+<li>HostPropertiesConnection Name: The alias name to be displayed in the Control View.Host Name: The IP address or DNS name of the remote system.State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).</li>
+<li>Connection Name: The alias name to be displayed in the Control View.</li>
+<li>Host Name: The IP address or DNS name of the remote system.</li>
+<li>State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).</li>
+<li>Connection Name: The alias name to be displayed in the Control View.</li>
+<li>Host Name: The IP address or DNS name of the remote system.</li>
+<li>State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).</li>
+<li>Connection Name: The alias name to be displayed in the Control View.</li>
+<li>Host Name: The IP address or DNS name of the remote system.</li>
+<li>State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).</li>
+<li>Kernel ProviderPropertiesProvider Name: The name of the provider.</li>
+<li>Provider Name: The name of the provider.</li>
+<li>Provider Name: The name of the provider.</li>
+<li>Provider Name: The name of the provider.</li>
+<li>UST ProviderPropertiesProvider Name: The name of the provider.Process ID: The process ID of the provider.</li>
+<li>Provider Name: The name of the provider.</li>
+<li>Process ID: The process ID of the provider.</li>
+<li>Provider Name: The name of the provider.</li>
+<li>Process ID: The process ID of the provider.</li>
+<li>Provider Name: The name of the provider.</li>
+<li>Process ID: The process ID of the provider.</li>
+<li>EventProperties (Provider)Event Name: The name of the event.Event Type: The event type (TRACEPOINTonly).Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)Log Level: The log level of the event.</li>
+<li>Event Name: The name of the event.</li>
+<li>Event Type: The event type (TRACEPOINTonly).</li>
+<li>Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)</li>
+<li>Log Level: The log level of the event.</li>
+<li>Event Name: The name of the event.</li>
+<li>Event Type: The event type (TRACEPOINTonly).</li>
+<li>Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)</li>
+<li>Log Level: The log level of the event.</li>
+<li>Event Name: The name of the event.</li>
+<li>Event Type: The event type (TRACEPOINTonly).</li>
+<li>Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)</li>
+<li>Log Level: The log level of the event.</li>
+<li>LoggerProperties (Provider)Logger Name: The name of the logger.Logger Type: The event type (TRACEPOINTonly).</li>
+<li>Logger Name: The name of the logger.</li>
+<li>Logger Type: The event type (TRACEPOINTonly).</li>
+<li>Logger Name: The name of the logger.</li>
+<li>Logger Type: The event type (TRACEPOINTonly).</li>
+<li>Logger Name: The name of the logger.</li>
+<li>Logger Type: The event type (TRACEPOINTonly).</li>
+<li>SessionPropertiesSession Name: The name of the Session.Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).State: The state of the session (ACTIVEorINACTIVE)Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).</li>
+<li>Session Name: The name of the Session.</li>
+<li>Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).</li>
+<li>State: The state of the session (ACTIVEorINACTIVE)</li>
+<li>Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).</li>
+<li>Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).</li>
+<li>Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).</li>
+<li>Session Name: The name of the Session.</li>
+<li>Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).</li>
+<li>State: The state of the session (ACTIVEorINACTIVE)</li>
+<li>Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).</li>
+<li>Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).</li>
+<li>Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).</li>
+<li>Session Name: The name of the Session.</li>
+<li>Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).</li>
+<li>State: The state of the session (ACTIVEorINACTIVE)</li>
+<li>Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).</li>
+<li>Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).</li>
+<li>Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).</li>
+<li>DomainPropertiesDomain Name: The name of the domain.Buffer Type: The buffer type of the domain.</li>
+<li>Domain Name: The name of the domain.</li>
+<li>Buffer Type: The buffer type of the domain.</li>
+<li>Domain Name: The name of the domain.</li>
+<li>Buffer Type: The buffer type of the domain.</li>
+<li>Domain Name: The name of the domain.</li>
+<li>Buffer Type: The buffer type of the domain.</li>
+<li>ChannelPropertiesChannel Name: The name of the channel.Number of Sub Buffers: The number of sub-buffers of the channel.Output type: The output type for the trace (e.g.splice()ormmap())Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)Read Timer Interval: The read timer interval.State: The channel state (ENABLEDorDISABLED)Sub Buffer size: The size of the sub-buffers of the channel (in bytes).Switch Timer Interval: The switch timer interval.Number of Discarded Events: The number of discarded events of the channel.Number of Lost Packets: The number of lost packets of the channel.</li>
+<li>Channel Name: The name of the channel.</li>
+<li>Number of Sub Buffers: The number of sub-buffers of the channel.</li>
+<li>Output type: The output type for the trace (e.g.splice()ormmap())</li>
+<li>Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)</li>
+<li>Read Timer Interval: The read timer interval.</li>
+<li>State: The channel state (ENABLEDorDISABLED)</li>
+<li>Sub Buffer size: The size of the sub-buffers of the channel (in bytes).</li>
+<li>Switch Timer Interval: The switch timer interval.</li>
+<li>Number of Discarded Events: The number of discarded events of the channel.</li>
+<li>Number of Lost Packets: The number of lost packets of the channel.</li>
+<li>Channel Name: The name of the channel.</li>
+<li>Number of Sub Buffers: The number of sub-buffers of the channel.</li>
+<li>Output type: The output type for the trace (e.g.splice()ormmap())</li>
+<li>Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)</li>
+<li>Read Timer Interval: The read timer interval.</li>
+<li>State: The channel state (ENABLEDorDISABLED)</li>
+<li>Sub Buffer size: The size of the sub-buffers of the channel (in bytes).</li>
+<li>Switch Timer Interval: The switch timer interval.</li>
+<li>Number of Discarded Events: The number of discarded events of the channel.</li>
+<li>Number of Lost Packets: The number of lost packets of the channel.</li>
+<li>Channel Name: The name of the channel.</li>
+<li>Number of Sub Buffers: The number of sub-buffers of the channel.</li>
+<li>Output type: The output type for the trace (e.g.splice()ormmap())</li>
+<li>Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)</li>
+<li>Read Timer Interval: The read timer interval.</li>
+<li>State: The channel state (ENABLEDorDISABLED)</li>
+<li>Sub Buffer size: The size of the sub-buffers of the channel (in bytes).</li>
+<li>Switch Timer Interval: The switch timer interval.</li>
+<li>Number of Discarded Events: The number of discarded events of the channel.</li>
+<li>Number of Lost Packets: The number of lost packets of the channel.</li>
+<li>EventProperties (Channel)Event Name: The name of the event.Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)State: The Event state (ENABLEDorDISABLED)Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)</li>
+<li>Event Name: The name of the event.</li>
+<li>Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).</li>
+<li>Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)</li>
+<li>State: The Event state (ENABLEDorDISABLED)</li>
+<li>Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)</li>
+<li>Event Name: The name of the event.</li>
+<li>Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).</li>
+<li>Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)</li>
+<li>State: The Event state (ENABLEDorDISABLED)</li>
+<li>Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)</li>
+<li>Event Name: The name of the event.</li>
+<li>Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).</li>
+<li>Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)</li>
+<li>State: The Event state (ENABLEDorDISABLED)</li>
+<li>Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)</li>
+<li>LoggerProperties (Domain)Logger Name: The name of the logger.Logger Type: The logger type (TRACEPOINT).Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)State: The logger state (ENABLEDorDISABLED)</li>
+<li>Logger Name: The name of the logger.</li>
+<li>Logger Type: The logger type (TRACEPOINT).</li>
+<li>Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)</li>
+<li>State: The logger state (ENABLEDorDISABLED)</li>
+<li>Logger Name: The name of the logger.</li>
+<li>Logger Type: The logger type (TRACEPOINT).</li>
+<li>Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)</li>
+<li>State: The logger state (ENABLEDorDISABLED)</li>
+<li>Logger Name: The name of the logger.</li>
+<li>Logger Type: The logger type (TRACEPOINT).</li>
+<li>Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,&lt;=prior the log level name will indicate a range of log levels and==a single log level.)</li>
+<li>State: The logger state (ENABLEDorDISABLED)</li>
+</ul>
+<h2 id="lttng-tracer-control-preferences"><a class="header" href="#lttng-tracer-control-preferences">LTTng Tracer Control Preferences</a></h2>
+<p>Several LTTng 2.0 tracer control preferences exists which can be configured. To configure these preferences, selectWindow -&gt; Preferencesfrom the top level menu. The preference display will open. Then selectTracing -&gt; LTTng Tracer Control Preferences. This preferences page allows the user to specify the tracing group of the user and to specify the command execution timeout as well as it allows the user to configure the logging of LTTng 2.0 tracer control commands and results to a file.</p>
+<p>To change the tracing group of the user which will be specified on each command line, enter the new group name in theTracing Grouptext field and click buttonOK. The default tracing group istracingand can be restored by pressing theRestore Defaultsbutton.</p>
+<p>To configure logging of trace control commands and the corresponding command result to a file, selected the buttonLogging. To append to an existing log file, select theAppendbutton. Deselect theAppendbutton to overwrite any existing log file. It's possible to specify a verbose level. There are 3 levels with inceasing verbosity fromLevel 1toLevel 3. To change the verbosity level, select the relevant level or selectNone. IfNoneis selected only commands and command results are logged. Then press on buttonOK. The log file will be stored in the users home directory with the namelttng_tracer_control.log. The name and location cannot be changed. To reset to default preferences, click on the buttonRestore Defaults.</p>
+<p>To configure the LTTng command execution timeout, selectTracing -&gt; Remote Connection Preferencesand enter a timeout value into the text fieldCommand Timeout (in seconds). Then press on buttonOK. To reset to the default value of 15 seconds, click on the buttonRestore Defaults.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Trace_Compass_Main_Features/Configurable_Marker_Sets/Marker_Set_Configuration_XML_Format/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../LTTng_Tracer_Control/Control_View/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Trace_Compass_Main_Features/Configurable_Marker_Sets/Marker_Set_Configuration_XML_Format/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../LTTng_Tracer_Control/Control_View/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

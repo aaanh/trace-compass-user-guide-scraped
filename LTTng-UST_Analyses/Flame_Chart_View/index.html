@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Flame Chart View - Trace Compass User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Trace Compass User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="flame-chart-view"><a class="header" href="#flame-chart-view">Flame Chart View</a></h2>
+<p>The Flame Chart view allows the user to visualize the call stack per thread over time, if the application and trace provide this information.</p>
+<p>To open this view go inWindow-&gt;Show View, if in the eclipse plug-in then clickOther...and selectTracing/Flame Chartin the list. The view shows the call stack information for the currently selected trace. Conversely, you can select a trace and expand it in theProject Explorerthen expandLTTng-UST CallStack Analysis(the trace must be loaded) and openFlame Chart.</p>
+<p>The table on the left-hand side of the view shows the threads and call stack. The function name, depth, entry and exit time and duration are shown for the call stack at the selected time.</p>
+<p>Double-clicking on a function entry in the table will zoom the time graph to the selected function's range of execution.</p>
+<p>The time graph on the right-hand side of the view shows the call stack state graphically over time. The function name is visible on each call stack event if size permits. The color of each call stack event is randomly assigned based on the function name, allowing for easy identification of repeated calls to the same function.</p>
+<p>Clicking on the time graph will set the current time and consequently update the table with the current call stack information.</p>
+<p>Shift-clicking on the time graph will select a time range. When the selection is a time range, the begin time is used to update the stack information.</p>
+<p>Double-clicking on a call stack event will zoom the time graph to the selected function's range of execution.</p>
+<p>Clicking theSelect Next State ChangeorSelect Previous State Changeor using the left and right arrows will navigate to the next or previous call stack event, and select the function currently at the top of the call stack. Note that pressing theShiftkey at the same time will update the selection end time of the current selection.</p>
+<p>Clicking theConfigure how addresses are mapped to function names() icon will open the symbol providers dialog. Depending on the available symbol providers for the given trace, you can specify: 1) a text or binary file containing mappings from function addresses to function names or 2) the root location of the binaries of the trace target. If the call stack provider for the current trace type only provides function addresses, a mapping file will be required to get the function names in the view. See the following sections for an example with LTTng-UST traces.</p>
+<h3 id="using-the-flame-chart-view-with-lttng-ust-traces"><a class="header" href="#using-the-flame-chart-view-with-lttng-ust-traces">Using the Flame Chart View with LTTng-UST traces</a></h3>
+<p>There is support in the LTTng-UST integration plugin to display the callstack
+of applications traced with theliblttng-ust-cyg-profile.solibrary (see
+theliblttng-ust-cyg-profileman page for additional information). To do
+so, you need to:</p>
+<ul>
+<li>Recompile your application with "-g -finstrument-functions".</li>
+<li>Set up a tracing session with the thevpid,vtidandprocnamecontexts. See theEnabling UST Events On Session LevelandAdding Contexts to Channels and Events of a Domainsections. Or if using the command-line:lttng enable-event -u -alttng add-context -u -t vpid -t vtid -t procname</li>
+<li>lttng enable-event -u -a</li>
+<li>lttng add-context -u -t vpid -t vtid -t procname</li>
+<li>Preload theliblttng-ust-cyg-profilelibrary when running your program:LD_PRELOAD=/usr/lib/liblttng-ust-cyg-profile.so ./myprogram</li>
+<li>LD_PRELOAD=/usr/lib/liblttng-ust-cyg-profile.so ./myprogram</li>
+<li>Recompile your application with "-g -finstrument-functions".</li>
+<li>Set up a tracing session with the thevpid,vtidandprocnamecontexts. See theEnabling UST Events On Session LevelandAdding Contexts to Channels and Events of a Domainsections. Or if using the command-line:lttng enable-event -u -alttng add-context -u -t vpid -t vtid -t procname</li>
+<li>lttng enable-event -u -a</li>
+<li>lttng add-context -u -t vpid -t vtid -t procname</li>
+<li>lttng enable-event -u -a</li>
+<li>lttng add-context -u -t vpid -t vtid -t procname</li>
+<li>lttng enable-event -u -a</li>
+<li>lttng add-context -u -t vpid -t vtid -t procname</li>
+<li>Preload theliblttng-ust-cyg-profilelibrary when running your program:LD_PRELOAD=/usr/lib/liblttng-ust-cyg-profile.so ./myprogram</li>
+<li>LD_PRELOAD=/usr/lib/liblttng-ust-cyg-profile.so ./myprogram</li>
+<li>LD_PRELOAD=/usr/lib/liblttng-ust-cyg-profile.so ./myprogram</li>
+<li>LD_PRELOAD=/usr/lib/liblttng-ust-cyg-profile.so ./myprogram</li>
+</ul>
+<p>Once you load the resulting trace, the Flame Chart View should be populated with
+the relevant information.</p>
+<p>Note that for non-trivial applications,liblttng-ust-cyg-profilegenerates alotof events! You may need to increase the channel's subbuffer size to
+avoid lost events. Refer to theLTTng documentation.</p>
+<p>For traces taken with LTTng-UST 2.8 or later, the Flame Chart View should show the
+function names automatically, since it will make use of the debug information
+statedump events (which are enabled when usingenable-event -u -a).</p>
+<p>For traces taken with prior versions of UST, you would need to set the path to
+the binary file or mapping manually:</p>
+<h3 id="importing-a-binary-or-function-name-mapping-file-for-lttng-ust-28-traces"><a class="header" href="#importing-a-binary-or-function-name-mapping-file-for-lttng-ust-28-traces">Importing a binary or function name mapping file (for LTTng-UST &lt;2.8 traces)</a></h3>
+<p>For LTTng-UST 2.8+, if it doesn't resolve symbols automatically, see theSource Lookup's Binary file location configuration.</p>
+<p>If you followed the steps in the previous section, you should have a Flame Chart
+View populated with function entries and exits. However, the view will display
+the function addresses instead of names in the intervals, which are not very
+useful by themselves. To get the actual function names, you need to:</p>
+<ul>
+<li>Click theConfigure how addresses are mapped to function names() button in the Flame Chart View.</li>
+<li>Click theConfigure how addresses are mapped to function names() button in the Flame Chart View.</li>
+</ul>
+<p>Once again, multiple symbol providers can be available for a unique trace. Each symbol provider can be configured through its own tab. Thus, multiple sources can be used to map the function names to addresses. Below is an image of the basic symbol provider preference page which allows us to import binary or function name mapping files.</p>
+<p>Simply click theAdd...button to add one or multiple mapping files. The mapping file could be one of two options:</p>
+<ul>
+<li>: a binary that was used for taking the trace.</li>
+<li>: a binary that was used for taking the trace.</li>
+<li>: a file generated from the binary usingnm myprogram &gt; mapping.txt. Select themapping.txtfile that was just created. If you are dealing with C++ executables, you may want to usenm --demangleinstead to get readable function names.</li>
+<li>: a file generated from the binary usingnm myprogram &gt; mapping.txt. Select themapping.txtfile that was just created. If you are dealing with C++ executables, you may want to usenm --demangleinstead to get readable function names.</li>
+</ul>
+<p>The view should now update to display the function names instead. Make sure the
+binary used for taking the trace is the one used for this step too (otherwise,
+there is a good chance of the addresses not being the same).</p>
+<p>Lastly, the basic symbol provider introduces the notion of priorities between the mapping files. The resolved symbols from the file at the top of the list will have a higher priority than the files listed below. The files can be moved using theUpandDownbuttons.</p>
+<h3 id="navigation"><a class="header" href="#navigation">Navigation</a></h3>
+<p>See Control Flow View'sUsing the mouse,Using the keyboardandZoom region.</p>
+<h3 id="marker-axis"><a class="header" href="#marker-axis">Marker Axis</a></h3>
+<p>See Control Flow View'sMarker Axis.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../LTTng-UST_Analyses/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../LTTng-UST_Analyses/Flame_Chart_View/Using_the_Flame_Chart_View_with_LTTng-UST_traces/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../LTTng-UST_Analyses/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../LTTng-UST_Analyses/Flame_Chart_View/Using_the_Flame_Chart_View_with_LTTng-UST_traces/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
