@@ -1,0 +1,3 @@
+## Creating an LTTng trace with performance counters
+
+For the Counters View to display any data, the trace needs to collect information related to performance counters. There are two ways to configure a trace for this type of logging. On the command line, add a new context field to an LTTng channel using thelttng-add-contextcommand (for more information, refer to theLTTng documentation). On the LTTng Tracer Control, add a new context field using the ''Add Context..." window (seeAdding Contexts to Channels and Events of a Domain).

@@ -1,0 +1,3 @@
+#### Source Code
+
+If a source file is available in the trace for the selected event, the itemOpen Source Codeis shown in the context menu. Selecting this menu item will attempt to find the source file in all opened projects in the workspace. If multiple candidates exist, a selection dialog will be shown to the user. The selected source file will be opened, at the correct line, in its default language editor. If no candidate is found, an error dialog is shown displaying the source code information.

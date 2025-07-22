@@ -1,0 +1,3 @@
+### Enabling Events - General
+
+Enabling events can be done using different levels in the tree node. It can be done on the session, domain level and channel level. For the case of session or domain, i.e. when no specific channels is assigned then enabling of events is done on the default channel with the namechannel0which created, if not already exists, by the LTTng tracer control on the server side.

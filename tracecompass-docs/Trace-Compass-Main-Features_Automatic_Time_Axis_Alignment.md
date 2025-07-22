@@ -1,0 +1,3 @@
+## Automatic Time Axis Alignment
+
+Trace Compass supports automatic alignment of the time axis for time-based views. The user now can resize the time window of one view and all other open views will align to the new window size and position. The automatic alignment is optional and can be disabled and enabled using theAlign Viewsbutton of the view menu. Disabling or enabling it in one view it will disable and enable it for all view since it's a workspace wide setting.

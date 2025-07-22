@@ -1,0 +1,71 @@
+## Trace Compass Plug-ins
+
+The easiest way to install the Trace Compass plug-ins for Eclipse is through the Install New Software menu. For information on how to use this menu, refer to thislink.
+
+The Trace Compass main plug-ins are structured as a stack of features/plug-ins as following:
+- CTF- A CTF parser that can also be used as a standalone componentFeature: org.eclipse.tracecompass.ctfPlug-ins: org.eclipse.tracecompass.ctf.core, org.eclipse.tracecompass.ctf.parser
+- Feature: org.eclipse.tracecompass.ctf
+- Plug-ins: org.eclipse.tracecompass.ctf.core, org.eclipse.tracecompass.ctf.parser
+- CTF- A CTF parser that can also be used as a standalone componentFeature: org.eclipse.tracecompass.ctfPlug-ins: org.eclipse.tracecompass.ctf.core, org.eclipse.tracecompass.ctf.parser
+- Feature: org.eclipse.tracecompass.ctf
+- Plug-ins: org.eclipse.tracecompass.ctf.core, org.eclipse.tracecompass.ctf.parser
+- Feature: org.eclipse.tracecompass.ctf
+- Plug-ins: org.eclipse.tracecompass.ctf.core, org.eclipse.tracecompass.ctf.parser
+- Feature: org.eclipse.tracecompass.ctf
+- Plug-ins: org.eclipse.tracecompass.ctf.core, org.eclipse.tracecompass.ctf.parser
+- State System Core- State system for TMFPlug-ins: org.eclipse.tracecompass.statesystem.core
+- Plug-ins: org.eclipse.tracecompass.statesystem.core
+- State System Core- State system for TMFPlug-ins: org.eclipse.tracecompass.statesystem.core
+- Plug-ins: org.eclipse.tracecompass.statesystem.core
+- Plug-ins: org.eclipse.tracecompass.statesystem.core
+- Plug-ins: org.eclipse.tracecompass.statesystem.core
+- TMF-Tracing and Monitoring Frameworka framework for generic trace processingFeature: org.eclipse.tracecompass.tmfPlug-ins: org.eclipse.tracecompass.tmf.core, org.eclipse.tracecompass.tmf.ui. org.eclipse.tracecompass.tmf.analysis.xml.core, org.eclipse.tracecompass.tmf.analysis.xml.ui
+- Feature: org.eclipse.tracecompass.tmf
+- Plug-ins: org.eclipse.tracecompass.tmf.core, org.eclipse.tracecompass.tmf.ui. org.eclipse.tracecompass.tmf.analysis.xml.core, org.eclipse.tracecompass.tmf.analysis.xml.ui
+- TMF-Tracing and Monitoring Frameworka framework for generic trace processingFeature: org.eclipse.tracecompass.tmfPlug-ins: org.eclipse.tracecompass.tmf.core, org.eclipse.tracecompass.tmf.ui. org.eclipse.tracecompass.tmf.analysis.xml.core, org.eclipse.tracecompass.tmf.analysis.xml.ui
+- Feature: org.eclipse.tracecompass.tmf
+- Plug-ins: org.eclipse.tracecompass.tmf.core, org.eclipse.tracecompass.tmf.ui. org.eclipse.tracecompass.tmf.analysis.xml.core, org.eclipse.tracecompass.tmf.analysis.xml.ui
+- Feature: org.eclipse.tracecompass.tmf
+- Plug-ins: org.eclipse.tracecompass.tmf.core, org.eclipse.tracecompass.tmf.ui. org.eclipse.tracecompass.tmf.analysis.xml.core, org.eclipse.tracecompass.tmf.analysis.xml.ui
+- Feature: org.eclipse.tracecompass.tmf
+- Plug-ins: org.eclipse.tracecompass.tmf.core, org.eclipse.tracecompass.tmf.ui. org.eclipse.tracecompass.tmf.analysis.xml.core, org.eclipse.tracecompass.tmf.analysis.xml.ui
+- CTF support for TMF- CTF support for the TMF FeatureFeature: org.eclipse.tracecompass.tmf.ctfPlug-ins: org.eclipse.tracecompass.tmf.ctf.core
+- Feature: org.eclipse.tracecompass.tmf.ctf
+- Plug-ins: org.eclipse.tracecompass.tmf.ctf.core
+- CTF support for TMF- CTF support for the TMF FeatureFeature: org.eclipse.tracecompass.tmf.ctfPlug-ins: org.eclipse.tracecompass.tmf.ctf.core
+- Feature: org.eclipse.tracecompass.tmf.ctf
+- Plug-ins: org.eclipse.tracecompass.tmf.ctf.core
+- Feature: org.eclipse.tracecompass.tmf.ctf
+- Plug-ins: org.eclipse.tracecompass.tmf.ctf.core
+- Feature: org.eclipse.tracecompass.tmf.ctf
+- Plug-ins: org.eclipse.tracecompass.tmf.ctf.core
+- LTTng Control- The wrapper for the LTTng tracer control. Can be used for kernel or application tracing.Feature: org.eclipse.tracecompass.lttng2.controlPlug-ins: org.eclipse.tracecompass.lttng2.control.core, org.eclipse.tracecompass.lttng2.control.ui
+- Feature: org.eclipse.tracecompass.lttng2.control
+- Plug-ins: org.eclipse.tracecompass.lttng2.control.core, org.eclipse.tracecompass.lttng2.control.ui
+- LTTng Control- The wrapper for the LTTng tracer control. Can be used for kernel or application tracing.Feature: org.eclipse.tracecompass.lttng2.controlPlug-ins: org.eclipse.tracecompass.lttng2.control.core, org.eclipse.tracecompass.lttng2.control.ui
+- Feature: org.eclipse.tracecompass.lttng2.control
+- Plug-ins: org.eclipse.tracecompass.lttng2.control.core, org.eclipse.tracecompass.lttng2.control.ui
+- Feature: org.eclipse.tracecompass.lttng2.control
+- Plug-ins: org.eclipse.tracecompass.lttng2.control.core, org.eclipse.tracecompass.lttng2.control.ui
+- Feature: org.eclipse.tracecompass.lttng2.control
+- Plug-ins: org.eclipse.tracecompass.lttng2.control.core, org.eclipse.tracecompass.lttng2.control.ui
+- LTTng Kernel- Analysis components specific to Linux kernel tracesFeature: org.eclipse.tracecompass.lttng2.kernelPlug-ins: org.eclipse.tracecompass.analysis.os.linux.core, org.eclipse.tracecompass.analysis.os.linux.ui, org.eclipse.tracecompass.lttng2.kernel.core, org.eclipse.tracecompass.lttng2.kernel.ui
+- Feature: org.eclipse.tracecompass.lttng2.kernel
+- Plug-ins: org.eclipse.tracecompass.analysis.os.linux.core, org.eclipse.tracecompass.analysis.os.linux.ui, org.eclipse.tracecompass.lttng2.kernel.core, org.eclipse.tracecompass.lttng2.kernel.ui
+- LTTng Kernel- Analysis components specific to Linux kernel tracesFeature: org.eclipse.tracecompass.lttng2.kernelPlug-ins: org.eclipse.tracecompass.analysis.os.linux.core, org.eclipse.tracecompass.analysis.os.linux.ui, org.eclipse.tracecompass.lttng2.kernel.core, org.eclipse.tracecompass.lttng2.kernel.ui
+- Feature: org.eclipse.tracecompass.lttng2.kernel
+- Plug-ins: org.eclipse.tracecompass.analysis.os.linux.core, org.eclipse.tracecompass.analysis.os.linux.ui, org.eclipse.tracecompass.lttng2.kernel.core, org.eclipse.tracecompass.lttng2.kernel.ui
+- Feature: org.eclipse.tracecompass.lttng2.kernel
+- Plug-ins: org.eclipse.tracecompass.analysis.os.linux.core, org.eclipse.tracecompass.analysis.os.linux.ui, org.eclipse.tracecompass.lttng2.kernel.core, org.eclipse.tracecompass.lttng2.kernel.ui
+- Feature: org.eclipse.tracecompass.lttng2.kernel
+- Plug-ins: org.eclipse.tracecompass.analysis.os.linux.core, org.eclipse.tracecompass.analysis.os.linux.ui, org.eclipse.tracecompass.lttng2.kernel.core, org.eclipse.tracecompass.lttng2.kernel.ui
+- LTTng UST- Analysis components specific to Linux userspace tracesFeature: org.eclipse.tracecompass.lttng2.ustPlug-ins: org.eclipse.tracecompass.lttng2.ust.core, org.eclipse.tracecompass.lttng2.ust.ui
+- Feature: org.eclipse.tracecompass.lttng2.ust
+- Plug-ins: org.eclipse.tracecompass.lttng2.ust.core, org.eclipse.tracecompass.lttng2.ust.ui
+- LTTng UST- Analysis components specific to Linux userspace tracesFeature: org.eclipse.tracecompass.lttng2.ustPlug-ins: org.eclipse.tracecompass.lttng2.ust.core, org.eclipse.tracecompass.lttng2.ust.ui
+- Feature: org.eclipse.tracecompass.lttng2.ust
+- Plug-ins: org.eclipse.tracecompass.lttng2.ust.core, org.eclipse.tracecompass.lttng2.ust.ui
+- Feature: org.eclipse.tracecompass.lttng2.ust
+- Plug-ins: org.eclipse.tracecompass.lttng2.ust.core, org.eclipse.tracecompass.lttng2.ust.ui
+- Feature: org.eclipse.tracecompass.lttng2.ust
+- Plug-ins: org.eclipse.tracecompass.lttng2.ust.core, org.eclipse.tracecompass.lttng2.ust.ui

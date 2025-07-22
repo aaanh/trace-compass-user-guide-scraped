@@ -1,0 +1,11 @@
+# References
+- Trace Compass project
+- Trace Compass User Guides
+- LTTng project
+- LTTng Tracer Control Command Line Tool User Manual
+- LTTng relayd User Manual
+- Trace Compass project
+- Trace Compass User Guides
+- LTTng project
+- LTTng Tracer Control Command Line Tool User Manual
+- LTTng relayd User Manual

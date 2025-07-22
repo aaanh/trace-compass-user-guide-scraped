@@ -1,0 +1,183 @@
+## Properties View
+
+The Control View provides property information of selected tree component. Depending on the selected tree component different properties are displayed in the property view. For example, when selecting the node level the property view will be filled as followed:
+
+
+
+List of properties:
+- HostPropertiesConnection Name: The alias name to be displayed in the Control View.Host Name: The IP address or DNS name of the remote system.State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).
+- Connection Name: The alias name to be displayed in the Control View.
+- Host Name: The IP address or DNS name of the remote system.
+- State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).
+- Kernel ProviderPropertiesProvider Name: The name of the provider.
+- Provider Name: The name of the provider.
+- UST ProviderPropertiesProvider Name: The name of the provider.Process ID: The process ID of the provider.
+- Provider Name: The name of the provider.
+- Process ID: The process ID of the provider.
+- EventProperties (Provider)Event Name: The name of the event.Event Type: The event type (TRACEPOINTonly).Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)Log Level: The log level of the event.
+- Event Name: The name of the event.
+- Event Type: The event type (TRACEPOINTonly).
+- Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)
+- Log Level: The log level of the event.
+- LoggerProperties (Provider)Logger Name: The name of the logger.Logger Type: The event type (TRACEPOINTonly).
+- Logger Name: The name of the logger.
+- Logger Type: The event type (TRACEPOINTonly).
+- SessionPropertiesSession Name: The name of the Session.Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).State: The state of the session (ACTIVEorINACTIVE)Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).
+- Session Name: The name of the Session.
+- Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).
+- State: The state of the session (ACTIVEorINACTIVE)
+- Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).
+- Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).
+- Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).
+- DomainPropertiesDomain Name: The name of the domain.Buffer Type: The buffer type of the domain.
+- Domain Name: The name of the domain.
+- Buffer Type: The buffer type of the domain.
+- ChannelPropertiesChannel Name: The name of the channel.Number of Sub Buffers: The number of sub-buffers of the channel.Output type: The output type for the trace (e.g.splice()ormmap())Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)Read Timer Interval: The read timer interval.State: The channel state (ENABLEDorDISABLED)Sub Buffer size: The size of the sub-buffers of the channel (in bytes).Switch Timer Interval: The switch timer interval.Number of Discarded Events: The number of discarded events of the channel.Number of Lost Packets: The number of lost packets of the channel.
+- Channel Name: The name of the channel.
+- Number of Sub Buffers: The number of sub-buffers of the channel.
+- Output type: The output type for the trace (e.g.splice()ormmap())
+- Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)
+- Read Timer Interval: The read timer interval.
+- State: The channel state (ENABLEDorDISABLED)
+- Sub Buffer size: The size of the sub-buffers of the channel (in bytes).
+- Switch Timer Interval: The switch timer interval.
+- Number of Discarded Events: The number of discarded events of the channel.
+- Number of Lost Packets: The number of lost packets of the channel.
+- EventProperties (Channel)Event Name: The name of the event.Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)State: The Event state (ENABLEDorDISABLED)Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)
+- Event Name: The name of the event.
+- Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).
+- Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)
+- State: The Event state (ENABLEDorDISABLED)
+- Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)
+- LoggerProperties (Domain)Logger Name: The name of the logger.Logger Type: The logger type (TRACEPOINT).Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)State: The logger state (ENABLEDorDISABLED)
+- Logger Name: The name of the logger.
+- Logger Type: The logger type (TRACEPOINT).
+- Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)
+- State: The logger state (ENABLEDorDISABLED)
+- HostPropertiesConnection Name: The alias name to be displayed in the Control View.Host Name: The IP address or DNS name of the remote system.State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).
+- Connection Name: The alias name to be displayed in the Control View.
+- Host Name: The IP address or DNS name of the remote system.
+- State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).
+- Connection Name: The alias name to be displayed in the Control View.
+- Host Name: The IP address or DNS name of the remote system.
+- State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).
+- Connection Name: The alias name to be displayed in the Control View.
+- Host Name: The IP address or DNS name of the remote system.
+- State: The state of the connection (CONNECTED,CONNECTING,DISCONNNECTINGorDISCONNECTED).
+- Kernel ProviderPropertiesProvider Name: The name of the provider.
+- Provider Name: The name of the provider.
+- Provider Name: The name of the provider.
+- Provider Name: The name of the provider.
+- UST ProviderPropertiesProvider Name: The name of the provider.Process ID: The process ID of the provider.
+- Provider Name: The name of the provider.
+- Process ID: The process ID of the provider.
+- Provider Name: The name of the provider.
+- Process ID: The process ID of the provider.
+- Provider Name: The name of the provider.
+- Process ID: The process ID of the provider.
+- EventProperties (Provider)Event Name: The name of the event.Event Type: The event type (TRACEPOINTonly).Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)Log Level: The log level of the event.
+- Event Name: The name of the event.
+- Event Type: The event type (TRACEPOINTonly).
+- Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)
+- Log Level: The log level of the event.
+- Event Name: The name of the event.
+- Event Type: The event type (TRACEPOINTonly).
+- Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)
+- Log Level: The log level of the event.
+- Event Name: The name of the event.
+- Event Type: The event type (TRACEPOINTonly).
+- Fields: Shows a list of fields defined for the selected event. (UST only, since support for LTTng Tools v2.1.0)
+- Log Level: The log level of the event.
+- LoggerProperties (Provider)Logger Name: The name of the logger.Logger Type: The event type (TRACEPOINTonly).
+- Logger Name: The name of the logger.
+- Logger Type: The event type (TRACEPOINTonly).
+- Logger Name: The name of the logger.
+- Logger Type: The event type (TRACEPOINTonly).
+- Logger Name: The name of the logger.
+- Logger Type: The event type (TRACEPOINTonly).
+- SessionPropertiesSession Name: The name of the Session.Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).State: The state of the session (ACTIVEorINACTIVE)Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).
+- Session Name: The name of the Session.
+- Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).
+- State: The state of the session (ACTIVEorINACTIVE)
+- Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).
+- Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).
+- Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).
+- Session Name: The name of the Session.
+- Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).
+- State: The state of the session (ACTIVEorINACTIVE)
+- Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).
+- Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).
+- Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).
+- Session Name: The name of the Session.
+- Session Path: The path on the remote host where the traces will be stored. (Not shown for snapshot sessions).
+- State: The state of the session (ACTIVEorINACTIVE)
+- Snapshot ID: The snapshot ID. (Only shown for snapshot sessions).
+- Snapshot Name: The name of the snapshot output configuration. (Only shown for snapshot sessions).
+- Snapshot Path: The path where the snapshot session is located. (Only shown for snapshot sessions).
+- DomainPropertiesDomain Name: The name of the domain.Buffer Type: The buffer type of the domain.
+- Domain Name: The name of the domain.
+- Buffer Type: The buffer type of the domain.
+- Domain Name: The name of the domain.
+- Buffer Type: The buffer type of the domain.
+- Domain Name: The name of the domain.
+- Buffer Type: The buffer type of the domain.
+- ChannelPropertiesChannel Name: The name of the channel.Number of Sub Buffers: The number of sub-buffers of the channel.Output type: The output type for the trace (e.g.splice()ormmap())Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)Read Timer Interval: The read timer interval.State: The channel state (ENABLEDorDISABLED)Sub Buffer size: The size of the sub-buffers of the channel (in bytes).Switch Timer Interval: The switch timer interval.Number of Discarded Events: The number of discarded events of the channel.Number of Lost Packets: The number of lost packets of the channel.
+- Channel Name: The name of the channel.
+- Number of Sub Buffers: The number of sub-buffers of the channel.
+- Output type: The output type for the trace (e.g.splice()ormmap())
+- Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)
+- Read Timer Interval: The read timer interval.
+- State: The channel state (ENABLEDorDISABLED)
+- Sub Buffer size: The size of the sub-buffers of the channel (in bytes).
+- Switch Timer Interval: The switch timer interval.
+- Number of Discarded Events: The number of discarded events of the channel.
+- Number of Lost Packets: The number of lost packets of the channel.
+- Channel Name: The name of the channel.
+- Number of Sub Buffers: The number of sub-buffers of the channel.
+- Output type: The output type for the trace (e.g.splice()ormmap())
+- Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)
+- Read Timer Interval: The read timer interval.
+- State: The channel state (ENABLEDorDISABLED)
+- Sub Buffer size: The size of the sub-buffers of the channel (in bytes).
+- Switch Timer Interval: The switch timer interval.
+- Number of Discarded Events: The number of discarded events of the channel.
+- Number of Lost Packets: The number of lost packets of the channel.
+- Channel Name: The name of the channel.
+- Number of Sub Buffers: The number of sub-buffers of the channel.
+- Output type: The output type for the trace (e.g.splice()ormmap())
+- Overwrite Mode: The channel overwrite mode (truefor overwrite mode,falsefor discard)
+- Read Timer Interval: The read timer interval.
+- State: The channel state (ENABLEDorDISABLED)
+- Sub Buffer size: The size of the sub-buffers of the channel (in bytes).
+- Switch Timer Interval: The switch timer interval.
+- Number of Discarded Events: The number of discarded events of the channel.
+- Number of Lost Packets: The number of lost packets of the channel.
+- EventProperties (Channel)Event Name: The name of the event.Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)State: The Event state (ENABLEDorDISABLED)Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)
+- Event Name: The name of the event.
+- Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).
+- Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)
+- State: The Event state (ENABLEDorDISABLED)
+- Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)
+- Event Name: The name of the event.
+- Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).
+- Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)
+- State: The Event state (ENABLEDorDISABLED)
+- Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)
+- Event Name: The name of the event.
+- Event Type: The event type (TRACEPOINT,SYSCALLorPROBE).
+- Log Level: The log level of the event. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)
+- State: The Event state (ENABLEDorDISABLED)
+- Filter: Showswith filterif a filter expression is configured else propertyFilteris omitted. (since support for LTTng Tools v2.1.0)
+- LoggerProperties (Domain)Logger Name: The name of the logger.Logger Type: The logger type (TRACEPOINT).Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)State: The logger state (ENABLEDorDISABLED)
+- Logger Name: The name of the logger.
+- Logger Type: The logger type (TRACEPOINT).
+- Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)
+- State: The logger state (ENABLEDorDISABLED)
+- Logger Name: The name of the logger.
+- Logger Type: The logger type (TRACEPOINT).
+- Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)
+- State: The logger state (ENABLEDorDISABLED)
+- Logger Name: The name of the logger.
+- Logger Type: The logger type (TRACEPOINT).
+- Log Level: The log level of the logger. (For LTTng Tools v2.4.0 or later,<=prior the log level name will indicate a range of log levels and==a single log level.)
+- State: The logger state (ENABLEDorDISABLED)

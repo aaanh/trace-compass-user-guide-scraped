@@ -1,0 +1,11 @@
+## About Tracing
+
+Tracing is a troubleshooting technique used to understand the behavior of an instrumented application by collecting information on its execution path. A tracer is the software used for tracing. Tracing can be used to troubleshoot a wide range of bugs that are otherwise extremely challenging. These include, for example, performance problems in complex parallel systems or real-time systems.
+
+Tracing is similar to logging: it consists in recording events that happen in a system at selected execution locations. However, compared to logging, it is generally aimed at developers and it usually records low-level events at a high rate. Tracers can typically generate thousands of events per second. The generated traces can easily contain millions of events and have sizes from many megabytes to tens of gigabytes. Tracers must therefore be optimized to handle a lot of data while having a small impact on the system.
+
+Traces may include events from the operating system kernel (IRQ handler entry/exit, system call entry/exit, scheduling activity, network activity, etc). They can also consists of application events (a.k.a UST - User Space Tracing) or a mix of the two.
+
+For the maximum level of detail, tracing events may be viewed like a log file. However, trace analyzers and viewers are available to derive useful information from the raw data coupled with knowledge of the traced program. These programs must be specially designed to handle quickly the enormous amount of data a trace may contain.
+
+Warning: Please be aware tracing is a powerful tool. It can extract information and make problems obvious, it can do the same with user information. The user is responsible for making sure the data provided to Trace Compass is used responsibly. Trace Compass can read whatever is provided to it. This can mean in the context of tracing certain identifiable fields e.g.: user names, IP addresses, file names, file access patterns, and web access patterns can be seen. The user needs to apply caution with the data it is providing the tool, as well as remembering to delete old data regularly and when a user requests it.

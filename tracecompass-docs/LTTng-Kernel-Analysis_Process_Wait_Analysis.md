@@ -1,0 +1,45 @@
+## Process Wait Analysis
+
+TraceCompass can recover wait causes of local and distributed processes using operating system events. The analysis highlights the tasks and devices causing wait. Wait cause recovery is recursive, comprise all tasks running on the system and works across computers using packet trace synchronization.
+
+The analysis details are available in the paperWait analysis of distributed systems using kernel tracing.
+
+### Prerequisites
+
+The analysis requires a Linux kernel trace. Additional instrumentation may be required for specific kernel version and for distributed tracing. This instrumentation is available inLTTng modules addonson GitHub.
+
+The required events are:
+- sched_switch, sched_wakeup: Scheduling events indicate when a process is blocked and the wake-up event indicates the task or resource that unblocked the task. For kernel versions comprised between 3.8 and 4.1, the eventsched_ttwu(which stands for Try To Wake-Up) is provided for backward compatibility in LTTng modules addons.
+- IRQ, SoftIRQ and IPI: Interrupt events are required to distinguish the context of the wake-up. When a wake-up occurs inside an interrupt handler, it must be associated with the device causing the interrupt and not the interrupted task. For that reason, interrupt entry and exit events are required.
+- inet_sock_local_in, inet_sock_local_out: The network events record a subset of TCP/IP packet header using a netfilter hook in the kernel. The send and receive events are matched to show the communication between distributed processes. Network events are mandatory for analyzing wait in TCP/IP programs, whether they are executing locally or on different computers. They also used to synchronize traces recorded on multiple computers. For further details, refer to theTrace synchronizationsection.
+- sched_switch, sched_wakeup: Scheduling events indicate when a process is blocked and the wake-up event indicates the task or resource that unblocked the task. For kernel versions comprised between 3.8 and 4.1, the eventsched_ttwu(which stands for Try To Wake-Up) is provided for backward compatibility in LTTng modules addons.
+- IRQ, SoftIRQ and IPI: Interrupt events are required to distinguish the context of the wake-up. When a wake-up occurs inside an interrupt handler, it must be associated with the device causing the interrupt and not the interrupted task. For that reason, interrupt entry and exit events are required.
+- inet_sock_local_in, inet_sock_local_out: The network events record a subset of TCP/IP packet header using a netfilter hook in the kernel. The send and receive events are matched to show the communication between distributed processes. Network events are mandatory for analyzing wait in TCP/IP programs, whether they are executing locally or on different computers. They also used to synchronize traces recorded on multiple computers. For further details, refer to theTrace synchronizationsection.
+
+To analyze a distributed program, all computers involved in the processing must be traced simultaneously. The LTTng Tracer Control of TraceCompass can trace a remote computer, but controlling simultaneous tracing is not supported at the moment, meaning that all sessions must be started separately and interactively. TraceCompass will support this feature in the future. For now, it is suggested to uselttng-clustercommand line tool to control simultaneous tracing sessions on multiple computers. This tool is based onFabricand uses SSH to start the tracing sessions, execute a workload, stop the sessions and gather traces on the local computer. For more information, refer to the lttng-cluster documentation.
+
+We use theDjango traceas an example to demonstrate the wait analysis.Djangois a popular Web framework. The application is theDjango Poll app tutorial. The traces were recorded on three computers, namely the client (implemented with Python Mechanize), the Web server (Apache with WSGI) and the database server (PostgreSQL). The client simulates a vote in the poll.
+
+### Running the analysis
+
+To open all three traces simultaneously, we first create an experiment containing these traces and then synchronize the traces, such that they have a common time base. Then, the analysis is done by selecting a task in theControl Flow View. The result is displayed in theCritical Flow View, which works like theControl Flow View. The steps to load the Django example follows.
+- Download and extract theDjango tracearchive.
+- In TraceCompass, open theLTTng Kernel Perspective.
+- Create a new tracing project. SelectFile -> New -> Tracing -> Tracing Project, choose a name and clickFinish.
+- Under the created tracing project, right-click onTracesand selectImport.... In the import dialog, select the root directory containing the extracted trace by clicking onBrowse. Three traces should be listed. Select the traces and clickFinish. After the import is completed, the traces should be listed belowTraces.
+- Right-click onExperiments, selectNew...and enter a name for the experiment, such asdjango.
+- Right-click on thedjangoexperiment and click onSelect Traces.... In the dialog, check the three tracesdjango-client,django-httpdanddjango-db. These traces will appear below the experiment. If the experiment is opened at this stage, the traces are not synchronized and there will be a large time gap between events from different traces.
+- To synchronize the traces, right-click on thedjangoexperiment and selectSynchronize Traces. In theSelect reference tracedialog, select any available trace and clickFinish. Once the synchronization is completed, a new entry with an underline suffix will appear for each modified trace. The created trace entries have a function which is applied to the timestamps of events in order to shift the time according to the reference trace. TheProject Explorerafter the import is shown below.
+- Open the experimentdjango. TheControl Flowand theResourcesviews should display the three traces simultaneously.
+- In the main menu, selectWindow -> Show View -> Other...and underLTTngselectCritical Flow View. The view is empty for the moment.
+- In theCritical Flow View, right-click on theProcessentry to analyze and selectFollow, as shown in the figure below.The analysis will execute and the result will appear in theCritical Flow View. For the Django example, use theView Filtersto search for the python process with TID 2327. When zooming on the execution, the view displays the work done by the Web server and the database to process the request of the python client. Vertical arrows represent synchronization and communication between processes. The legenddisplays the colors associated with the processes states.
+- Download and extract theDjango tracearchive.
+- In TraceCompass, open theLTTng Kernel Perspective.
+- Create a new tracing project. SelectFile -> New -> Tracing -> Tracing Project, choose a name and clickFinish.
+- Under the created tracing project, right-click onTracesand selectImport.... In the import dialog, select the root directory containing the extracted trace by clicking onBrowse. Three traces should be listed. Select the traces and clickFinish. After the import is completed, the traces should be listed belowTraces.
+- Right-click onExperiments, selectNew...and enter a name for the experiment, such asdjango.
+- Right-click on thedjangoexperiment and click onSelect Traces.... In the dialog, check the three tracesdjango-client,django-httpdanddjango-db. These traces will appear below the experiment. If the experiment is opened at this stage, the traces are not synchronized and there will be a large time gap between events from different traces.
+- To synchronize the traces, right-click on thedjangoexperiment and selectSynchronize Traces. In theSelect reference tracedialog, select any available trace and clickFinish. Once the synchronization is completed, a new entry with an underline suffix will appear for each modified trace. The created trace entries have a function which is applied to the timestamps of events in order to shift the time according to the reference trace. TheProject Explorerafter the import is shown below.
+- Open the experimentdjango. TheControl Flowand theResourcesviews should display the three traces simultaneously.
+- In the main menu, selectWindow -> Show View -> Other...and underLTTngselectCritical Flow View. The view is empty for the moment.
+- In theCritical Flow View, right-click on theProcessentry to analyze and selectFollow, as shown in the figure below.The analysis will execute and the result will appear in theCritical Flow View. For the Django example, use theView Filtersto search for the python process with TID 2327. When zooming on the execution, the view displays the work done by the Web server and the database to process the request of the python client. Vertical arrows represent synchronization and communication between processes. The legenddisplays the colors associated with the processes states.

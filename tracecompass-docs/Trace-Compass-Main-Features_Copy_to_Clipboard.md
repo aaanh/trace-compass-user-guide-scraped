@@ -1,0 +1,3 @@
+### Copy to Clipboard
+
+The text of selected events can be copied to the clipboard by right-clicking on the table and selectingCopy to Clipboardin the context menu. The clipboard contents will be prefixed by the column header names. For every event in the table selection, the column text will be copied to the clipboard. The column text will be tab-separated. Hidden columns will not be included in the clipboard contents.

@@ -1,0 +1,3 @@
+### Filtering of Empty Rows Time Graph Views
+
+Time Graph Views support filtering of empty rows using a dynamic filter. Empty rows are rows with no time events nor row markers in the current visible time range. To hide empty rows, check theHide Empty Rowstoolbar button or view menu entry. Unchecking it will show empty rows again. When changing the current visible time range, the list of visible rows will be dynamically updated.

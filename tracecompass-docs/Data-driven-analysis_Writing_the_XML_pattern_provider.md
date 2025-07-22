@@ -1,0 +1,51 @@
+### Writing the XML pattern provider
+
+Details about the XML structure are available in the XSD files.
+
+First define the pattern element. As the state provider element described inWriting the XML state provider, it has a "version" attribute and an "id" attribute.
+
+Optional header information as well as predefined values like described inWriting the XML state providercan be added.
+
+Stored values can be added before the pattern handler. The predefined actionsaveStoredFieldtriggers the updates of the stored fields and the predefined actionclearStoredFieldsreset the values.
+
+Theidof the stored field is used as the field name in the event. If the field is not available, a null value will be saved for it. Thealiasis the name by which this field will be accessible in the state system.
+
+The behavior of the pattern and the models it needs are described in the pattern handler element.
+
+The structure of the state machine (FSM) is based on the SCXML structure. The following example describe an FSM that matches all the system call in an LTTng kernel trace.
+
+The value of thetargetattribute corresponds to the 'id' of a state in the same FSM. Similarly, the value of theactionattribute corresponds to the 'id' of an action element described in the XML file and is a reference to it. Multiple actions can be executed by separating their names by ':', likeaction1:action2
+
+Conditions are used in the transitions to switch between the state of an FSM. They can be specified by setting thecondattribute in the transition and they correspond to atestelement. Two types of conditions are allowed:Data conditionandTime condition. It is possible to combine several conditions using a logical operator (OR, AND, ...).
+
+Data conditions tests the ongoing event information against the data in the state system or constant values. The following condition tests whether the current thread of the event is also the ongoing scenario thread.
+
+Two types of time conditions are available:
+- Time range conditions test whether the ongoing event happens between a specific range of time. The following condition tests whether the ongoing event happens between 1 nanosecond and 3 nanoseconds.
+- Time range conditions test whether the ongoing event happens between a specific range of time. The following condition tests whether the ongoing event happens between 1 nanosecond and 3 nanoseconds.
+- Elapsed time conditions tests the value of the time spent since a specific state of an fsm. The following condition tests whether the ongoing event happens less than 3 nanoseconds after that the scenario reaches the state "syscall_entry_x".
+- Elapsed time conditions tests the value of the time spent since a specific state of an fsm. The following condition tests whether the ongoing event happens less than 3 nanoseconds after that the scenario reaches the state "syscall_entry_x".
+
+Two types of actions are allowed:
+- State changes update values of attributes into the state system. The following example set the value of the thread for the current scenario.
+- State changes update values of attributes into the state system. The following example set the value of the thread for the current scenario.
+- Generate segments. The following example represents a system call segment.
+- Generate segments. The following example represents a system call segment.
+
+When existing, the stored fields will be added as fields for the generated segments.
+
+Here is the complete XML file by combining all the examples models above:
+
+Here is an another example of XML analysis that creates a segment for each event read based on a field namedtestField:
+
+Here is the associated trace:
+
+This will produce 4 segments described below:
+- name=seg1, start time = 1, end time = 10;
+- name=seg1, start time = 3, end time = 100;
+- name=seg1, start time = 5, end time = 20;
+- name=seg1, start time = 7, end time = 200;
+- name=seg1, start time = 1, end time = 10;
+- name=seg1, start time = 3, end time = 100;
+- name=seg1, start time = 5, end time = 20;
+- name=seg1, start time = 7, end time = 200;
