@@ -1,0 +1,5 @@
+[book]
+authors = ["Anh Hoang Nguyen"]
+language = "en"
+src = "src"
+title = "Trace Compass User Guide"
