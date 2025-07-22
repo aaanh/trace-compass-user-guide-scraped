@@ -43,6 +43,7 @@ jobs:
           branches: upstream-release
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy to Github Production branch
+        if: always()
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: book
